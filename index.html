@@ -17,72 +17,19 @@
 </head>
 
 <body class="theme-dark">
-    <div id="side-menu-area"></div>
-
-    <div class="container">
-        <section id="about" class="about">
-            <div class="section-title">
-                <h2>About</h2>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-12 pt-4 content text-center">
-                    <p>
-                        Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.
-                        Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section id="facts" class="facts">
-            <div class="section-title">
-                <h2>Facts</h2>
-                <p>Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.</p>
-            </div>
-            <div class="row my-5">
-                <div class="card" style="background-color: #fbe4de;">
-                    <div class="card-body">
-                        <h3 class="h3"><a href="pages/gallery/">Gallery</a></h3>
-                        <p class="text-dark">
-                            An art gallery is a room or a building in which visual art is displayed. In Western cultures from the mid-15th century, a gallery was any long, narrow covered passage along a wall, first used in the sense of a place for art in the 1590s.[1] The long gallery in Elizabethan
-                            and Jacobean houses served many purposes including the display of art.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row my-5">
-                <div class="card" style="background-color: #c8f0ee;">
-                    <div class="card-body">
-                        <h3 class="h3"><a href="pages/comic/">Comics</a></h3>
-                        <p class="text-dark">
-                            Comics is a medium used to express ideas with images, often combined with text or other visual information. It typically takes the form of a sequence of panels of images. Textual devices such as speech balloons, captions, and onomatopoeia can indicate
-                            dialogue, narration, sound effects, or other information.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-    </div>
-
-    <!-- <div id="preloader"></div> -->
-    <a href="#" id="back-to-top" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+    <div class="container___content" id="container-area"></div>
 
 
-    <script src="assets/js/constant.js"></script>
+
     <script src="assets/vendor/jquery/jquery-3.6.4.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <script src="assets/js/constant.js"></script>
     <script src="assets/js/funtion.js"></script>
     <script src="assets/js/page.js"></script>
     <script>
         $(document).ready(async function () {
-            var page = new PageBase();
-            await page._init();
-            document.getElementById('side-menu-area').innerHTML += page._renderSideMenu();
+            new HomePage();
         });
     </script>
 </body>

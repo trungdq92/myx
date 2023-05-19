@@ -5,7 +5,7 @@ const PageBase = class PageBase {
         this.contentId = CommomFunction._getContentIdFromPath();
         this.detailId = CommomFunction._getContentDetailIdFromPath();
 
-        this.loadgalleyPath = `${this.rootUrl}/assets/data/master.json`;
+        this.loadGalleyPath = `${this.rootUrl}/assets/data/master.json`;
         this.loadGroupPath = `${this.rootUrl}/assets/data/${this.groupId}/master.json`;
         this.loadContentPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/master.json`;
         this.loadDetailPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/${this.detailId}/master.json`;
@@ -29,7 +29,7 @@ const PageBase = class PageBase {
     async _init() {
         DomEventFuntion._backToTop();
         this.galleryDisplayColHtml = this._renderGalleryShowColumn();
-        var dataGallery = await CommomFunction._loadJsonAsync(this.loadgalleyPath);
+        var dataGallery = await CommomFunction._loadJsonAsync(this.loadGalleyPath);
         if (!dataGallery) {
             history.back();
         }
@@ -98,27 +98,27 @@ const PageBase = class PageBase {
                 contents.children.forEach(dtl => {
                     subCntMenu += `<li class="list-group-item">
                                         <a href="${this.rootUrl}/pages/${item.id}/content/${cnt.id}/detail/${dtl.id}" 
-                                            class="nav-link scrollto ${this.detailId == dtl.id ? 'active' : ''}">
+                                            class="nav-link ps-4 text-capitalize scrollto ${this.detailId == dtl.id ? 'active' : ''}">
                                             ${dtl.name}
                                         </a>
                                     </li>`
                 })
                 subCntMenu = `<ul class='list-group list-group-flush'>${subCntMenu}</ul>`;
 
-                subMenu += `<button type="button" class="btn btn-outline-secondary ${this.contentId == cnt.id ? 'active' : ''}" 
+                subMenu += `<button type="button" class="btn px-3 btn-outline-secondary ${this.contentId == cnt.id ? 'active' : ''}" 
                                 data-bs-toggle="collapse" href="#group-menu-${cnt.id}"
                                 ondblclick="location.href='${this.rootUrl}/pages/${item.id}/content/${cnt.id}'">
-                                <span class="fs-5">${cnt.name}<span>
+                                <span class="fs-5 text-capitalize">${cnt.name}<span>
                             </button>
                             <div class="collapse multi-collapse p-0 ${this.contentId == cnt.id ? 'show' : ''}" id="group-menu-${cnt.id}">
-                                <span class='fs-6'>${subCntMenu}<span>
+                                <span class='fs-6 text-capitalize'>${subCntMenu}<span>
                             </div>`
             })
 
-            menu += `<button type="button" class="btn text-end btn-outline-secondary ${this.groupId == item.id ? 'active' : ''}" 
+            menu += `<button type="button" class="btn px-3 text-end btn-outline-secondary ${this.groupId == item.id ? 'active' : ''}" 
                             data-bs-toggle="collapse" href="#main-menu-${item.id}"
                             ondblclick="location.href='${this.rootUrl}/pages/${item.id}'">
-                            <span class="fs-3">${item.name}<span>
+                            <span class="fs-3 text-capitalize">${item.name}<span>
                         </button>
                         <div class="collapse p-0 multi-collapse ${this.groupId == item.id ? 'show' : ''}" id="main-menu-${item.id}">
                             ${subMenu}
@@ -137,7 +137,7 @@ const PageBase = class PageBase {
                                 <h3 id="offcanvasRightLabel" class="h3 p-0 my-0 text-uppercase">${Constants.pjName}</h3>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
-                            <div class="offcanvas-body">
+                            <div class="offcanvas-body px-0 pt-0">
                                 <div class="offcanvas-body nav-menu">
                                     ${menu}
                                 </div>
@@ -206,6 +206,65 @@ const PageBase = class PageBase {
                 </div>`;
     }
 
+}
+
+const HomePage = class HomePage extends PageBase {
+    constructor() {
+        super();
+        this._init();
+    }
+
+    async _init() {
+        await super._init();
+        this._renderPage();
+        this._initAnomationAfterRender();
+    }
+
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        DomEventFuntion._removePreload();
+    }
+
+    _renderContent() {
+        super._renderContent();
+        var background = ["#fbe4de", "#c8f0ee"];
+        var galleryInfo = '';
+        this.gallery.children.forEach((item, index) => {
+            galleryInfo += `<div class="row my-5">
+                        <div class="card" style="background-color: ${background[index]};">
+                            <div class="card-body">
+                                <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
+                                <p class="text-dark">
+                                ${item.contents.join("")}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`;
+        })
+        return `<div class="main__">
+                    <section id="about" class="about">
+                        <div class="section-title">
+                            <h2>About</h2>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12 pt-4 content text-center">
+                                <p>
+                                ${this.gallery.contents.join("")}
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="facts" class="facts">
+                        <div class="section-title">
+                            <h2>Facts</h2>
+                            <p>${this.gallery.short}</p>
+                        </div>
+                        ${galleryInfo}
+                    </section>
+                </div>`;
+
+    }
 }
 
 const GroupPage = class GroupPage extends PageBase {
@@ -678,7 +737,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         this.details.chapters.forEach((item, index) => {
             menu += `<li>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}"
-                            class="nav-link scrollto ${item.id == this.chapterId ? 'active' : ''}">
+                            class="nav-link ps-4 scrollto ${item.id == this.chapterId ? 'active' : ''}">
                             ${item.name}
                         </a>
                     </li>`;
@@ -691,9 +750,9 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                                             <h3 class="h3 p-0 my-0 text-uppercase">Chapters</h3>
                                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                         </div>
-                                        <div class="offcanvas-body">
+                                        <div class="offcanvas-body p-0">
                                             <div class="offcanvas-body nav-menu">
-                                            <ul class="p-2">${menu}</ul>
+                                            <ul>${menu}</ul>
                                             </div>
                                         </div>
                                     </div>
