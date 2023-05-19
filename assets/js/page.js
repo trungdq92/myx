@@ -5,16 +5,10 @@ const PageBase = class PageBase {
         this.contentId = CommomFunction._getContentIdFromPath();
         this.detailId = CommomFunction._getContentDetailIdFromPath();
 
-        this.cachGallery = Constants.galleryCache.details;
-        this.cacheGroupKey = Constants.galleryType.comic == this.groupId ? Constants.galleryCache.comic.groups : Constants.galleryCache.photography.groups;
-        this.cacheContentKey = Constants.galleryType.comic == this.groupId ? Constants.galleryCache.comic.contentPrefix : Constants.galleryCache.photography.contentPrefix;
-        this.cacheContentKey += this.contentId;
-        this.cacheContentDetailKey = Constants.galleryType.comic == this.groupId ? Constants.galleryCache.comic.contentBookPrefix : Constants.galleryCache.photography.contentDetailPrefix;
-        this.cacheContentDetailKey += this.contentId + this.detailId;
-
-        this.galleyDetailPath = `${this.rootUrl}/assets/data/master.json`;
-        this.loadDataPath = this.galleyDetailPath;
-        this.loadDataKey = this.cachGallery;
+        this.loadgalleyPath = `${this.rootUrl}/assets/data/master.json`;
+        this.loadGroupPath = `${this.rootUrl}/assets/data/${this.groupId}/master.json`;
+        this.loadContentPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/master.json`;
+        this.loadDetailPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/${this.detailId}/master.json`;
 
         this.gallery = {};
         this.groups = {};
@@ -30,33 +24,15 @@ const PageBase = class PageBase {
 
     async _init() {
         DomEventFuntion._backToTop();
-        await this._loadData();
-        var data = JSON.parse(sessionStorage.getItem(this.loadDataKey));
-        if (!data) {
+        var dataGallery = await CommomFunction._loadJsonAsync(this.loadgalleyPath);
+        if (!dataGallery) {
             history.back();
         }
 
-        this.gallery = JSON.parse(sessionStorage.getItem(this.cachGallery));
-        if (!this.gallery) {
-            this.gallery = await CommomFunction._loadJsonAsync(this.loadDataPath)
-            sessionStorage.setItem(this.cachGallery, JSON.stringify(this.gallery))
-        }
+        this.gallery = dataGallery;
     }
-
+   
     _initGalleryAndFilter() {
-        return;
-    }
-
-    async _loadData() {
-        // check cache
-        var cache = sessionStorage.getItem(this.loadDataKey);
-        if (cache) {
-            return JSON.parse(cache);
-        }
-
-        // set cache
-        var data = await CommomFunction._loadJsonAsync(this.loadDataPath)
-        sessionStorage.setItem(this.loadDataKey, JSON.stringify(data))
         return;
     }
 
@@ -163,18 +139,18 @@ const PageBase = class PageBase {
 const GroupPage = class GroupPage extends PageBase {
     constructor() {
         super();
-        this.loadDataPath = `${this.rootUrl}/assets/data/${this.groupId}/master.json`;
-        this.loadDataKey = this.cacheGroupKey;
         this._init();
     }
 
     async _init() {
         await super._init();
 
-        if (!JSON.parse(sessionStorage.getItem(this.cacheGroupKey))) {
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        if (!dataGroup) {
             history.back();
         }
-        this.groups = JSON.parse(sessionStorage.getItem(this.cacheGroupKey));
+
+        this.groups = dataGroup;
         this._renderPage();
         this._initGalleryAndFilter();
     }
@@ -228,8 +204,6 @@ const GroupPage = class GroupPage extends PageBase {
 const ContentPage = class ContentPage extends PageBase {
     constructor() {
         super();
-        this.loadDataPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/master.json`;
-        this.loadDataKey = this.cacheContentKey;
 
         this.groups = {};
         this.contents = {};
@@ -240,13 +214,15 @@ const ContentPage = class ContentPage extends PageBase {
 
     async _init() {
         await super._init();
-        if (!JSON.parse(sessionStorage.getItem(this.cacheContentKey))
-            || !JSON.parse(sessionStorage.getItem(this.cacheGroupKey))) {
+
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+        if (!dataGroup || !dataContent) {
             history.back();
         }
 
-        this.groups = JSON.parse(sessionStorage.getItem(this.cacheGroupKey));
-        this.contents = JSON.parse(sessionStorage.getItem(this.cacheContentKey));
+        this.groups = dataGroup;
+        this.contents = dataContent;
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
 
         this._renderPage();
@@ -330,22 +306,23 @@ const ContentPage = class ContentPage extends PageBase {
 const DetailPage = class DetailPage extends PageBase {
     constructor() {
         super();
-        this.loadDataPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/${this.detailId}/master.json`;
-        this.loadDataKey = this.cacheContentDetailKey;
+
         this._init();
     }
 
     async _init() {
         await super._init();
-        if (!JSON.parse(sessionStorage.getItem(this.cacheGroupKey))
-            || !JSON.parse(sessionStorage.getItem(this.cacheContentKey))
-            || !JSON.parse(sessionStorage.getItem(this.cacheContentDetailKey))) {
+
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+        var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
+        if (!dataGroup || !dataContent || !dataDetail) {
             history.back();
         }
 
-        this.groups = JSON.parse(sessionStorage.getItem(this.cacheGroupKey));
-        this.contents = JSON.parse(sessionStorage.getItem(this.cacheContentKey));
-        this.details = JSON.parse(sessionStorage.getItem(this.cacheContentDetailKey));
+        this.groups = dataGroup;
+        this.contents = dataContent;
+        this.details = dataDetail;
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
@@ -594,16 +571,17 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
     async _init() {
         await super._init();
-        if (!this.chapterId
-            || !JSON.parse(sessionStorage.getItem(this.cacheGroupKey))
-            || !JSON.parse(sessionStorage.getItem(this.cacheContentKey))
-            || !JSON.parse(sessionStorage.getItem(this.cacheContentDetailKey))) {
+
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+        var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
+        if (!this.chapterId || !dataGroup || !dataContent || !dataDetail) {
             history.back();
         }
 
-        this.groups = JSON.parse(sessionStorage.getItem(this.cacheGroupKey));
-        this.contents = JSON.parse(sessionStorage.getItem(this.cacheContentKey));
-        this.details = JSON.parse(sessionStorage.getItem(this.cacheContentDetailKey));
+        this.groups = dataGroup;
+        this.contents = dataContent;
+        this.details = dataDetail;
 
         this.chapter = this.details.chapters.find(x => x.id === this.chapterId);
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);

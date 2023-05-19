@@ -11,16 +11,6 @@ const Constants = class Constants {
     static galleryCache = {
         details: 'galleryCache',
         gridViewType: 'galleryGridViewType',
-        photography: {
-            groups: 'galleryContents',
-            contentPrefix: 'gallerySubContentPrefix_',
-            contentDetailPrefix: 'galleryContentDetailPrefix_'
-        },
-        comic: {
-            groups: 'comicGroups',
-            contentPrefix: 'comicContentPrefix_',
-            contentBookPrefix: 'comicContentBookPrefix_'
-        }
     }
     constructor() { }
 }

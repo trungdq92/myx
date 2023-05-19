@@ -55,16 +55,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "id": "timeline",
-            "name": "Timeline",
-            "children": []
-        },
-        {
-            "id": "video",
-            "name": "Video",
-            "children": []
         }
     ]
 }
