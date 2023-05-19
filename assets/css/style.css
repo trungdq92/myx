@@ -1246,10 +1246,38 @@ section {
   height: 200px;
 }
 
+.thumbs-cover {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  max-height: 200px;
+}
+
+.thumbs-cover-height-1,
+.thumbs-cover-height-6 {
+  max-height: 30vw;
+}
+
+.thumbs-cover-height-2 {
+  max-height: 40vw;
+}
+
+.thumbs-cover-height-3 {
+  max-height: 50vw;
+}
+
+.thumbs-cover-height-4 {
+  max-height: 60vw;
+}
+
 .delegate .thumbs {
   max-height: 350px;
   height: auto;
   object-fit: scale-down;
+}
+
+.portfolio-lightbox img {
+  width: 100%;
 }
 
 .gallery-item .img-fluid {
@@ -1271,8 +1299,15 @@ section {
 
 
 @media (max-width: 991px) {
-  .thumbs {
+
+  .thumbs,
+  .thumbs-cover-height-1,
+  .thumbs-cover-height-2,
+  .thumbs-cover-height-3,
+  .thumbs-cover-height-4,
+  .thumbs-cover-height-6 {
     object-fit: cover;
+    max-height: 20vh;
   }
 
   .h1 {

@@ -9,12 +9,50 @@
                 {
                     "id": "fakku",
                     "name": "Fakku",
-                    "children": []
+                    "children": [
+                        {
+                            "id": "bleach",
+                            "name": "bleach"
+                        },
+                        {
+                            "id": "onepuch_man",
+                            "name": "onepuch man"
+                        }
+                    ]
                 },
                 {
                     "id": "lxhen",
                     "name": "LxHen",
-                    "children": []
+                    "children": [
+                        {
+                            "id": "boshi_double_soukan",
+                            "name": "boshi double soukan"
+                        },
+                        {
+                            "id": "living_with_succubus",
+                            "name": "living with succubus"
+                        },
+                        {
+                            "id": "melty_lover",
+                            "name": "melty lover"
+                        },
+                        {
+                            "id": "mikakinos_secret_sexlife",
+                            "name": "mikakinos secret sexlife"
+                        },
+                        {
+                            "id": "my_lover_is_a_vampire",
+                            "name": "my lover is a vampire lover"
+                        },
+                        {
+                            "id": "secret_sex_room",
+                            "name": "secret sex room"
+                        },
+                        {
+                            "id": "zecchou_yokkyuu",
+                            "name": "zecchou yokkyuu"
+                        }
+                    ]
                 }
             ]
         },
