@@ -1,0 +1,33 @@
+{
+    "id": "gallery",
+    "name": "Gallery",
+    "children": [
+        {
+            "id": "stable_diffusion",
+            "name": "Stable Diffusion",
+            "short": "<p><strong>Stable Diffusion</strong> is a deep learning, text-to-image model released in 2022. It is primarily used to generate detailed images conditioned on text descriptions, though it can also be applied to other tasks such as inpainting, outpainting, and generating image-to-image translations guided by a text prompt.It was developed by the start-up Stability AI in collaboration with a number of academic researchers and non-profit organizations.<p>",
+            "contents": [
+                "<p><strong>Stable Diffusion</strong> is a latent diffusion model, a kind of deep generative neural network. Its code and model weights have been released publicly, and it can run on most consumer hardware equipped with a modest GPU with at least 8 GB VRAM. This marked a departure from previous proprietary text-to-image models such as DALL-E and Midjourney which were accessible only via cloud services.</p>",
+                "<p><strong>Initial release:</strong> August 22, 2022</p>",
+                "<p><strong>License:</strong> Creative ML OpenRAIL-M </p>",
+                "<p><strong>Operating system:</strong> Any that support CUDA kernels </p>",
+                "<p><strong>Original author(s):</strong> Runway, CompVis, and Stability AI </p>",
+                "<p><strong>Repository:</strong> github.com/Stability-AI/stablediffusion </p>",
+                "<p><strong>Stable release:</strong> 2.1 (model) / December 7, 2022 </p>",
+                "<p><strong>Written in:</strong>: Python</p>"
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://stablediffusion.vn/wp-content/uploads/2023/04/Cover-fb@2x-copy.jpg"
+        },
+        {
+            "id": "photography",
+            "name": "Photography",
+            "short": "<p><strong>Photography</strong> is the art, application, and practice of creating durable images by recording light, either electronically by means of an image sensor, or chemically by means of a light-sensitive material such as photographic film</p>",
+            "contents": [
+                "<p><strong>Artists:</strong> Henry Fox Talbot</p>"
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://dvyvvujm9h0uq.cloudfront.net/com/articles/1543483387-reinhart-julian-1145947-unsplash.jpg"
+        }
+    ]
+}

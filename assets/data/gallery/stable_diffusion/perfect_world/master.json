@@ -1,0 +1,42 @@
+{
+    "id": "perfect_world",
+    "parentid": "stable_diffusion",
+    "hashtags": [
+        {
+            "tags": [
+                "sd",
+                "perfect_world",
+                "fantasy"
+            ],
+            "imgs": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f3266e21-39be-4cc8-6e7d-6f26e4d97400/width=450/262920.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b6020b79-3f79-4aa0-e0bf-63c0d4418d00/width=450/242496.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/01d307fd-909f-4a50-f532-d74c1a2fb300/width=450/229910.jpeg"
+            ]
+        },
+        {
+            "tags": [
+                "sd",
+                "perfect_world",
+                "girl"
+            ],
+            "imgs": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/10221a17-6063-4c60-3bb2-a13f73ad6300/width=450/328748.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bb8bf7ae-edac-42a5-2e2e-80964887fd00/width=450/300273.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/44ace755-5ab9-48d3-d2f0-c655a17e6b00/width=450/237572.jpeg"
+            ]
+        },
+        {
+            "tags": [
+                "sd",
+                "perfect_world",
+                "nsfw"
+            ],
+            "imgs": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bfb9be8a-764f-4a61-6211-1e426ea7c200/width=450/299422.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/af81fb4f-eb9d-4705-9d4e-93171e9c0e00/width=450/00032-1634983381.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a8ad3951-9969-4a56-ee44-1045456c3500/width=450/355305.jpeg"
+            ]
+        }
+    ]
+}

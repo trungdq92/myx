@@ -1,0 +1,48 @@
+{
+    "id": "fakku",
+    "parentid": "comic",
+    "children": [
+        {
+            "id": "bleach",
+            "name": "Bleach",
+            "artist": "Bleach Artist",
+            "short": "Bleach",
+            "datetime": "2022-02-02",
+            "hashtags": [
+                "fakku",
+                "bleach",
+                "bleach_artist"
+            ],
+            "thumbs": "https://m.media-amazon.com/images/M/MV5BODFmYTUwYzMtM2M2My00NGExLWIzMDctYmRjNTNhZDc4MGI2XkEyXkFqcGdeQXVyMTMzNDExODE5._V1_.jpg",
+            "contents": [
+                "Ichigo Kurosaki never asked for the ability to see ghosts -- he was born with the gift. When his family is attacked by a Hollow -- a malevolent lost soul -- Ichigo becomes a Soul Reaper, dedicating his life to protecting the innocent and helping the tortured spirits themselves find peace",
+                "<p><strong>First episode date</strong>:October 5, 2004 (Japan)</p>",
+                "<p><strong>Adapted from</strong>:Bleach</p>",
+                "<p><strong>Directed by</strong>:Noriyuki Abe</p>",
+                "<p><strong>Genre</strong>:Adventure; Supernatural</p>",
+                "<p><strong>Licensed by</strong>:Viz Media; SEA Medialink</p>"
+            ]
+        },
+        {
+            "id": "onepuch_man",
+            "name": "OnePuch Man",
+            "artist": "One Artist",
+            "short": "OnePuch Man",
+            "datetime": "2022-02-02",
+            "hashtags": [
+                "fakku",
+                "onepuch_man",
+                "one_artist"
+            ],
+            "thumbs": "https://m.media-amazon.com/images/M/MV5BZjJlNzE5YzEtYzQwYS00NTBjLTk5YzAtYzUwOWQyM2E3OGI2XkEyXkFqcGdeQXVyNTgyNTA4MjM@._V1_.jpg",
+            "contents": [
+                "One-Punch Man is a Japanese superhero manga series created by One. It tells the story of Saitama, a superhero who, because he can defeat any opponent with a single punch, grows bored from a lack of challenge. One wrote the original webcomic manga version in early 2009",
+                "<p><strong>Authors</strong>:: ONE, Yusuke Murata</p>",
+                "<p><strong>Genre</strong>:Shonen manga</p>",
+                "<p><strong>Demographic</strong>:Seinen</p>",
+                "<p><strong>Genre</strong>:</p>",
+                "<p><strong>Directed by</strong>: Shingo Natsume (S1); Chikara Sakurai (S2)</p>"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "id": "stable_diffusion",
+    "parentid": "photography",
+    "children": [
+        {
+            "id": "chilloutmix",
+            "name": "Chilloutmix",
+            "short": "Chilloutmix",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.ytimg.com/vi/KNLZv8lQhP0/maxresdefault.jpg",
+            "contents": [
+                "This model has been republished and its ownership transferred to Civitai with the full permissions of the model creator.",
+                "They have asked that all identifying information about them be removed from the model details."
+            ]
+        },
+        {
+            "id": "perfect_world",
+            "name": "Perfect World",
+            "short": "Perfect World",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.ytimg.com/vi/imRR_OaLeCk/maxresdefault.jpg",
+            "contents": [
+                "The pursuit of perfect balance between realism and anime, a semi-realistic model aimed to achieve beautiful realistic faces with sexy hentai bodies.",
+                "This model aims to be flexible with all kinds of NSFW/hentai concepts, so a large portion of the merge will be hentai models. ",
+                "If this model is the cereal, these would be the milk: Fashion Girl, Ulzzang-6500"
+            ]
+        },
+        {
+            "id": "deliberate",
+            "name": "Deliberate",
+            "short": "Deliberate",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.ytimg.com/vi/NjwwgZyrqNQ/maxresdefault.jpg",
+            "contents": [
+                "All in One / Any Case Version",
+                "This model provides you the ability to create anything you want. The more power of prompt knowledges you have, the better results you'll get. It basically means that you'll never get a perfect result with just a few words. You have to fill out your prompt line extremely detailed.",
+                "<p>Who find this model perfect</p>",
+                "<ul><li>NSFW masters</li><li>Meticulous anatomy artists</li><li>Creative prompters</li><li>Art designers</li></ul>",
+                "Dive into the perfect creations world with my prompts. Your research will be appreciated, so feel free to show everyone, what you can get with this mode"
+            ]
+        }
+    ]
+}

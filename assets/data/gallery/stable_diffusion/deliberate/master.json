@@ -1,0 +1,29 @@
+{
+    "id": "deliberate",
+    "parentid": "stable_diffusion",
+    "hashtags": [
+        {
+            "tags": [
+                "sd",
+                "deliberate",
+                "girl",
+                "models",
+                "nsfw"
+            ],
+            "imgs": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7cc4a0b1-ebba-4c50-5107-4bd67399e300/width=450/260083.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6ca89770-7781-4f40-e646-73bf80940700/width=450/390479.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7d9b407b-4bfb-48f8-7edd-e04e9af92200/width=450/269955.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3beda7f8-b623-4a0f-6ba1-06601cc3ef00/width=450/3beda7f8-b623-4a0f-6ba1-06601cc3ef00.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/865eb89d-5345-4b7f-8f29-148a34c6a26c/width=450/00024-103948451.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/6c8356f9-6c1a-424d-14d1-1523d0606a00/width=450/186606.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/0fcfd7fb-9751-446a-e479-1c41c94af400/width=450/222741.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c4f18409-ebdb-44a2-0ccd-ff128fc9c000/width=450/00085-2379851862.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/89996685-8d57-4bc0-e7f6-f8fb559c6100/width=450/154064.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f9718ad1-7968-4d6c-ce1a-32e7232a3c00/width=450/225432.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/9344a57f-8aea-43dd-38e0-e1cbe6ed3d00/width=450/008300.1005e612.3290847978.postprocessed.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/1cb988ba-001f-4413-d43c-6ea6a4f66100/width=450/00103-3368503804.jpeg"
+            ]
+        }
+    ]
+}

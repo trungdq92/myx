@@ -1,0 +1,70 @@
+{
+    "id": "myx",
+    "name": "myx",
+    "children": [
+        {
+            "id": "comic",
+            "name": "Comic",
+            "children": [
+                {
+                    "id": "fakku",
+                    "name": "Fakku",
+                    "children": []
+                },
+                {
+                    "id": "lxhen",
+                    "name": "LxHen",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "id": "gallery",
+            "name": "Gallery",
+            "children": [
+                {
+                    "id": "stable_diffusion",
+                    "name": "Stable Diffusion",
+                    "children": [
+                        {
+                            "id": "chilloutmix",
+                            "name": "Chilloutmix"
+                        },
+                        {
+                            "id": "deliberate",
+                            "name": "Deliberate"
+                        },
+                        {
+                            "id": "perfect_world",
+                            "name": "Perfect World"
+                        }
+                    ]
+                },
+                {
+                    "id": "photography",
+                    "name": "Photography",
+                    "children": [
+                        {
+                            "id": "animal",
+                            "name": "Animals"
+                        },
+                        {
+                            "id": "relationship",
+                            "name": "Relationship"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "timeline",
+            "name": "Timeline",
+            "children": []
+        },
+        {
+            "id": "video",
+            "name": "Video",
+            "children": []
+        }
+    ]
+}

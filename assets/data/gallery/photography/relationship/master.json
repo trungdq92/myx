@@ -1,0 +1,20 @@
+{
+    "id": "relationship",
+    "parentid": "photography",
+    "hashtags": [
+        {
+            "tags": [
+                "photography",
+                "relationship",
+                "colleague"
+            ],
+            "imgs": [],
+            "renderImg": [
+                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/",
+                ".png",
+                "0",
+                "31"
+            ]
+        }
+    ]
+}

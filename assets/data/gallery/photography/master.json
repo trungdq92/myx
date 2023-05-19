@@ -1,0 +1,28 @@
+{
+    "id": "photography",
+    "parentid": "gallery",
+    "children": [
+        {
+            "id": "animal",
+            "name": "Animals",
+            "short": "Animals",
+            "datetime": "2022-02-02",
+            "thumbs": "https://images.pexels.com/photos/459449/pexels-photo-459449.jpeg?cs=srgb&dl=pexels-pixabay-459449.jpg&fm=jpg",
+            "contents": [
+                "Animals are multicellular, eukaryotic organisms in the biological kingdom Animalia. With few exceptions, animals consume organic material, breathe oxygen, are able to move, can reproduce sexually, and grow from a hollow sphere of cells, the blastula, during embryonic",
+                ""
+            ]
+        },
+        {
+            "id": "relationship",
+            "name": "Relationship",
+            "short": "Relationship",
+            "datetime": "2022-02-02",
+            "thumbs": "https://loversschool.com/images/2020/10/08/getty_536615329_342826.jpg",
+            "contents": [
+                "An intimate relationship is an interpersonal relationship that involves physical or emotional intimacy. Although an intimate relationship is commonly a sexual relationship, it may also be a non-sexual relationship involving family, friends, or acquaintances",
+                ""
+            ]
+        }
+    ]
+}

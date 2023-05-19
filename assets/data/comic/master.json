@@ -1,0 +1,27 @@
+{
+    "id": "comic",
+    "name": "Comic",
+    "children": [
+        {
+            "id": "fakku",
+            "name": "Fakku",
+            "short": "<p>The largest English hentai publisher in the world. </p>",
+            "contents": [
+                "<p><strong>Fakku</strong> is the largest English-language hentai publisher in the world. Thousands of uncensored English hentai manga, comics, and doujinshi available. Fakku was originally an aggregator that provided users with scanlations of adult manga and dōjinshi from Japan",
+                "<p><strong>Owner: </strong>: Jacob Grady (Founder, CEO)</p>"
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://static.lag.vn/upload/news/20/04/01/fakku__momoka_and_____by_betrayal_and_wisdom_d2uwudb-fullview_UZSV.png?w=800&encoder=wic&subsampling=444"
+        },
+        {
+            "id": "lxhen",
+            "name": "Lxhen",
+            "short": "<p><strong>Lxhentai.com</strong> General Information.</p> ",
+            "contents": [
+                "<p>Find the best information and most relevant links on all topics related to"
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/97/39/7f/caption.jpg?w=1200&h=-1&s=1&cx=1920&cy=1080&chk=v1_f31158e4bb953d28a308"
+        }
+    ]
+}

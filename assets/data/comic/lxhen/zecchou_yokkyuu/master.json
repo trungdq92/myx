@@ -1,0 +1,138 @@
+{
+    "id": "zecchou_yokkyuu",
+    "parentid": "lxhen",
+    "chapters": [
+        {
+            "id": "c1",
+            "name": "Chap 1",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/fcef04a1-8e10-4909-8c19-450c03de293b/0.png",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/fcef04a1-8e10-4909-8c19-450c03de293b/",
+                ".jpg",
+                "0",
+                "19"
+            ]
+        },
+        {
+            "id": "c2",
+            "name": "Chap 2",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/9d886717-1f9d-490f-9c95-2fe782eaa674/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/9d886717-1f9d-490f-9c95-2fe782eaa674/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c3",
+            "name": "Chap 3",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/79b10e2f-b39f-4c3c-b99e-5d93243942cd/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/79b10e2f-b39f-4c3c-b99e-5d93243942cd/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c4",
+            "name": "Chap 4",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/8c242947-f3af-442d-b04b-b9aad1913944/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/8c242947-f3af-442d-b04b-b9aad1913944/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c5",
+            "name": "Chap 5",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/338b4d40-c73e-4908-9c0a-f2c1d2de99f2/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/338b4d40-c73e-4908-9c0a-f2c1d2de99f2/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c6",
+            "name": "Chap 6",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/85b743c3-0981-4955-a7fc-ac9ea47b27f9/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/85b743c3-0981-4955-a7fc-ac9ea47b27f9/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c7",
+            "name": "Chap 7",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/106e0fe1-7d60-408c-9586-0e024ae7f06b/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/106e0fe1-7d60-408c-9586-0e024ae7f06b/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c8",
+            "name": "Chap 8",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/1c14b0ad-3665-43aa-a110-76eac71743f6/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/1c14b0ad-3665-43aa-a110-76eac71743f6/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c9",
+            "name": "Chap 9",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/8ab2ba65-1780-44f1-bbe5-00bba894c51e/0.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/8ab2ba65-1780-44f1-bbe5-00bba894c51e/",
+                ".jpg",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "id": "c10",
+            "name": "Chap 10",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/92ff9b09-ccbb-4ef5-a62b-7f41105ff82d/3.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/92ff9b09-ccbb-4ef5-a62b-7f41105ff82d/",
+                ".jpg",
+                "3",
+                "20"
+            ]
+        },
+        {
+            "id": "c11",
+            "name": "Chap 11",
+            "thumbs": "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/0cbb91a1-1ea7-4288-991e-60c35f0cad97/3.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://storage.lxmanga.com/s3.lxmanga/images/data/d662dff6-9b5b-4df6-99c3-7ee016ce7530/0cbb91a1-1ea7-4288-991e-60c35f0cad97/",
+                ".jpg",
+                "3",
+                "22"
+            ]
+        }
+    ]
+}

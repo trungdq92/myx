@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Authen</title>
+
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    
+    <script src="../assets/vendor/crypto/crypto-js-4.1.1-core.min.js"></script>
+    <script src="../assets/vendor/crypto/crypto-js-4.1.1-md5.js"></script>
+    <script src="../assets/vendor/jquery/jquery-3.6.4.min.js"></script>
+</head>
+
+<body class="theme-dark">
+    <div class="container" style="margin-top: 15vh;">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 m-auto">
+                <section>
+                    <div class="section-title">
+                        <h2>Login</h2>
+                        <p>Allway be side with you...hearing.</p>
+                    </div>
+                    <div class="row justify-content-center my-3">
+                        <div class="col-lg-8">
+                            <input class="form-control form-control-lg border-0" type="text" id="id" />
+                        </div>
+                    </div>
+                    <div class="row justify-content-center my-3">
+                        <div class="col-lg-8">
+                            <input class="form-control form-control-lg border-0" type="password" id="secret" />
+                        </div>
+                    </div>
+                    <div class="row justify-content-center my-3">
+                        <div class="col-lg-8">
+                            <button class="btn btn-primary w-100 btn-lg border-0" type="submit" onclick="lg()">Launch</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        function lg() { return _m_lgn(document.getElementById('id').value, document.getElementById('secret').value) };
+    </script>
+</body>
+
+</html>
