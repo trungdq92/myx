@@ -19,6 +19,8 @@ const PageBase = class PageBase {
 
         this.galleryShowCol = '';
         this.galleryColThumbs = '';
+        this.galleryDisplayColHtml = '';
+
         this.filters = '';
         this.glightBox = {};
         this.lGalleryFilters = {};
@@ -26,7 +28,7 @@ const PageBase = class PageBase {
 
     async _init() {
         DomEventFuntion._backToTop();
-        this._renderGalleryShowColumn();
+        this.galleryDisplayColHtml = this._renderGalleryShowColumn();
         var dataGallery = await CommomFunction._loadJsonAsync(this.loadgalleyPath);
         if (!dataGallery) {
             history.back();
@@ -35,13 +37,25 @@ const PageBase = class PageBase {
         this.gallery = dataGallery;
     }
 
-    _initGalleryAndFilter() {
-        document.querySelectorAll('.grid-style').forEach(elm => {
-            elm.addEventListener('click', function () {
-                var girdType = elm.getAttribute('data-type');
-                DomEventFuntion._changeViewPageStyle(girdType);
-            });
-        });
+    _initAnomationAfterRender() {
+        return;
+    }
+
+    static _initGalleryAndFilter() {
+        if (event) {
+            if (!this.glightBox)
+                this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+
+            if (!this.lGalleryFilters)
+                this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
+                    valueNames: [
+                        { attr: 'data-filter', name: 'filter_name' }
+                    ]
+                })
+
+            InitGalleryFuntion._eventfilterGallery(event.target, this.lGalleryFilters, this.glightBox);
+        }
+
         return;
     }
 
@@ -178,6 +192,18 @@ const PageBase = class PageBase {
 
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
+
+        return ` <div class="row justify-content-center chapter-grid-view-style">
+                    <div class="col-lg-12 text-end">
+                        <div class="my-3 fs-4">
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1);" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2);" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(3);" class="p-2 mx-1 grid-style" data-type="3"><i class="bi bi-grid-3x3-gap navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(4);" class="p-2 mx-1 grid-style" data-type="4"><i class="bi bi-grid-3x3 navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(6);" class="p-2 mx-1 grid-style" data-type="6"><i class="bi bi-bricks navbar-toggler"></i></a>
+                        </div>
+                    </div>
+                </div>`;
     }
 
 }
@@ -198,11 +224,11 @@ const GroupPage = class GroupPage extends PageBase {
 
         this.groups = dataGroup;
         this._renderPage();
-        this._initGalleryAndFilter();
+        this._initAnomationAfterRender();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
         DomEventFuntion._removePreload();
     }
 
@@ -274,11 +300,11 @@ const ContentPage = class ContentPage extends PageBase {
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
 
         this._renderPage();
-        this._initGalleryAndFilter();
+        this._initAnomationAfterRender();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
         InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
     }
@@ -377,23 +403,17 @@ const DetailPage = class DetailPage extends PageBase {
         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
         this._renderPage();
-        this._initGalleryAndFilter();
+        this._initAnomationAfterRender();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
-        var glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        var lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
             valueNames: [
                 { attr: 'data-filter', name: 'filter_name' }
             ]
         })
-
-        document.querySelectorAll('.portfolio-flters-item').forEach(elm => {
-            elm.addEventListener('click', function () {
-                InitGalleryFuntion._eventfilterGallery(this, lGalleryFilters, glightBox)
-            });
-        });
 
         var loadImg = setInterval(function () {
             console.log("img loading")
@@ -450,17 +470,7 @@ const DetailPage = class DetailPage extends PageBase {
                             <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
                         </div>
                     </div>
-                    <div class="row justify-content-center chapter-grid-view-style">
-                        <div class="col-lg-12 text-end">
-                            <div class="my-3 fs-4">
-                                <a href="#" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
-                                <a href="#" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
-                                <a href="#" class="p-2 mx-1 grid-style" data-type="3"><i class="bi bi-grid-3x3-gap navbar-toggler"></i></a>
-                                <a href="#" class="p-2 mx-1 grid-style" data-type="4"><i class="bi bi-grid-3x3 navbar-toggler"></i></a>
-                                <a href="#" class="p-2 mx-1 grid-style" data-type="6"><i class="bi bi-bricks navbar-toggler"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    ${this.galleryDisplayColHtml}
                     <div id="content-detail-area" class="list row justify-content-center portfolio-container">${detail}</div>
                 </section>`;
     }
@@ -516,7 +526,10 @@ const DetailPage = class DetailPage extends PageBase {
 
         var html = ''
         tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters">${item.replace('_', ' ')}</button>`;
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" 
+                    onclick="PageBase._initGalleryAndFilter()">
+                        ${item.replace('_', ' ')}
+                    </button>`;
         });
 
         return html;
@@ -528,20 +541,14 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
         super();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
-        var glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        var lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
             valueNames: [
                 { attr: 'data-filter', name: 'filter_name' }
             ]
         })
-
-        document.querySelectorAll('.portfolio-flters-item').forEach(elm => {
-            elm.addEventListener('click', function () {
-                InitGalleryFuntion._eventfilterGallery(this, lGalleryFilters, glightBox)
-            });
-        });
 
         DomEventFuntion._removePreload();
     }
@@ -589,7 +596,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
         var html = ''
         tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters">${item.replace('_', ' ')}</button>`;
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" onclick="PageBase._initGalleryAndFilter()">${item.replace('_', ' ')}</button>`;
         });
 
         return html;
@@ -601,8 +608,8 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         super();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
         DomEventFuntion._removePreload();
     }
 
@@ -656,11 +663,11 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
         this._renderPage();
-        this._initGalleryAndFilter();
+        this._initAnomationAfterRender();
     }
 
-    _initGalleryAndFilter() {
-        super._initGalleryAndFilter();
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
         InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
     }
@@ -721,14 +728,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                                 <i class="bi bi-list-task navbar-toggler"></i>
                             </button>
                         <div>
-                        <div class="row justify-content-center chapter-grid-view-style">
-                            <div class="col-lg-12 text-end">
-                                <div class="my-3 fs-4">
-                                    <a href="#" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
-                                    <a href="#" class="p-2 mx-1 grid-style" data-type="4"><i class="bi bi-grid navbar-toggler"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                       ${this.galleryDisplayColHtml}
                     </div>
 
                     <div id="content-detail-area" class="row portfolio-container">${detail}</div>
