@@ -6,14 +6,63 @@
             "tags": [
                 "photography",
                 "relationship",
-                "colleague"
+                "colleague",
+                "Admin",
+                "VMO"
             ],
             "imgs": [],
             "renderImg": [
-                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/",
+                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/ThuThuy",
                 ".png",
                 "0",
-                "31"
+                "3"
+            ]
+        },
+        {
+            "tags": [
+                "photography",
+                "relationship",
+                "friend",
+                "university"
+            ],
+            "imgs": [],
+            "renderImg": [
+                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/NgaWru",
+                ".png",
+                "0",
+                "2"
+            ]
+        },
+        {
+            "tags": [
+                "photography",
+                "relationship",
+                "colleague",
+                "VMO",
+                "BA"
+            ],
+            "imgs": [],
+            "renderImg": [
+                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/ThuNga",
+                ".png",
+                "0",
+                "17"
+            ]
+        },
+        {
+            "tags": [
+                "photography",
+                "relationship",
+                "colleague",
+                "Luvina",
+                "Admin"
+            ],
+            "imgs": [],
+            "renderImg": [
+                "https://trungdq202191.github.io/iportfolio/assets/img/gallery/SD/relationship/HieuLu",
+                ".png",
+                "0",
+                "6"
             ]
         }
     ]
