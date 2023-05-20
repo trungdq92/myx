@@ -182,6 +182,7 @@ const DomEventFuntion = class DomEventFuntion {
 
     static _backToTop() {
         let backtotop = document.getElementById('back-to-top');
+        console.log(backtotop)
         if (backtotop) {
             const toggleBacktotop = () => {
                 if (window.scrollY > 100) {

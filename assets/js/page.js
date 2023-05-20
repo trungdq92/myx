@@ -111,12 +111,11 @@ const PageBase = class PageBase {
                         <div id="side-menu-area">${sideMenu}</div>
                         <div id="left-menu-area">${leftMenu}</div>
                         <div class="content" id="group-content-area">${content}</div>
-                    
-                        <div id="preloader"></div>
-                        <a href="#" id="back-to-top" class="back-to-top d-flex align-items-center justify-content-center">
-                            <i class="bi bi-arrow-up-short"></i>
-                        </a>
-                    </div>`;
+                    </div>
+                    <div id="preloader"></div>
+                    <a href="#" id="back-to-top" class="back-to-top d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-up-short"></i>
+                    </a>`;
 
         document.getElementById('container-area').innerHTML = html;
         return;
@@ -178,7 +177,7 @@ const PageBase = class PageBase {
 
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="false" data-bs-backdrop="static__">
                             <div class="offcanvas-header">
-                                <h3 id="offcanvasRightLabel" class="h3 p-0 my-0 text-uppercase">${Constants.pjName}</h3>
+                                <a href="${this.rootUrl}"><h3 id="offcanvasRightLabel" class="h3 p-0 my-0 text-uppercase text-muted">${Constants.pjName}</h3></a>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div class="offcanvas-body px-0 pt-0">
