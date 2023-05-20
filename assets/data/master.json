@@ -16,56 +16,6 @@
             "contents": [
                 "Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.",
                 "Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores."
-            ],
-            "children": [
-                {
-                    "id": "fakku",
-                    "name": "Fakku",
-                    "children": [
-                        {
-                            "id": "bleach",
-                            "name": "bleach"
-                        },
-                        {
-                            "id": "onepuch_man",
-                            "name": "onepuch man"
-                        }
-                    ]
-                },
-                {
-                    "id": "lxhen",
-                    "name": "LxHen",
-                    "children": [
-                        {
-                            "id": "boshi_double_soukan",
-                            "name": "boshi double soukan"
-                        },
-                        {
-                            "id": "living_with_succubus",
-                            "name": "living with succubus"
-                        },
-                        {
-                            "id": "melty_lover",
-                            "name": "melty lover"
-                        },
-                        {
-                            "id": "mikakinos_secret_sexlife",
-                            "name": "mikakinos secret sexlife"
-                        },
-                        {
-                            "id": "my_lover_is_a_vampire",
-                            "name": "my lover is a vampire lover"
-                        },
-                        {
-                            "id": "secret_sex_room",
-                            "name": "secret sex room"
-                        },
-                        {
-                            "id": "zecchou_yokkyuu",
-                            "name": "zecchou yokkyuu"
-                        }
-                    ]
-                }
             ]
         },
         {
@@ -75,40 +25,6 @@
                 "An art gallery is a room or a building in which visual art is displayed. ",
                 "In Western cultures from the mid-15th century, a gallery was any long, narrow covered passage along a wall, first used in the sense of a place for art in the 1590s.",
                 "The long gallery in Elizabethan and Jacobean houses served many purposes including the display of art."
-            ],
-            "children": [
-                {
-                    "id": "stable_diffusion",
-                    "name": "Stable Diffusion",
-                    "children": [
-                        {
-                            "id": "chilloutmix",
-                            "name": "Chilloutmix"
-                        },
-                        {
-                            "id": "deliberate",
-                            "name": "Deliberate"
-                        },
-                        {
-                            "id": "perfect_world",
-                            "name": "Perfect World"
-                        }
-                    ]
-                },
-                {
-                    "id": "photography",
-                    "name": "Photography",
-                    "children": [
-                        {
-                            "id": "animal",
-                            "name": "Animals"
-                        },
-                        {
-                            "id": "relationship",
-                            "name": "Relationship"
-                        }
-                    ]
-                }
             ]
         }
     ]

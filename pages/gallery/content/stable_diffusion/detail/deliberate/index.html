@@ -1,40 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+<script type="text/javascript">
+  var rootUrl = location.protocol + '//' + location.hostname + '/myx';
+  var fullHtml = `<!DOCTYPE html>
+                  <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                  <head>
+                      <meta charset="utf-8">
+                      <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Details</title>
+                      <title>MYX</title>
 
-    <link href="../../../../../../assets/img/favicon.png" rel="icon">
-    <link href="../../../../../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+                      <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
+                      <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <link href="../../../../../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../../../../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../../../../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+                      <link href="${rootUrl}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+                      <link href="${rootUrl}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+                      <link href="${rootUrl}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
 
-    <link href="../../../../../../assets/css/style.css" rel="stylesheet">
-</head>
+                      <link href="${rootUrl}/assets/css/style.css" rel="stylesheet">
+                  </head>
 
-<body class="theme-dark">
-    <div class="container___content" id="container-area"></div>
+                  <body class="theme-dark">
+                      <div class="container___content" id="container-area"></div> 
+                  </body>
 
-    <script src="../../../../../../assets/vendor/jquery/jquery-3.6.4.min.js"></script>
-    <script src="../../../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../../../../assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="../../../../../../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script src="../../../../../../assets/vendor/filter/list.min.js"></script>
+                  </html>`;
 
-    <script src="../../../../../../assets/js/constant.js"></script>
-    <script src="../../../../../../assets/js/funtion.js"></script>
-    <script src="../../../../../../assets/js/page.js"></script>
+  document.write(fullHtml)
 
-    <script>
-        $(document).ready(function () {
-            new DetailPage();
-        });
-    </script>
-</body>
+  var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
+  scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
+  scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
+  scriptTag = loadScript(rootUrl + '/assets/vendor/isotope-layout/isotope.pkgd.min.js');
+  scriptTag = loadScript(rootUrl + '/assets/vendor/filter/list.min.js');
+  scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
+  scriptTag = loadScript(rootUrl + '/assets/js/page.js');
 
-</html>
+  scriptTag.addEventListener('load', () => {
+      new Page();
+  })
+
+  function loadScript(path) {
+      var scriptTag = document.createElement('script');
+      scriptTag.type = 'text/javascript';
+      scriptTag.async = false;
+      scriptTag.defer = false;
+      scriptTag.src = path;
+      document.body.append(scriptTag);
+      return scriptTag;
+  };
+
+</script>

@@ -1,3 +1,42 @@
+const Page = class Page {
+    constructor() {
+        // get lv tree
+        var lvl = location.pathname.split('/').length;
+        this.groupId = CommomFunction._getGroupIdFromPath();
+        var constComic = Constants.galleryType.comic;
+        switch (lvl) {
+            case 3:
+                // home
+                new HomePage();
+                break;
+            case 5:
+                // group
+                new GroupPage();
+                break;
+            case 7:
+                // content
+                if (this.groupId == constComic) {
+                    new ComicContentPage();
+                } else {
+                    new ContentPage();
+                }
+                break;
+            case 9:
+                // detail
+                if (this.groupId == constComic) {
+                    new ComicDetailPage();
+                } else {
+                    new DetailPage();
+                }
+                break;
+            case 10:
+                // chapter
+                new ComicChapterPage();
+                break;
+        }
+    }
+}
+
 const PageBase = class PageBase {
     constructor() {
         this.rootUrl = CommomFunction._domainPath();
@@ -5,11 +44,13 @@ const PageBase = class PageBase {
         this.contentId = CommomFunction._getContentIdFromPath();
         this.detailId = CommomFunction._getContentDetailIdFromPath();
 
+        this.loadGalleyTree = `${this.rootUrl}/assets/data/menu.json`;
         this.loadGalleyPath = `${this.rootUrl}/assets/data/master.json`;
         this.loadGroupPath = `${this.rootUrl}/assets/data/${this.groupId}/master.json`;
         this.loadContentPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/master.json`;
         this.loadDetailPath = `${this.rootUrl}/assets/data/${this.groupId}/${this.contentId}/${this.detailId}/master.json`;
 
+        this.treeMenu = {};
         this.gallery = {};
         this.groups = {};
         this.contents = {};
@@ -33,8 +74,10 @@ const PageBase = class PageBase {
         if (!dataGallery) {
             history.back();
         }
-
         this.gallery = dataGallery;
+
+        var dataGalleryMenu = await CommomFunction._loadJsonAsync(this.loadGalleyTree);
+        this.treeMenu = dataGalleryMenu;
     }
 
     _initAnomationAfterRender() {
@@ -63,6 +106,7 @@ const PageBase = class PageBase {
         var content = this._renderContent();
         var sideMenu = this._renderSideMenu();
         var leftMenu = this._renderLeftMenu();
+
         var html = `<div class="container-fluid">
                         <div id="side-menu-area">${sideMenu}</div>
                         <div id="left-menu-area">${leftMenu}</div>
@@ -80,8 +124,8 @@ const PageBase = class PageBase {
 
     _renderSideMenu() {
         var menu = '';
-        var gallery = this.gallery;
-        gallery.children.forEach(item => {
+        var treeMenu = this.treeMenu;
+        treeMenu.children.forEach(item => {
             var subMenu = '';
             var groups = item;
             if (!groups) {
