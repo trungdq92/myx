@@ -3,6 +3,7 @@ const Constants = class Constants {
     static pages = 'pages'
     static pageContent = 'content'
     static pageContentDetail = 'detail'
+    static IsotopeLoading = false;
     static galleryType = {
         comic: 'comic',
         gallery: 'gallery'
@@ -110,7 +111,6 @@ const InitGalleryFuntion = class InitGalleryFuntion {
             return false;
         }
 
-        console.log('run Isotope');
         var clzz = 'portfolio-container';
         if (clazzContainer)
             clzz = clazzContainer;
@@ -123,7 +123,8 @@ const InitGalleryFuntion = class InitGalleryFuntion {
             itemSelector: '.' + selector
         }
 
-        new Isotope('.' + clzz, options);
+        if(Constants.IsotopeLoading)
+            new Isotope('.' + clzz, options);
     }
 
     static _initListFilters(id, options) {

@@ -81,6 +81,7 @@ const PageBase = class PageBase {
     }
 
     _initAnomationAfterRender() {
+        Constants.IsotopeLoading = false;
         return;
     }
 
@@ -486,13 +487,11 @@ const ContentPage = class ContentPage extends PageBase {
 const DetailPage = class DetailPage extends PageBase {
     constructor() {
         super();
-
         this._init();
     }
 
     async _init() {
         await super._init();
-
         var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
         var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
         var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
@@ -512,6 +511,7 @@ const DetailPage = class DetailPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
+        Constants.IsotopeLoading = true;
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
             valueNames: [
@@ -715,6 +715,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
+        Constants.IsotopeLoading = false;
         DomEventFuntion._removePreload();
     }
 
