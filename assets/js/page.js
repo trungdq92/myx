@@ -836,7 +836,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                        ${this.galleryDisplayColHtml}
                     </div>
 
-                    <div id="content-detail-area" class="row portfolio-container">${detail}</div>
+                    <div id="content-detail-area" class="row portfolio-container comic">${detail}</div>
                 </section>
 
                 <section>

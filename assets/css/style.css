@@ -1270,6 +1270,10 @@ section {
   width: 100%;
 }
 
+.comic .portfolio-lightbox img {
+  width: auto;
+}
+
 .gallery-item .img-fluid {
   object-fit: cover;
   height: 40vh;
