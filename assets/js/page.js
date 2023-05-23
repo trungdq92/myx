@@ -352,6 +352,7 @@ const GroupPage = class GroupPage extends PageBase {
     _renderContentDetails() {
         var path = `${this.rootUrl}/pages/${this.groupId}`
         var html = '';
+        var _page = this;
         this.groups.children.forEach(item => {
             html += `<section class="gallery-item">
                         <div class="section-title">
@@ -363,7 +364,7 @@ const GroupPage = class GroupPage extends PageBase {
                         <div class="row">
                             <div class="col-lg-12">
                                 <a href="${path}/content/${item.id}">
-                                    <img class="img-fluid thumbs" src="${item.thumbs}" alt="">
+                                    <img class="img-fluid thumbs" src="${item.thumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
                                 <a>
                             </div>
                         </div>
@@ -456,11 +457,12 @@ const ContentPage = class ContentPage extends PageBase {
 
     _renderContentDetails() {
         var area = '';
+        var _page = this;
         this.contents.children.forEach(item => {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
             area += `<div class="col-lg-3 portfolio-item">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid thumbs" alt="" loading="lazy" />
+                            <img src="${item.thumbs}" class="img-fluid thumbs" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                             <div class="portfolio-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.short}</p>
@@ -606,7 +608,7 @@ const DetailPage = class DetailPage extends PageBase {
 
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters}" data-filter="${filters}">
                     <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                        <img src="${item.path}" class="img-fluid" alt="" id="img-${index}" loading="lazy"/>
+                        <img src="${item.path}" class="img-fluid" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                     </a>
                 </div>`;
         });
@@ -657,6 +659,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
     _renderContentDetails() {
         var area = '';
+        var _page = this;
         this.contents.children.forEach(item => {
             var filters = '';
             item.hashtags.sort().forEach(val => {
@@ -665,7 +668,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
             area += `<div class="col-lg-3 portfolio-item filter_name ${filters}" data-filter="${filters}">
                     <div class="portfolio-wrap">
-                        <img src="${item.thumbs}" class="img-fluid thumbs" alt="">
+                        <img src="${item.thumbs}" class="img-fluid thumbs" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
                         <div class="portfolio-info">
                             <h4>${item.name}</h4>
                             <p>${item.short}</p>
@@ -721,7 +724,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         this.details.chapters.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} mb-3 portfolio-item">
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy"/>
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                         </a>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}">
                             <h5 class="text-center fw-bold my-3">${item.name}<h5>
@@ -855,7 +858,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         imgs.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name">
                         <a href="${item}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                            <img src="${item}" class="img-fluid" alt="" loading="lazy"/>
+                            <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'" loading="lazy"/>
                         </a>
                     </div>`;
         });

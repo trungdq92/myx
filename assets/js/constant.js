@@ -110,6 +110,7 @@ const InitGalleryFuntion = class InitGalleryFuntion {
             return false;
         }
 
+        console.log('run Isotope');
         var clzz = 'portfolio-container';
         if (clazzContainer)
             clzz = clazzContainer;
