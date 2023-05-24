@@ -24,6 +24,24 @@
             ]
         },
         {
+            "id": "naruto",
+            "name": "naruto Love",
+            "artist": "naruto Artist",
+            "short": "naruto",
+            "datetime": "2022-02-02",
+            "hashtags": [
+                "fakku",
+                "naruto",
+                "naruto_artist"
+            ],
+            "thumbs": "https://www.mundodeportivo.com/alfabeta/hero/2023/04/endings-naruto.jpg",
+            "contents": [
+                "Naruto, an adolescent ninja, dreams of becoming the Hokage in his village.",
+                "<p><strong>First episode date</strong>:February 15, 2007 (Japan) </p>",
+                "<p><strong>Adapted from</strong>:Naruto</p>"
+            ]
+        },
+        {
             "id": "onepuch_man",
             "name": "OnePuch Man",
             "artist": "One Artist",
