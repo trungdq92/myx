@@ -257,6 +257,19 @@ const PageBase = class PageBase {
                 </div>`;
     }
 
+    _renderVideoObject(playerInfo) {
+        var videoObject = '';
+        if (playerInfo.scpType == Constants.videoScpType.video) {
+            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}').controls = true;"> 
+                                <video id="video_${playerInfo.id}" name='media' poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSedt9A-FPjUyXGpV6NCTlU22P2AW8-QfmMrrP7aTh-gWDVYluS144PdFVZkZ5qCwUlYUM&usqp=CAU">
+                                    <source src='${playerInfo.scpt}' type='video/mp4'>
+                                </video>
+                            </div>`;
+        }
+
+        return videoObject;
+    }
+
 }
 
 const HomePage = class HomePage extends PageBase {
@@ -278,11 +291,11 @@ const HomePage = class HomePage extends PageBase {
 
     _renderContent() {
         super._renderContent();
-        var background = ["#fbe4de", "#c8f0ee"];
+        var background = ["#fbe4de", "#c8f0ee", "#ffc107"];
         var galleryInfo = '';
         this.gallery.children.forEach((item, index) => {
             galleryInfo += `<div class="row my-5">
-                        <div class="card" style="background-color: ${background[index]};">
+                        <div class="card" style="background: url('${item.background}') ${background[index]}">
                             <div class="card-body">
                                 <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
                                 <p class="text-dark">
@@ -948,10 +961,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 filters += val + '_filters ';
             });
 
+            var videoObject = this._renderVideoObject(item);
+
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
-                        <div class ="video-wrapper">
-                            ${item.scpt}
-                        </div>
+                        ${videoObject}
                         <div class="h3 p-2 fs-6 text-wrap text-start text-capitalize">
                             <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                         </div>
@@ -1010,7 +1023,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         super._renderContent();
         var detail = this._renderContentDetails();
         var detailName = this.detailInfo.name;
-        var contentName =  this.contentInfo.name;
+        var contentName = this.contentInfo.name;
         return `<div class="row">
                     <h1 class="h1 text-capitalize">${detailName}<hr /></h1>
                 </div>
@@ -1034,10 +1047,9 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderContentDetails() {
+        var videoObject = this._renderVideoObject(this.playerInfo);
         return `<div class="col-12">
-                    <div class ="video-wrapper">
-                        ${this.playerInfo.scpt}
-                    </div>
+                    ${videoObject}
                 </div>`;
     }
 }

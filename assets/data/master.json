@@ -13,7 +13,7 @@
         {
             "id": "gallery",
             "name": "Gallery",
-            "background": "https://vsthemes.org/uploads/posts/workshop/29380626226402c274f0f36018325670.webp",
+            "background": "",
             "contents": [
                 "An art gallery is a room or a building in which visual art is displayed. ",
                 "In Western cultures from the mid-15th century, a gallery was any long, narrow covered passage along a wall, first used in the sense of a place for art in the 1590s.",
@@ -23,7 +23,7 @@
         {
             "id": "comic",
             "name": "Comic",
-            "background": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREn_jSI3Bp6wWRhoVC6zuLiqOLTGLjufaOrQ&usqp=CAU",
+            "background": "",
             "contents": [
                 "Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.",
                 "Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores."
@@ -32,7 +32,7 @@
         {
             "id": "video",
             "name": "video",
-            "background": "https://img.freepik.com/free-vector/simple-chinese-background-with-lantern-deco_1017-36063.jpg",
+            "background": "",
             "contents": [
                 "Officiis eligendi itaque labore et dolorum mollitia officiis optio vero. Quisquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.",
                 "Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores."

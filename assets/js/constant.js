@@ -4,9 +4,13 @@ const Constants = class Constants {
     static pageContent = 'content'
     static pageContentDetail = 'detail'
     static IsotopeLoading = false;
+    static videoScpType = {
+        video: 'video'
+    };
     static galleryType = {
         comic: 'comic',
-        gallery: 'gallery'
+        gallery: 'gallery',
+        video: 'video'
     }
 
     static galleryCache = {
@@ -123,7 +127,7 @@ const InitGalleryFuntion = class InitGalleryFuntion {
             itemSelector: '.' + selector
         }
 
-        if(Constants.IsotopeLoading)
+        if (Constants.IsotopeLoading)
             new Isotope('.' + clzz, options);
     }
 
