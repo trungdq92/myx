@@ -38,6 +38,16 @@
                 "<ul><li>NSFW masters</li><li>Meticulous anatomy artists</li><li>Creative prompters</li><li>Art designers</li></ul>",
                 "Dive into the perfect creations world with my prompts. Your research will be appreciated, so feel free to show everyone, what you can get with this mode"
             ]
+        },
+        {
+            "id": "beautiful_realistic_asians",
+            "name": "Beautiful Realistic Asians",
+            "short": "Beautiful Realistic Asians",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.ytimg.com/vi/42pYhwjIX5E/maxresdefault.jpg",
+            "contents": [
+                "BRA (Beautiful Realistic Asians) is a famous model that can generate realistic Japanese illustrations with Stable Diffusion"
+            ]
         }
     ]
 }
