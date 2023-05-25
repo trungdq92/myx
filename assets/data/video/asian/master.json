@@ -1,0 +1,39 @@
+{
+    "id": "asian",
+    "parentid": "video",
+    "children": [
+        {
+            "id": "china",
+            "name": "china",
+            "short": "china",
+            "datetime": "2022-02-02",
+            "thumbs": "https://static.vecteezy.com/system/resources/previews/000/605/888/original/vector-chinese-theme-background-with-temple-buildings.jpg",
+            "contents": [
+                "China, officially the People's Republic of China, is a country in East Asia. It has a population exceeding 1.4 billion. China spans the equivalent of five time zones and borders fourteen countries by land, the most of any country in the world",
+                ""
+            ]
+        },
+        {
+            "id": "japanese",
+            "name": "japanese",
+            "short": "japanese",
+            "datetime": "2022-02-02",
+            "thumbs": "https://png.pngtree.com/background/20210715/original/pngtree-pink-japanese-style-background-picture-image_1285588.jpg",
+            "contents": [
+                "Japan is an island country in East Asia. It is situated in the northwest Pacific Ocean and is bordered on the west by the Sea of Japan, extending from the Sea of Okhotsk in the north toward the East China Sea, Philippine Sea, and Taiwan in the south",
+                ""
+            ]
+        },
+        {
+            "id": "thai",
+            "name": "thai",
+            "short": "thai",
+            "datetime": "2022-02-02",
+            "thumbs": "https://static.vecteezy.com/system/resources/previews/000/660/837/original/thailand-travel-landscape-vector.jpg",
+            "contents": [
+                "Thailand is a Southeast Asian country. It's known for tropical beaches, opulent royal palaces, ancient ruins and ornate temples displaying figures of Buddha. In Bangkok, the capital, an ultramodern cityscape rises next to quiet canalside communities and the iconic temples of Wat Arun, Wat Pho and the Emerald Buddha Temple (Wat Phra Kaew). Nearby beach resorts include bustling Pattaya and fashionable Hua Hin",
+                ""
+            ]
+        }
+    ]
+}

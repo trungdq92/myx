@@ -4,6 +4,7 @@ const Page = class Page {
         var lvl = location.pathname.split('/').length;
         this.groupId = CommomFunction._getGroupIdFromPath();
         var constComic = Constants.galleryType.comic;
+        var constGallery = Constants.galleryType.gallery;
         switch (lvl) {
             case 3:
                 // home
@@ -25,13 +26,19 @@ const Page = class Page {
                 // detail
                 if (this.groupId == constComic) {
                     new ComicDetailPage();
-                } else {
+                } else if (this.groupId == constGallery) {
                     new DetailPage();
+                } else {
+                    new VideoDetailPage();
                 }
                 break;
             case 10:
                 // chapter
-                new ComicChapterPage();
+                if (this.groupId == constComic) {
+                    new ComicChapterPage();
+                } else {
+                    new VideoPlayerPage();
+                }
                 break;
         }
     }
@@ -522,6 +529,11 @@ const DetailPage = class DetailPage extends PageBase {
         var loadImg = setInterval(function () {
             console.log("img loading")
             var images = document.querySelectorAll('img');
+            if (images.length == 0) {
+                clearInterval(loadImg);
+                return false;
+            }
+
             var load = images[images.length - 1].complete;
             if (load) {
                 console.log("img loaded")
@@ -575,7 +587,7 @@ const DetailPage = class DetailPage extends PageBase {
                         </div>
                     </div>
                     ${this.galleryDisplayColHtml}
-                    <div id="content-detail-area" class="list row justify-content-center portfolio-container">${detail}</div>
+                    <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
                 </section>`;
     }
 
@@ -905,5 +917,127 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     <a class="${clssNext}" href="?c=${this.detailId}&d=${this.detailId}&ch=${nextChap}">
                         <i class="bi bi-arrow-right-short"></i>
                     </a>`;
+    }
+}
+
+const VideoDetailPage = class VideoDetailPage extends DetailPage {
+    constructor() {
+        super();
+    }
+
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        Constants.IsotopeLoading = false;
+        DomEventFuntion._removePreload();
+    }
+
+    _renderContentDetails() {
+        var area = '';
+        var links = [];
+        var _page = this;
+        this.details.hashtags.forEach(item => {
+            item.videos.forEach(info => {
+                info.tags = item.tags;
+                links.push(info);
+            });
+        });
+
+        links.forEach((item, index) => {
+            var filters = '';
+            item.tags.sort().forEach(val => {
+                filters += val + '_filters ';
+            });
+
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
+                        <div class ="video-wrapper">
+                            ${item.scpt}
+                        </div>
+                        <div class="h3 p-2 fs-6 text-wrap text-start text-capitalize">
+                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                        </div>
+                    </div>`;
+        });
+
+        return area;
+    }
+}
+
+const VideoPlayerPage = class VideoPlayerPage extends PageBase {
+    constructor() {
+        super();
+        this.playerId = CommomFunction._getUrlParameter('vs');
+        this.players = [];
+        this.playerInfo = {};
+        this._init();
+    }
+
+    async _init() {
+        await super._init();
+
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+        var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
+        if (!this.playerId || !dataGroup || !dataContent || !dataDetail) {
+            history.back();
+        }
+
+        this.groups = dataGroup;
+        this.contents = dataContent;
+        this.details = dataDetail;
+
+        var _page = this;
+        this.details.hashtags.forEach(item => {
+            item.videos.forEach(info => {
+                info.tags = item.tags;
+                _page.players.push(info);
+            });
+        });
+
+        this.playerInfo = this.players.find(x => x.id == this.playerId);
+        this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
+        this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
+
+        this._renderPage();
+        this._initAnomationAfterRender();
+    }
+
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        DomEventFuntion._removePreload();
+    }
+
+    _renderContent() {
+        super._renderContent();
+        var detail = this._renderContentDetails();
+        var detailName = this.detailInfo.name;
+        var contentName =  this.contentInfo.name;
+        return `<div class="row">
+                    <h1 class="h1 text-capitalize">${detailName}<hr /></h1>
+                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.playerInfo.name}</li>
+                    </ol>
+                </nav>
+
+                <section id="portfolio" class="portfolio section-bg">
+                    <div class="section-title">
+                        <h2 id="chapter-name">${this.playerInfo.name}</h2>
+                    </div>
+
+                    <div id="content-detail-area" class="row portfolio-container">${detail}</div>
+                </section>`;
+    }
+
+    _renderContentDetails() {
+        return `<div class="col-12">
+                    <div class ="video-wrapper">
+                        ${this.playerInfo.scpt}
+                    </div>
+                </div>`;
     }
 }

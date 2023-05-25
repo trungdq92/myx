@@ -1,0 +1,29 @@
+{
+    "id": "video",
+    "name": "Video",
+    "des": "Video",
+    "datetime": "2022-02-02",
+    "children": [
+        {
+            "id": "asian",
+            "name": "asian",
+            "short": "<p>Although the population of Asia is more than half of the population of Earth, the inherent characteristics of Asian skin has not been investigated well as compared with those of Caucasian white skin. The skin color of Asians ranges from light brown to dark brown./p>",
+            "contents": [
+                "<p>Asians redirects here. For a nomadic Central Asian people of antiquity, see Asii.<p>",
+                "<p>Although the population of Asia is more than half of the population of Earth, the inherent characteristics of Asian skin has not been investigated well as compared with those of Caucasian white skin. The skin color of Asians ranges from light brown to dark brown."
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://img.freepik.com/free-vector/simple-chinese-background-with-lantern-deco_1017-36063.jpg"
+        },
+        {
+            "id": "europe",
+            "name": "europe",
+            "short": "<p>Europe is a continent comprising the westernmost peninsulas of Eurasia, located entirely in the Northern Hemisphere and mostly in the Eastern Hemisphere. It shares the continental landmass of Afro-Eurasia with both Africa and Asia/p>",
+            "contents": [
+                "<p>Europe is a continent comprising the westernmost peninsulas of Eurasia, located entirely in the Northern Hemisphere and mostly in the Eastern Hemisphere. It shares the continental landmass of Afro-Eurasia with both Africa and Asia"
+            ],
+            "datetime": "2022-02-02",
+            "thumbs": "https://wallpapers.com/images/hd/1366x768-travel-background-nvcxw3d9aoylg45z.jpg"
+        }
+    ]
+}
