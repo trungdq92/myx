@@ -585,11 +585,12 @@ const DetailPage = class DetailPage extends PageBase {
         var _page = this;
         this.details.hashtags.forEach(item => {
             var renderImgs = item.renderImg;
-            var renders = item.imgs;
+            var imgRenders = [];
             if (renderImgs && renderImgs.length > 3) {
-                renders = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
+                imgRenders = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
             }
 
+            var renders = [...item.imgs, ...imgRenders];
             renders.forEach(path => {
                 imgs.push(
                     {
@@ -849,13 +850,15 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
     _renderContentDetails() {
         var area = '';
-        var imgs = this.chapter.imgs;
         var _page = this;
+
+        var imgRenders = [];
         var renderImgs = this.chapter.renderImg;
         if (renderImgs && renderImgs.length > 3) {
-            imgs = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
+            imgRenders = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
         }
 
+        var imgs = [...this.chapter.imgs, ...imgRenders];
         imgs.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name">
                         <a href="${item}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
