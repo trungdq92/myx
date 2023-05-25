@@ -210,27 +210,27 @@ const PageBase = class PageBase {
         var colThumbs = '';
         switch (viewType) {
             case '1':
-                colShow = 'col-lg-12';
+                colShow = 'col-12';
                 colThumbs = 'thumbs-cover-height-1';
                 break;
             case '2':
-                colShow = 'col-lg-6';
+                colShow = 'col-6';
                 colThumbs = 'thumbs-cover-height-2';
                 break;
             case '3':
-                colShow = 'col-lg-4';
+                colShow = 'col-4';
                 colThumbs = 'thumbs-cover-height-3';
                 break;
             case '4':
-                colShow = 'col-lg-3';
+                colShow = 'col-3';
                 colThumbs = 'thumbs-cover-height-4';
                 break;
             case '6':
-                colShow = 'col-lg-2';
+                colShow = 'col-2';
                 colThumbs = 'thumbs-cover-height-6';
                 break;
             default:
-                colShow = 'col-lg-4';
+                colShow = 'col-4';
                 colThumbs = 'thumbs-cover-height-4';
         }
 
