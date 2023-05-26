@@ -1025,14 +1025,16 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
         var relationVideo = this._renderRelationVideo();
+        var showCol = this._renderGalleryShowColumn();
         return `<div class="row">
                     <h1 class="h1 px-2 text-capitalize">${detailName}</h1>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="${this.galleryShowCol}">
                         <div id="content-detail-area" class="row portfolio-container">${detail}</div>
 
+                        ${showCol}
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
@@ -1041,10 +1043,10 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                 <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
                             </ol>
                         </nav>
-                        
                         <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col ${this.galleryColThumbs}">
+                        <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
                         ${relationVideo}
                     </div>
                 </div>`;
@@ -1065,15 +1067,47 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 return;
             }
             html += `<div class="row pb-2">
-                        <div class="col-md-6">
+                        <div class="col-5">
                             ${_page._renderVideoObject(item)}
                         </div>
-                        <div class="col-md-6">
-                            <p class="text-capitaliz fs-6 ps-0 lh-sm truncate-overflow">${item.name}</p>
+                        <div class="col ps-0">
+                            <div class="text-capitaliz fs-6lh-sm truncate-overflow">${item.name}</div>
                         </div>
                     </div>`;
         })
 
         return html;
+    }
+
+    _renderGalleryShowColumn() {
+        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType);
+        var colShow = '';
+        var colThumbs = '';
+        switch (viewType) {
+            case '1':
+                colShow = 'col-md-12';
+                colThumbs = 'offset-md-9 col';
+                break;
+            case '2':
+                colShow = 'col-md-9';
+                colThumbs = 'col-md-3';
+                break;
+            default:
+                colShow = 'col-md-9';
+                colThumbs = 'col-md-3';
+                break;
+        }
+
+        this.galleryShowCol = colShow;
+        this.galleryColThumbs = colThumbs;
+
+        return ` <div class="row justify-content-center chapter-grid-view-style">
+                    <div class="col-lg-12 text-end">
+                        <div class="my-3 fs-4">
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1);" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2);" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
+                        </div>
+                    </div>
+                </div>`;
     }
 }
