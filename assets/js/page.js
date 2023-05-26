@@ -291,26 +291,26 @@ const HomePage = class HomePage extends PageBase {
 
     _renderContent() {
         super._renderContent();
-        var background = ["#fbe4de", "#c8f0ee", "#ffc107"];
+        var background = ["#272829", "transparent"];
         var galleryInfo = '';
         this.gallery.children.forEach((item, index) => {
-            galleryInfo += `<div class="row my-5">
-                        <div class="card" style="background: url('${item.background}') ${background[index]}">
-                            <div class="card-body">
-                                <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
-                                <p class="text-dark">
-                                ${item.contents.join("")}
-                                </p>
-                            </div>
-                        </div>
-                    </div>`;
+            galleryInfo += `<div class="row py-5" style="background: ${background[index % 2]}">
+                                <div class="card border-0 bg-transparent">
+                                    <div class="card-body container">
+                                        <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
+                                        <p class="text-muted">
+                                        ${item.contents.join("")}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>`;
         })
-        return `<div class="main__">
-                    <section id="about" class="about">
+        return `<div class="container__">
+                    <section id="about" class="about container">
                         <div class="section-title">
                             <h2>About</h2>
                         </div>
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center container">
                             <div class="col-lg-12 pt-4 content text-center">
                                 <p>
                                 ${this.gallery.contents.join("")}
@@ -319,10 +319,10 @@ const HomePage = class HomePage extends PageBase {
                         </div>
                     </section>
 
-                    <section id="facts" class="facts">
+                    <section id="facts" class="facts container__">
                         <div class="section-title">
                             <h2>Facts</h2>
-                            <p>${this.gallery.short}</p>
+                            <p class="container">${this.gallery.short}</p>
                         </div>
                         ${galleryInfo}
                     </section>
@@ -358,15 +358,19 @@ const GroupPage = class GroupPage extends PageBase {
     _renderContent() {
         super._renderContent();
         var detail = this._renderContentDetails();
-        return `<div class="row">
-                    <h1 class="h1 text-capitalize">${this.groups.name}<hr /></h1>
+        return `<div class="container"> 
+                    <div class="row">
+                        <h1 class="h1 text-capitalize pb-0">${this.groups.name}<hr /></h1>
+                    </div>
+                    <div class="">
+                        <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                        <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.groups.name}</li>
+                        </ol>
+                    </nav>
+                    </div>
                 </div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.groups.name}</li>
-                    </ol>
-                </nav>
                 <div id="group-content-detail-area">${detail}</div>`;
     }
 
@@ -374,23 +378,18 @@ const GroupPage = class GroupPage extends PageBase {
         var path = `${this.rootUrl}/pages/${this.groupId}`
         var html = '';
         var _page = this;
-        this.groups.children.forEach(item => {
-            html += `<section class="gallery-item">
+        var background = ["#272829", "transparent"];
+        this.groups.children.forEach((item, index) => {
+            html += `<section class="gallery-item p-5" style="background: ${background[index % 2]}">
                         <div class="section-title">
-                            <h2>
+                            <h2 class="bg-transparent">
                                 <a href="${path}/content/${item.id}">${item.name}<a>
                             </h2>
-                            <p class="fst-italic">${item.datetime}</p>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <a href="${path}/content/${item.id}">
-                                    <img class="img-fluid thumbs" src="${item.thumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
-                                <a>
+                        <div class="container">
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-lg-12">${item.short}</div>
                             </div>
-                        </div>
-                        <div class="row my-3 justify-content-center">
-                            <div class="col-lg-12">${item.short}</div>
                         </div>
                     </section>`;
         });
@@ -440,28 +439,32 @@ const ContentPage = class ContentPage extends PageBase {
         var description = this.contentInfo.contents.join('');
         var contentName = this.contentInfo.name;
         var filters = this._renderFilter();
-        return `<div class="row">
-                    <h1 class="h1 text-capitalize">${contentName}<hr /></h1>
-                </div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${contentName}</li>
-                    </ol>
-                </nav>
-
-                <section id="about" class="about">
-                    <div class="section-title">
-                        <h2>About</h2>
-                        <p class="fst-italic" id="content-short">${short}</p>
-                    </div>
+        return `<div class="container">
                     <div class="row">
-                        <div class="col-12">
-                            <p id="content-description">${description}</p>
-                        </div>
+                        <h1 class="h1 text-capitalize pb-0">${contentName}<hr /></h1>
                     </div>
-                </section>
+                   <div>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize" active aria-current="page">${contentName}</li>
+                            </ol>
+                        </nav>
+                   </div>
+                
+                    <section id="about" class="about">
+                        <div class="section-title">
+                            <h2>About</h2>
+                            <p class="fst-italic" id="content-short">${short}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p id="content-description">${description}</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
 
                 <section id="portfolio" class="portfolio section-bg gallery-content">
                     <div class="section-title">
@@ -566,29 +569,34 @@ const DetailPage = class DetailPage extends PageBase {
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
         var filters = this._renderFilter();
-        return `<div class="row">
-                    <h1 class="h1 text-capitalize">${contentName}<hr /></h1>
-                </div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${detailName}</li>
-                    </ol>
-                </nav>
-
-                <section id="about" class="about">
-                    <div class="section-title">
-                        <h2>About</h2>
-                        <p class="fst-italic" id="content-short">${short}</p>
+        return `<div class="container">
+                    <div class="row">
+                        <h1 class="h1 text-capitalize pb-0">${contentName}<hr /></h1>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <p id="content-description">${description}</p>
-                        </div>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize" active aria-current="page">${detailName}</li>
+                            </ol>
+                        </nav>
                     </div>
-                </section>
+                   
+
+                    <section id="about" class="about">
+                        <div class="section-title">
+                            <h2>About</h2>
+                            <p class="fst-italic" id="content-short">${short}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p id="content-description">${description}</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
 
                 <section id="portfolio" class="portfolio section-bg">
                     <div class="section-title">
@@ -692,9 +700,9 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                 filters += val + '_filters ';
             });
 
-            area += `<div class="col-lg-3 portfolio-item filter_name ${filters}" data-filter="${filters}">
+            area += `<div class="col-lg-2 col-6 p-3 portfolio-item filter_name ${filters}" data-filter="${filters}">
                     <div class="portfolio-wrap">
-                        <img src="${item.thumbs}" class="img-fluid thumbs" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
+                        <img src="${item.thumbs}" class="img-fluid comic-thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
                         <div class="portfolio-info">
                             <h4>${item.name}</h4>
                             <p>${item.short}</p>
@@ -817,20 +825,20 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         });
 
         return `<div class="row">
-                                <div class="col-12"> 
-                                    <div class="offcanvas offcanvas-start" tabindex="-1" id="menuChapters" aria-labelledby="menuChapters" data-bs-scroll="false" data-bs-backdrop="static__">
-                                        <div class="offcanvas-header">
-                                            <h3 class="h3 p-0 my-0 text-uppercase">Chapters</h3>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                        </div>
-                                        <div class="offcanvas-body p-0">
-                                            <div class="offcanvas-body nav-menu">
-                                            <ul>${menu}</ul>
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div class="col-12"> 
+                        <div class="offcanvas offcanvas-start" tabindex="-1" id="menuChapters" aria-labelledby="menuChapters" data-bs-scroll="false" data-bs-backdrop="static__">
+                            <div class="offcanvas-header">
+                                <h3 class="h3 p-0 my-0 text-uppercase">Chapters</h3>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body p-0">
+                                <div class="offcanvas-body nav-menu">
+                                <ul>${menu}</ul>
                                 </div>
-                            </div>`;
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
     }
 
     _renderContent() {
@@ -839,18 +847,22 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
         var chapterName = this._renderChapterInfo();
-        return `<div class="row">
-                    <h1 class="h1 text-capitalize">${detailName}<hr /></h1>
+        return `<div class="container">
+                    <div class="row">
+                        <h1 class="h1 text-capitalize pb-0">${detailName}<hr /></h1>
+                    </div>
+                    <div class="row">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.chapter.name}</li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.chapter.name}</li>
-                    </ol>
-                </nav>
 
                 <section id="portfolio" class="portfolio section-bg">
                     <div class="section-title">
@@ -1033,8 +1045,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 <div class="row">
                     <div class="${this.galleryShowCol}">
                         <div id="content-detail-area" class="row portfolio-container">${detail}</div>
-
-                        ${showCol}
+                       
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
@@ -1043,6 +1054,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                 <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
                             </ol>
                         </nav>
+
+                         ${showCol}
                         <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     </div>
                     <div class="col ${this.galleryColThumbs}">

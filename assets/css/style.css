@@ -1276,19 +1276,19 @@ section {
 
 .gallery-item .img-fluid {
   object-fit: cover;
-  height: 40vh;
+  height: 50vh;
 }
 
 .gallery-content .thumbs {
   object-position: left;
   object-fit: cover;
-  height: 80vh;
+  height: 90vh;
 }
 
-.comic .gallery-content .thumbs {
-  object-position: left;
+.gallery-content .comic-thumbs {
   object-fit: cover;
-  height: 50vh;
+  object-position: center;
+  height: 30vh;
 }
 
 
