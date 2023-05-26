@@ -261,7 +261,7 @@ const PageBase = class PageBase {
         var videoObject = '';
         if (playerInfo.scpType == Constants.videoScpType.video) {
             videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}').controls = true;"> 
-                                <video id="video_${playerInfo.id}" name='media' poster="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSedt9A-FPjUyXGpV6NCTlU22P2AW8-QfmMrrP7aTh-gWDVYluS144PdFVZkZ5qCwUlYUM&usqp=CAU">
+                                <video id="video_${playerInfo.id}" name='media' poster="https://www.keytechinc.com/wp-content/uploads/2022/01/video-thumbnail.jpg">
                                     <source src='${playerInfo.scpt}' type='video/mp4'>
                                 </video>
                             </div>`;
@@ -1024,26 +1024,30 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var detail = this._renderContentDetails();
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
+        var relationVideo = this._renderRelationVideo();
         return `<div class="row">
-                    <h1 class="h1 text-capitalize">${detailName}<hr /></h1>
+                    <h1 class="h1 px-2 text-capitalize">${detailName}</h1>
                 </div>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                    <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.playerInfo.name}</li>
-                    </ol>
-                </nav>
 
-                <section id="portfolio" class="portfolio section-bg">
-                    <div class="section-title">
-                        <h2 id="chapter-name">${this.playerInfo.name}</h2>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div id="content-detail-area" class="row portfolio-container">${detail}</div>
+
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                            </ol>
+                        </nav>
+                        
+                        <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     </div>
-
-                    <div id="content-detail-area" class="row portfolio-container">${detail}</div>
-                </section>`;
+                    <div class="col-md-3">
+                        ${relationVideo}
+                    </div>
+                </div>`;
     }
 
     _renderContentDetails() {
@@ -1051,5 +1055,25 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         return `<div class="col-12">
                     ${videoObject}
                 </div>`;
+    }
+
+    _renderRelationVideo() {
+        var html = '';
+        var _page = this;
+        this.players.forEach(item => {
+            if (item.id == _page.playerId) {
+                return;
+            }
+            html += `<div class="row pb-2">
+                        <div class="col-md-6">
+                            ${_page._renderVideoObject(item)}
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-capitaliz fs-6 ps-0 lh-sm truncate-overflow">${item.name}</p>
+                        </div>
+                    </div>`;
+        })
+
+        return html;
     }
 }
