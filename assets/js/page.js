@@ -1020,6 +1020,12 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         timelines = CommomFunction._groupBy(links, 'times');
         var timelineKey = Object.keys(timelines);
 
+        var gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_detail_video');
+        var sizeChange = '';
+        if (gridViewType && parseInt(gridViewType) > 1) {
+            sizeChange = '-md'
+        }
+
         timelineKey.forEach(line => {
             var htmlLine = '';
             timelines[line].forEach((item, index) => {
@@ -1030,9 +1036,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
                 var videoObject = this._renderVideoObject(item);
 
+
                 htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col${sizeChange}-4">
                                         ${videoObject}
                                     </div>
                                     <div class="col ps-lg-0">
