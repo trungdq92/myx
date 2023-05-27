@@ -92,6 +92,13 @@ const CommomFunction = class CommomFunction {
         return path[1].split('/')[0];
     }
 
+    static _groupBy(xs, key) {
+        return xs.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
+
 }
 
 const InitGalleryFuntion = class InitGalleryFuntion {

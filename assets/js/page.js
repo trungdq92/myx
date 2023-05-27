@@ -961,6 +961,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
     _renderContentDetails() {
         var area = '';
+        var timelines = [];
         var links = [];
         var _page = this;
         this.details.hashtags.forEach(item => {
@@ -970,21 +971,43 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
             });
         });
 
-        links.forEach((item, index) => {
-            var filters = '';
-            item.tags.sort().forEach(val => {
-                filters += val + '_filters ';
+        //timeline
+        timelines = CommomFunction._groupBy(links, 'times');
+        var timelineKey = Object.keys(timelines);
+
+        timelineKey.forEach(line => {
+            var htmlLine = `<div class="row"><div class="col"><h3 class="h3 text-start fs-5">${line}<hr/></h3></div></div>`;
+            timelines[line].forEach((item, index) => {
+                var filters = '';
+                item.tags.sort().forEach(val => {
+                    filters += val + '_filters ';
+                });
+
+                var videoObject = this._renderVideoObject(item);
+
+                htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
+                                <div class="row">
+                                    <div class="col-4">
+                                        ${videoObject}
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-0 pe-3">
+                                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                        </div>
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-0 pe-3 pt-2">
+                                            ${item.short}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>`;
             });
 
-            var videoObject = this._renderVideoObject(item);
-
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
-                        ${videoObject}
-                        <div class="h3 p-2 fs-6 text-wrap text-start text-capitalize">
-                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
-                        </div>
-                    </div>`;
+            area += `${htmlLine}`
         });
+
+
 
         return area;
     }
@@ -996,6 +1019,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.playerId = CommomFunction._getUrlParameter('vs');
         this.players = [];
         this.playerInfo = {};
+        this.thumbsLeftDisplay = '';
+        this.thumbsFooterDisplay = '';
         this._init();
     }
 
@@ -1060,11 +1085,32 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             </nav>
 
                             ${showCol}
+                            
                             <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
+                            <div class="row">
+                                <div class="col-12 fst-italic">
+                                    ${this.playerInfo.short}
+                                </div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-12 fw-bold">
+                                    ${this.playerInfo.hashs.join(" ")}
+                                </div>
+                            </div>
+                            <div class="row py-5">
+                                <div class="col-12">
+                                    ${this.playerInfo.contents.join(" ")}
+                                </div>
+                            </div>
+                            
                         </div>
-                        <div class="col ${this.galleryColThumbs}">
+                        <div class="col ${this.galleryColThumbs} ${this.thumbsLeftDisplay}">
                             <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
                             ${relationVideo}
+                        </div>
+                        <div class="col-12 ${this.thumbsFooterDisplay}">
+                            <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
+                            <div class="row">${this._renderFooterRelationVideo()}</div>
                         </div>
                     </div>
                 </div>`;
@@ -1089,7 +1135,28 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             ${_page._renderVideoObject(item)}
                         </div>
                         <div class="col ps-0">
-                            <div class="text-capitaliz fs-6lh-sm truncate-overflow">${item.name}</div>
+                            <div class="text-capitaliz fs-6 lh-sm truncate-overflow">${item.name}</div>
+                        </div>
+                    </div>`;
+        })
+
+        return html;
+    }
+    _renderFooterRelationVideo() {
+        var html = '';
+        var _page = this;
+        this.players.forEach(item => {
+            if (item.id == _page.playerId) {
+                return;
+            }
+            html += `<div class="col-4">
+                        <div class="row pb-4">
+                            <div class="col-5">
+                                ${_page._renderVideoObject(item)}
+                            </div>
+                            <div class="col ps-0">
+                                <div class="text-capitaliz fs-6 lh-sm truncate-overflow">${item.name}</div>
+                            </div>
                         </div>
                     </div>`;
         })
@@ -1099,20 +1166,22 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _renderGalleryShowColumn() {
         var viewType = localStorage.getItem(Constants.galleryCache.gridViewType);
-        var colShow = '';
-        var colThumbs = '';
+        var colShow = 'col-md-9';
+        var colThumbs = 'col-md-3';
+        this.thumbsLeftDisplay = '';
+        this.thumbsFooterDisplay = '';
         switch (viewType) {
             case '1':
                 colShow = 'col-md-12';
                 colThumbs = 'offset-md-9 col';
+                this.thumbsLeftDisplay = 'd-none';
+                this.thumbsFooterDisplay = '';
                 break;
             case '2':
                 colShow = 'col-md-9';
                 colThumbs = 'col-md-3';
-                break;
-            default:
-                colShow = 'col-md-9';
-                colThumbs = 'col-md-3';
+                this.thumbsLeftDisplay = '';
+                this.thumbsFooterDisplay = 'd-none';
                 break;
         }
 
