@@ -687,7 +687,7 @@ const DetailPage = class DetailPage extends PageBase {
                 filters += val + '_filters ';
             });
 
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters}" data-filter="${filters}">
+            area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
                     <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
                         <img src="${item.path}" class="img-fluid" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                     </a>
@@ -747,23 +747,23 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                 filters += val + '_filters ';
             });
 
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters}" data-filter="${filters}">
-                    <div class="portfolio-wrap">
-                        <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
-                        <div class="portfolio-info">
-                            <h4>${item.name}</h4>
-                            <p>${item.short}</p>
-                            <div class="portfolio-links">
-                                <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" title="">
-                                    <i class="bi bi-plus-lg"></i>
-                                </a>
-                                <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
-                                    <i class="bi bi-link-45deg"></i>
-                                </a>
+            area += `<div class="${_page.galleryShowCol} portfolio-item py-2 filter_name ${filters}" data-filter="${filters}">
+                        <div class="portfolio-wrap">
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
+                            <div class="portfolio-info">
+                                <h4>${item.name}</h4>
+                                <p>${item.short}</p>
+                                <div class="portfolio-links">
+                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" title="">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </a>
+                                    <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
+                                        <i class="bi bi-link-45deg"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
         });
 
         return area;
@@ -804,7 +804,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         var area = '';
         var _page = this;
         this.details.chapters.forEach((item, index) => {
-            area += `<div class="${_page.galleryShowCol} mb-3 portfolio-item">
+            area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                         </a>
@@ -1025,8 +1025,8 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         var timelineKey = Object.keys(timelines);
 
         var sizeChange = '';
-        var isMobile = CommomFunction._isMobile() ;
-        switch(this.gridViewType){
+        var isMobile = CommomFunction._isMobile();
+        switch (this.gridViewType) {
             case '1':
                 sizeChange = isMobile ? 'col-6' : 'col-4';
                 break;
@@ -1040,12 +1040,14 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
         timelineKey.forEach(line => {
             var htmlLine = '';
+            var linehash = '';
             timelines[line].forEach((item, index) => {
                 var filters = '';
                 item.tags.sort().forEach(val => {
                     filters += val + '_filters ';
                 });
 
+                linehash += ' ' + filters;
                 var videoObject = this._renderVideoObject(item);
 
 
@@ -1066,14 +1068,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                             </div>`;
             });
 
-            area += `<div class="row">
-                        <div class="col">
-                            <h3 class="h3 text-start fs-5 pb-0">${new Date(line).toDateString()}<hr/></h3>
-                        </div>
+            area += ` <div class="col-12 ${linehash}">
+                        <h3 class="h3 text-start fs-5 pb-0">${new Date(line).toDateString()}<hr/></h3>
                     </div>
-                    <div class="row mb-5">
-                        ${htmlLine}
-                    </div>
+                    ${htmlLine}
                     `;
         });
 
