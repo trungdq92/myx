@@ -305,6 +305,7 @@ const PageBase = class PageBase {
         }
         var videoObject = '';
         var poster = 'https://i.stack.imgur.com/s96ST.jpg';
+        poster = playerInfo.thumbs = '' ? poster : playerInfo.thumbs;
         if (playerInfo.scpType == Constants.videoScpType.video) {
             videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
                                 <video id="video_${playerInfo.id}_${subfix}" name='media' poster="${poster}">
@@ -1048,13 +1049,17 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 });
 
                 linehash += ' ' + filters;
-                var videoObject = this._renderVideoObject(item);
+                // var videoObject = this._renderVideoObject(item);
 
 
                 htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2" data-filter="${filters}">
                                 <div class="row">
                                     <div class="${sizeChange}">
-                                        ${videoObject}
+                                        <div class="video-wrapper">
+                                            <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                                <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'" loading="lazy"/>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="col pt-2">
                                         <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
@@ -1205,7 +1210,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 return;
             }
             html += `<div class="row pb-2">
-                        <div class="col-12">
+                        <div class="col-12 video-relation">
                             ${_page._renderVideoObject(item)}
                         </div>
                         <div class="col py-2">
@@ -1235,7 +1240,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             html += `
                     <div class="col-md-6">
                         <div class="row pb-4">
-                            <div class="col-5">
+                            <div class="col-5 video-relation">
                                 ${_page._renderVideoObject(item, 'footer')}
                             </div>
                             <div class="col ps-0">

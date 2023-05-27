@@ -1264,6 +1264,10 @@ section {
   height: 40vw;
 }
 
+.thumbs-cover-video {
+  height: calc(var(--aspect-ratio, .5625) * 100%);
+}
+
 .portfolio-lightbox img {
   width: 100%;
 }
@@ -1287,6 +1291,11 @@ section {
   object-fit: cover;
   object-position: center;
   height: 30vh;
+}
+
+.video-relation video {
+  object-fit: cover;
+  object-position: center;
 }
 
 
@@ -1411,7 +1420,8 @@ section {
 }
 
 .video-wrapper iframe,
-.video-wrapper video {
+.video-wrapper video,
+.video-wrapper img {
   position: absolute;
   top: 0;
   left: 0;
@@ -1420,6 +1430,7 @@ section {
 }
 
 .video-wrapper {
+  /* --aspect-ratio: 1/1; */
   position: relative;
   padding-bottom: calc(var(--aspect-ratio, .5625) * 100%);
   height: auto;
