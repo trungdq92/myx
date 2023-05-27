@@ -533,7 +533,7 @@ const ContentPage = class ContentPage extends PageBase {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
             area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid thumbs" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                            <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                             <div class="portfolio-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.short}</p>
@@ -690,7 +690,7 @@ const DetailPage = class DetailPage extends PageBase {
 
             area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
                     <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                        <img src="${item.path}" class="img-fluid" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                        <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                     </a>
                 </div>`;
         });
@@ -750,7 +750,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
             area += `<div class="${_page.galleryShowCol} portfolio-item py-2 filter_name ${filters}" data-filter="${filters}">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
                             <div class="portfolio-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.short}</p>
@@ -807,7 +807,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         this.details.chapters.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                         </a>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}">
                             <h5 class="text-center fw-bold my-3">${item.name}<h5>
@@ -1172,10 +1172,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
                 <div class="container ${this.thumbsFooterDisplay}">
                     ${detailInfo}
-                    <div class="row">
-                        ${this._renderFooterRelationVideo()}
-                        
-                    </div>
+                    ${this._renderFooterRelationVideo()}
                 </div>`;
     }
 
@@ -1205,18 +1202,20 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     _renderRelationVideo() {
         var html = '';
         var _page = this;
+        var isMobile = CommomFunction._isMobile();
         this.players.forEach(item => {
             if (item.id == _page.playerId) {
                 return;
             }
-            html += `<div class="row pb-2">
-                        <div class="col-12 video-relation">
+            html += `<div class="row pb-3">
+                        <div class="${isMobile ? 'col-6' : 'col-12'} video-relation">
                             ${_page._renderVideoObject(item)}
                         </div>
                         <div class="col py-2">
                             <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
-                                <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                             </div>
+                            <div class="text-muted fs-6 lh-sm truncate-overflow ${isMobile ? '' : 'd-none'}">${item.short}</div>
                         </div>
                     </div>`;
         })
@@ -1239,14 +1238,17 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             }
             html += `
                     <div class="col-md-6">
-                        <div class="row pb-4">
-                            <div class="col-5 video-relation">
+                        <div class="row pb-3">
+                            <div class="col-6 video-relation">
                                 ${_page._renderVideoObject(item, 'footer')}
                             </div>
                             <div class="col ps-0">
                                 <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
-                                    <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                    <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">
+                                        ${item.name}
+                                    </a>
                                 </div>
+                                <div class="text-muted fs-6 lh-sm truncate-overflow">${item.short}</div>
                             </div>
                         </div>
                     </div>`;
