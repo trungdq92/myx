@@ -303,7 +303,7 @@ const PageBase = class PageBase {
         var videoObject = '';
         if (playerInfo.scpType == Constants.videoScpType.video) {
             videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}').controls = true;"> 
-                                <video id="video_${playerInfo.id}" name='media' poster="https://www.keytechinc.com/wp-content/uploads/2022/01/video-thumbnail.jpg">
+                                <video id="video_${playerInfo.id}" name='media' poster="https://i.stack.imgur.com/s96ST.jpg">
                                     <source src='${playerInfo.scpt}' type='video/mp4'>
                                 </video>
                             </div>`;
@@ -995,6 +995,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
     }
     async _init() {
         this.gridColShow = 'd-none';
+        this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_detail_video');
         await super._init();
     }
 
@@ -1020,11 +1021,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         timelines = CommomFunction._groupBy(links, 'times');
         var timelineKey = Object.keys(timelines);
 
-        var gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_detail_video');
-        var sizeChange = '';
-        if (gridViewType && parseInt(gridViewType) > 1) {
-            sizeChange = '-md'
-        }
+        var sizeChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? '-md' : '';
 
         timelineKey.forEach(line => {
             var htmlLine = '';
@@ -1065,8 +1062,6 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                     `;
         });
 
-
-
         return area;
     }
 }
@@ -1079,6 +1074,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.playerInfo = {};
         this.thumbsLeftDisplay = '';
         this.thumbsFooterDisplay = '';
+        this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
         this._init();
     }
 
@@ -1119,54 +1115,49 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _renderContent() {
         super._renderContent();
-        var detail = this._renderContentDetails();
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
-        var relationVideo = this._renderRelationVideo();
-        var showCol = this._renderGalleryShowColumn();
+        var detailInfo = this._renderContentDetails();
+        var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : '';
+
         return `<div class="container">
                     <div class="row">
-                        <h1 class="h1 px-2 text-capitalize">${detailName}</h1>
+                        <h1 class="h1 px-2 text-capitalize pb-0">${detailName}<hr/></h1>
                     </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                        </ol>
+                    </nav>
+                </div>
 
+                <div class="${sizeContainerChange}">
                     <div class="row">
                         <div class="${this.galleryShowCol}">
-                            <div id="content-detail-area" class="row portfolio-container">${detail}</div>
-                        
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                                </ol>
-                            </nav>
-
-                            ${showCol}
-                            
-                            <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
-                            <div class="row">
-                                <div class="col-12 fst-italic">
-                                    ${this.playerInfo.short}
-                                </div>
-                            </div>
-                            <div class="row py-2">
-                                <div class="col-12 fw-bold">
-                                    ${this.playerInfo.hashs.join(" ")}
-                                </div>
-                            </div>
-                            <div class="row py-5">
+                            <div class="row portfolio-container">
                                 <div class="col-12">
-                                    ${this.playerInfo.contents.join(" ")}
+                                    ${this._renderVideoObject(this.playerInfo)}
                                 </div>
+                                ${this._renderGalleryShowColumn()}
                             </div>
+                            <div class="${this.thumbsLeftDisplay}">${detailInfo}</div>
                             
                         </div>
+
                         <div class="col ${this.galleryColThumbs} ${this.thumbsLeftDisplay}">
                             <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
-                            ${relationVideo}
+                            ${this._renderRelationVideo()}
                         </div>
-                        <div class="col-12 ${this.thumbsFooterDisplay}">
+                    </div>
+                </div>
+
+                <div class="container ${this.thumbsFooterDisplay}">
+                    ${detailInfo}
+                    <div class="row">
+                        <div class="col-12">
                             <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
                             <div class="row">${this._renderFooterRelationVideo()}</div>
                         </div>
@@ -1175,9 +1166,23 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderContentDetails() {
-        var videoObject = this._renderVideoObject(this.playerInfo);
-        return `<div class="col-12">
-                    ${videoObject}
+        return `<div class="row">
+                    <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
+                    <div class="row">
+                        <div class="col-12 fst-italic">
+                            ${this.playerInfo.short}
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-12 fw-bold">
+                            ${this.playerInfo.hashs.join(" ")}
+                        </div>
+                    </div>
+                    <div class="row py-5">
+                        <div class="col-12">
+                            ${this.playerInfo.contents.join(" ")}
+                        </div>
+                    </div>
                 </div>`;
     }
 
