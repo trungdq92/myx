@@ -42,6 +42,44 @@ const Page = class Page {
                 break;
         }
     }
+
+    static _getPage() {
+        var lvl = location.pathname.split('/').length;
+        var groupId = CommomFunction._getGroupIdFromPath();
+        var page = '';
+        switch (lvl) {
+            case 7:
+                // content
+                if (groupId == Constants.galleryType.comic) {
+                    page = '_content_comic'
+                } else if (groupId == Constants.galleryType.video) {
+                    page = '_content_video'
+                } else {
+                    page = '_content'
+                }
+                break;
+            case 9:
+                // detail
+                if (groupId == Constants.galleryType.comic) {
+                    page = '_detail_comic'
+                } else if (groupId == Constants.galleryType.video) {
+                    page = '_detail_video'
+                } else {
+                    page = '_detail'
+                }
+                break;
+            case 10:
+                // chapter
+                if (groupId == Constants.galleryType.comic) {
+                    page = '_chapter_comic'
+                } else if (groupId == Constants.galleryType.video) {
+                    page = '_player_video'
+                }
+                break;
+        }
+
+        return page;
+    }
 }
 
 const PageBase = class PageBase {
@@ -68,6 +106,8 @@ const PageBase = class PageBase {
         this.galleryShowCol = '';
         this.galleryColThumbs = '';
         this.galleryDisplayColHtml = '';
+        this.gridViewType = '';
+        this.gridColShow = '';
 
         this.filters = '';
         this.glightBox = {};
@@ -212,8 +252,8 @@ const PageBase = class PageBase {
     }
 
     _renderGalleryShowColumn() {
-        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType);
-
+        var pageNane = Page._getPage();
+        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + pageNane);
         var colShow = '';
         var colThumbs = '';
         switch (viewType) {
@@ -230,11 +270,11 @@ const PageBase = class PageBase {
                 colThumbs = 'thumbs-cover-height-3';
                 break;
             case '4':
-                colShow = 'col-3';
+                colShow = 'col-md-3';
                 colThumbs = 'thumbs-cover-height-4';
                 break;
             case '6':
-                colShow = 'col-2';
+                colShow = 'col-md-2';
                 colThumbs = 'thumbs-cover-height-6';
                 break;
             default:
@@ -245,14 +285,15 @@ const PageBase = class PageBase {
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
 
+        var isMobileShow = CommomFunction._isMobile() ? 'd-none' : '';
         return ` <div class="row justify-content-center chapter-grid-view-style">
                     <div class="col-lg-12 text-end">
                         <div class="my-3 fs-4">
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1);" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2);" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(3);" class="p-2 mx-1 grid-style" data-type="3"><i class="bi bi-grid-3x3-gap navbar-toggler"></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(4);" class="p-2 mx-1 grid-style" data-type="4"><i class="bi bi-grid-3x3 navbar-toggler"></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(6);" class="p-2 mx-1 grid-style" data-type="6"><i class="bi bi-bricks navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(3,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="3"><i class="bi bi-grid-3x3-gap navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(4,'${pageNane}');" class="p-2 mx-1 grid-style ${isMobileShow} ${this.gridColShow}" data-type="4"><i class="bi bi-grid-3x3 navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(6,'${pageNane}');" class="p-2 mx-1 grid-style ${isMobileShow} ${this.gridColShow}" data-type="6"><i class="bi bi-bricks navbar-toggler"></i></a>
                         </div>
                     </div>
                 </div>`;
@@ -952,6 +993,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
     constructor() {
         super();
     }
+    async _init() {
+        this.gridColShow = 'd-none';
+        await super._init();
+    }
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
@@ -976,7 +1021,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         var timelineKey = Object.keys(timelines);
 
         timelineKey.forEach(line => {
-            var htmlLine = `<div class="row"><div class="col"><h3 class="h3 text-start fs-5">${line}<hr/></h3></div></div>`;
+            var htmlLine = '';
             timelines[line].forEach((item, index) => {
                 var filters = '';
                 item.tags.sort().forEach(val => {
@@ -987,24 +1032,30 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
                 htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-md-4">
                                         ${videoObject}
                                     </div>
-                                    <div class="col">
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-0 pe-3">
-                                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                    <div class="col ps-lg-0">
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-2 ps-lg-0">
+                                            <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                                         </div>
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-0 pe-3 pt-2">
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-2 pt-2 ps-lg-0">
                                             ${item.short}
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
                             </div>`;
             });
 
-            area += `${htmlLine}`
+            area += `<div class="row">
+                        <div class="col">
+                            <h3 class="h3 text-start fs-5 pb-0">${line}<hr/></h3>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        ${htmlLine}
+                    </div>
+                    `;
         });
 
 
@@ -1135,7 +1186,9 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             ${_page._renderVideoObject(item)}
                         </div>
                         <div class="col ps-0">
-                            <div class="text-capitaliz fs-6 lh-sm truncate-overflow">${item.name}</div>
+                            <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
+                                <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                            </div>
                         </div>
                     </div>`;
         })
@@ -1149,13 +1202,15 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (item.id == _page.playerId) {
                 return;
             }
-            html += `<div class="col-4">
+            html += `<div class="col-md-4">
                         <div class="row pb-4">
                             <div class="col-5">
                                 ${_page._renderVideoObject(item)}
                             </div>
                             <div class="col ps-0">
-                                <div class="text-capitaliz fs-6 lh-sm truncate-overflow">${item.name}</div>
+                                <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
+                                    <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                </div>
                             </div>
                         </div>
                     </div>`;
@@ -1165,11 +1220,11 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderGalleryShowColumn() {
-        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType);
+        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
         var colShow = 'col-md-9';
         var colThumbs = 'col-md-3';
         this.thumbsLeftDisplay = '';
-        this.thumbsFooterDisplay = '';
+        this.thumbsFooterDisplay = 'd-none';
         switch (viewType) {
             case '1':
                 colShow = 'col-md-12';
@@ -1191,8 +1246,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         return ` <div class="row justify-content-center chapter-grid-view-style">
                     <div class="col-lg-12 text-end">
                         <div class="my-3 fs-4">
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1);" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2);" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'_player_video');" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
                         </div>
                     </div>
                 </div>`;

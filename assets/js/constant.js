@@ -114,8 +114,8 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     }
 
     static _initIsotope(clazzContainer, clazzItem) {
-        if (CommomFunction._isMobile())
-            return false;
+        // if (CommomFunction._isMobile())
+        //     return false;
 
         if (typeof (Isotope) === 'undefined') {
             console.log('Isotope undefined');
@@ -195,7 +195,6 @@ const DomEventFuntion = class DomEventFuntion {
 
     static _backToTop() {
         let backtotop = document.getElementById('back-to-top');
-        console.log(backtotop)
         if (backtotop) {
             const toggleBacktotop = () => {
                 if (window.scrollY > 100) {
@@ -209,8 +208,8 @@ const DomEventFuntion = class DomEventFuntion {
         }
     }
 
-    static _changeViewPageStyle(type) {
-        localStorage.setItem(Constants.galleryCache.gridViewType, type);
+    static _changeViewPageStyle(type, page) {
+        localStorage.setItem(Constants.galleryCache.gridViewType + page, type);
         location.reload();
     }
 
