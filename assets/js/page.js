@@ -155,7 +155,7 @@ const PageBase = class PageBase {
         var sideMenu = this._renderSideMenu();
         var leftMenu = this._renderLeftMenu();
 
-        var html = `<div class="container-fluid">
+        var html = `<div class="container-fluid__">
                         <div id="side-menu-area">${sideMenu}</div>
                         <div id="left-menu-area">${leftMenu}</div>
                         <div class="content" id="group-content-area">${content}</div>
@@ -299,11 +299,15 @@ const PageBase = class PageBase {
                 </div>`;
     }
 
-    _renderVideoObject(playerInfo) {
+    _renderVideoObject(playerInfo, subfix) {
+        if (!subfix) {
+            subfix = '';
+        }
         var videoObject = '';
+        var poster = 'https://i.stack.imgur.com/s96ST.jpg';
         if (playerInfo.scpType == Constants.videoScpType.video) {
-            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}').controls = true;"> 
-                                <video id="video_${playerInfo.id}" name='media' poster="https://i.stack.imgur.com/s96ST.jpg">
+            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
+                                <video id="video_${playerInfo.id}_${subfix}" name='media' poster="${poster}">
                                     <source src='${playerInfo.scpt}' type='video/mp4'>
                                 </video>
                             </div>`;
@@ -978,7 +982,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
             }
         });
 
-
         return `<a class="${clssPrev}" href="?c=${this.groupId}&d=${this.detailId}&ch=${prevChap}">
                         <i class="bi bi-arrow-left-short"></i>
                     </a>
@@ -1021,7 +1024,19 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         timelines = CommomFunction._groupBy(links, 'times');
         var timelineKey = Object.keys(timelines);
 
-        var sizeChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? '-md' : '';
+        var sizeChange = '';
+        var isMobile = CommomFunction._isMobile() ;
+        switch(this.gridViewType){
+            case '1':
+                sizeChange = isMobile ? 'col-6' : 'col-4';
+                break;
+            case '2':
+                sizeChange = 'col-md-6';
+                break;
+            case '3':
+                sizeChange = 'col-md-12';
+                break;
+        }
 
         timelineKey.forEach(line => {
             var htmlLine = '';
@@ -1034,16 +1049,16 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var videoObject = this._renderVideoObject(item);
 
 
-                htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos" data-filter="${filters}">
+                htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2" data-filter="${filters}">
                                 <div class="row">
-                                    <div class="col${sizeChange}-4">
+                                    <div class="${sizeChange}">
                                         ${videoObject}
                                     </div>
-                                    <div class="col ps-lg-0">
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-2 ps-lg-0">
-                                            <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                    <div class="col pt-2">
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
+                                            <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                                         </div>
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow ps-2 pt-2 ps-lg-0">
+                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow pt-2 text-muted">
                                             ${item.short}
                                         </div>
                                     </div>
@@ -1053,7 +1068,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
             area += `<div class="row">
                         <div class="col">
-                            <h3 class="h3 text-start fs-5 pb-0">${line}<hr/></h3>
+                            <h3 class="h3 text-start fs-5 pb-0">${new Date(line).toDateString()}<hr/></h3>
                         </div>
                     </div>
                     <div class="row mb-5">
@@ -1133,7 +1148,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                         </ol>
                     </nav>
                 </div>
-
+                
                 <div class="${sizeContainerChange}">
                     <div class="row">
                         <div class="${this.galleryShowCol}">
@@ -1141,14 +1156,12 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                 <div class="col-12">
                                     ${this._renderVideoObject(this.playerInfo)}
                                 </div>
-                                ${this._renderGalleryShowColumn()}
                             </div>
-                            <div class="${this.thumbsLeftDisplay}">${detailInfo}</div>
                             
+                            <div class="${this.thumbsLeftDisplay}">${detailInfo}</div>
                         </div>
 
                         <div class="col ${this.galleryColThumbs} ${this.thumbsLeftDisplay}">
-                            <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
                             ${this._renderRelationVideo()}
                         </div>
                     </div>
@@ -1157,16 +1170,16 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 <div class="container ${this.thumbsFooterDisplay}">
                     ${detailInfo}
                     <div class="row">
-                        <div class="col-12">
-                            <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
-                            <div class="row">${this._renderFooterRelationVideo()}</div>
-                        </div>
+                        ${this._renderFooterRelationVideo()}
+                        
                     </div>
                 </div>`;
     }
 
     _renderContentDetails() {
-        return `<div class="row">
+        return `
+                ${this._renderGalleryShowColumn()}
+                <div class="row">
                     <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     <div class="row">
                         <div class="col-12 fst-italic">
@@ -1194,10 +1207,10 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 return;
             }
             html += `<div class="row pb-2">
-                        <div class="col-5">
+                        <div class="col-12">
                             ${_page._renderVideoObject(item)}
                         </div>
-                        <div class="col ps-0">
+                        <div class="col py-2">
                             <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
                                 <a class="text-muted" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                             </div>
@@ -1205,8 +1218,15 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                     </div>`;
         })
 
-        return html;
+        return `<div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 fs-3 py-0">Relations<hr/></h3>
+                    </div>
+                </div>
+                ${html}
+                `;
     }
+
     _renderFooterRelationVideo() {
         var html = '';
         var _page = this;
@@ -1214,10 +1234,11 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (item.id == _page.playerId) {
                 return;
             }
-            html += `<div class="col-md-4">
+            html += `
+                    <div class="col-md-6">
                         <div class="row pb-4">
                             <div class="col-5">
-                                ${_page._renderVideoObject(item)}
+                                ${_page._renderVideoObject(item, 'footer')}
                             </div>
                             <div class="col ps-0">
                                 <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
@@ -1228,38 +1249,38 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                     </div>`;
         })
 
-        return html;
+        return `<div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3 fs-3 py-0">Relations<hr/></h3>
+                    </div>
+                </div>
+                <div class="row">${html}</div>`;
     }
 
     _renderGalleryShowColumn() {
         var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
-        var colShow = 'col-md-9';
-        var colThumbs = 'col-md-3';
+        var colShow = 'col-md-10';
+        var colThumbs = 'col';
         this.thumbsLeftDisplay = '';
         this.thumbsFooterDisplay = 'd-none';
         switch (viewType) {
             case '1':
                 colShow = 'col-md-12';
-                colThumbs = 'offset-md-9 col';
                 this.thumbsLeftDisplay = 'd-none';
                 this.thumbsFooterDisplay = '';
-                break;
-            case '2':
-                colShow = 'col-md-9';
-                colThumbs = 'col-md-3';
-                this.thumbsLeftDisplay = '';
-                this.thumbsFooterDisplay = 'd-none';
                 break;
         }
 
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
 
-        return ` <div class="row justify-content-center chapter-grid-view-style">
-                    <div class="col-lg-12 text-end">
-                        <div class="my-3 fs-4">
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'_player_video');" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
+        return ` <div class="col-12">
+                    <div class="row justify-content-center chapter-grid-view-style">
+                        <div class="col-lg-12 text-end">
+                            <div class="my-1 fs-4">
+                                <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 2 ? 'd-none' : ''}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
+                                <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? 'd-none' : ''}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>`;
