@@ -213,6 +213,7 @@ const PageBase = class PageBase {
 
     _renderGalleryShowColumn() {
         var viewType = localStorage.getItem(Constants.galleryCache.gridViewType);
+
         var colShow = '';
         var colThumbs = '';
         switch (viewType) {
@@ -405,7 +406,6 @@ const ContentPage = class ContentPage extends PageBase {
         this.groups = {};
         this.contents = {};
         this.contentInfo = {};
-
         this._init();
     }
 
@@ -464,20 +464,20 @@ const ContentPage = class ContentPage extends PageBase {
                             </div>
                         </div>
                     </section>
-                </div>
-
-                <section id="portfolio" class="portfolio section-bg gallery-content">
-                    <div class="section-title">
-                        <h2> Gallery </h2>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
+                
+                    <section id="portfolio" class="portfolio section-bg gallery-content">
+                        <div class="section-title">
+                            <h2> Gallery </h2>
                         </div>
-                    </div>
-                    ${this._renderGalleryShowColumn()}
-                    <div id="content-detail-area" class="portfolio-container row list">${detail}</div>
-                </section>`;
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
+                            </div>
+                        </div>
+                        ${this._renderGalleryShowColumn()}
+                        <div id="content-detail-area" class="portfolio-container row list">${detail}</div>
+                    </section>
+                </div>`;
     }
 
     _renderContentDetails() {
@@ -597,20 +597,21 @@ const DetailPage = class DetailPage extends PageBase {
                             </div>
                         </div>
                     </section>
-                </div>
 
-                <section id="portfolio" class="portfolio section-bg">
-                    <div class="section-title">
-                        <h2>Gallery</h2>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-12">
-                            <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
+                    <section id="portfolio" class="portfolio section-bg">
+                        <div class="section-title">
+                            <h2>Gallery</h2>
                         </div>
-                    </div>
-                    ${this.galleryDisplayColHtml}
-                    <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
-                </section>`;
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
+                            </div>
+                        </div>
+                        ${this.galleryDisplayColHtml}
+                        <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                    </section>
+                
+                </div>`;
     }
 
     _renderContentDetails() {
@@ -863,27 +864,28 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                             </ol>
                         </nav>
                     </div>
-                </div>
+                    
 
-                <section id="portfolio" class="portfolio section-bg">
-                    <div class="section-title">
-                        <h2 id="chapter-name">${chapterName}</h2>
-                        <div class="row justify-content-center">
-                            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuChapters">
-                                <i class="bi bi-list-task navbar-toggler"></i>
-                            </button>
-                        <div>
-                       ${this.galleryDisplayColHtml}
-                    </div>
+                    <section id="portfolio" class="portfolio section-bg">
+                        <div class="section-title">
+                            <h2 id="chapter-name">${chapterName}</h2>
+                            <div class="row justify-content-center">
+                                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuChapters">
+                                    <i class="bi bi-list-task navbar-toggler"></i>
+                                </button>
+                            <div>
+                        ${this.galleryDisplayColHtml}
+                        </div>
 
-                    <div id="content-detail-area" class="row portfolio-container comic">${detail}</div>
-                </section>
+                        <div id="content-detail-area" class="row portfolio-container comic">${detail}</div>
+                    </section>
 
-                <section>
-                    <div class="section-title">
-                        <h2 id="chapter-name-footer">${chapterName}</h2>
-                    </div>
-                </section>`;
+                    <section>
+                        <div class="section-title">
+                            <h2 id="chapter-name-footer">${chapterName}</h2>
+                        </div>
+                    </section>
+                </div>`;
     }
 
     _renderContentDetails() {
@@ -1039,29 +1041,31 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var contentName = this.contentInfo.name;
         var relationVideo = this._renderRelationVideo();
         var showCol = this._renderGalleryShowColumn();
-        return `<div class="row">
-                    <h1 class="h1 px-2 text-capitalize">${detailName}</h1>
-                </div>
-
-                <div class="row">
-                    <div class="${this.galleryShowCol}">
-                        <div id="content-detail-area" class="row portfolio-container">${detail}</div>
-                       
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                                <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                            </ol>
-                        </nav>
-
-                         ${showCol}
-                        <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
+        return `<div class="container">
+                    <div class="row">
+                        <h1 class="h1 px-2 text-capitalize">${detailName}</h1>
                     </div>
-                    <div class="col ${this.galleryColThumbs}">
-                        <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
-                        ${relationVideo}
+
+                    <div class="row">
+                        <div class="${this.galleryShowCol}">
+                            <div id="content-detail-area" class="row portfolio-container">${detail}</div>
+                        
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                                </ol>
+                            </nav>
+
+                            ${showCol}
+                            <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
+                        </div>
+                        <div class="col ${this.galleryColThumbs}">
+                            <div class="row"><div class="col-md-12"><h3 class="h3 py-0">Relations<hr/></h3></div></div>
+                            ${relationVideo}
+                        </div>
                     </div>
                 </div>`;
     }
