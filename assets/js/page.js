@@ -475,6 +475,7 @@ const ContentPage = class ContentPage extends PageBase {
                             <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
                         </div>
                     </div>
+                    ${this._renderGalleryShowColumn()}
                     <div id="content-detail-area" class="portfolio-container row list">${detail}</div>
                 </section>`;
     }
@@ -484,7 +485,7 @@ const ContentPage = class ContentPage extends PageBase {
         var _page = this;
         this.contents.children.forEach(item => {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
-            area += `<div class="col-lg-3 portfolio-item">
+            area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid thumbs" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
                             <div class="portfolio-info">
@@ -700,9 +701,9 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                 filters += val + '_filters ';
             });
 
-            area += `<div class="col-lg-2 col-6 p-3 portfolio-item filter_name ${filters}" data-filter="${filters}">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters}" data-filter="${filters}">
                     <div class="portfolio-wrap">
-                        <img src="${item.thumbs}" class="img-fluid comic-thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
+                        <img src="${item.thumbs}" class="img-fluid img-thumbnail thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
                         <div class="portfolio-info">
                             <h4>${item.name}</h4>
                             <p>${item.short}</p>
