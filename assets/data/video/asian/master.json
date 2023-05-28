@@ -34,6 +34,17 @@
                 "Thailand is a Southeast Asian country. It's known for tropical beaches, opulent royal palaces, ancient ruins and ornate temples displaying figures of Buddha. In Bangkok, the capital, an ultramodern cityscape rises next to quiet canalside communities and the iconic temples of Wat Arun, Wat Pho and the Emerald Buddha Temple (Wat Phra Kaew). Nearby beach resorts include bustling Pattaya and fashionable Hua Hin",
                 ""
             ]
+        },
+        {
+            "id": "thai",
+            "name": "thai",
+            "short": "thai",
+            "datetime": "2022-02-02",
+            "thumbs": "https://static.vecteezy.com/system/resources/previews/000/660/837/original/thailand-travel-landscape-vector.jpg",
+            "contents": [
+                "Thailand is a Southeast Asian country. It's known for tropical beaches, opulent royal palaces, ancient ruins and ornate temples displaying figures of Buddha. In Bangkok, the capital, an ultramodern cityscape rises next to quiet canalside communities and the iconic temples of Wat Arun, Wat Pho and the Emerald Buddha Temple (Wat Phra Kaew). Nearby beach resorts include bustling Pattaya and fashionable Hua Hin",
+                ""
+            ]
         }
     ]
 }
