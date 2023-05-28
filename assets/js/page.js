@@ -312,6 +312,10 @@ const PageBase = class PageBase {
                                     <source src='${playerInfo.scpt}' type='video/mp4'>
                                 </video>
                             </div>`;
+        }else{
+            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
+                                <iframe width="640" height="360" frameborder="0" src="https://mega.nz/embed/cvIBxSLR#JhqTwpCHvoD4r9ZFs8MceKEj4wjHcyJBqv3XOv-P7oQ" allowfullscreen ></iframe>
+                            </div>`;
         }
 
         return videoObject;
@@ -1093,6 +1097,9 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.thumbsLeftDisplay = '';
         this.thumbsFooterDisplay = '';
         this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
+        if (!this.gridViewType) {
+            this.gridViewType = '2';
+        }
         this._init();
     }
 
@@ -1136,6 +1143,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
+        
         var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : '';
 
         return `<div class="container">
@@ -1263,7 +1271,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderGalleryShowColumn() {
-        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
+        var viewType = this.gridViewType;
         var colShow = 'col-md-10';
         var colThumbs = 'col';
         this.thumbsLeftDisplay = '';
@@ -1275,7 +1283,6 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 this.thumbsFooterDisplay = '';
                 break;
         }
-
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
 

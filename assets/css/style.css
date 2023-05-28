@@ -1434,7 +1434,8 @@ section {
   position: relative;
   padding-bottom: calc(var(--aspect-ratio, .5625) * 100%);
   height: auto;
-  background-color: #272829;
+  /* background-color: #272829; */
+  background-color: transparent;
 }
 
 .truncate-overflow {
