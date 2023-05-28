@@ -146,7 +146,7 @@ const InitGalleryFuntion = class InitGalleryFuntion {
 
         if (!options) options = [];
         var elem = document.getElementsByClassName('list');
-        if (elem.length < 1 || elem[0].innerText == '')
+        if (elem.length < 1 || elem[0].innerHTML == '')
             return false;
 
         return new List(id, options);
