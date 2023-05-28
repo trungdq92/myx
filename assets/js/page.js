@@ -304,8 +304,8 @@ const PageBase = class PageBase {
             subfix = '';
         }
         var videoObject = '';
-        var poster = 'https://i.stack.imgur.com/s96ST.jpg';
-        poster = playerInfo.thumbs = '' ? poster : playerInfo.thumbs;
+        var poster = `${this.rootUrl}/assets/img/default-video.png`;
+        // poster = playerInfo.thumbs = '' ? poster : playerInfo.thumbs;
         if (playerInfo.scpType == Constants.videoScpType.video) {
             videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
                                 <video id="video_${playerInfo.id}_${subfix}" name='media' poster="${poster}">
@@ -506,7 +506,7 @@ const ContentPage = class ContentPage extends PageBase {
                     <section id="about" class="about">
                         <div class="section-title">
                             <h2>About</h2>
-                            <p class="fst-italic" id="content-short">${short}</p>
+                            <p class="fst-italic" id="content-short"></p>
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -537,7 +537,7 @@ const ContentPage = class ContentPage extends PageBase {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
             area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                            <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                             <div class="portfolio-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.short}</p>
@@ -694,7 +694,7 @@ const DetailPage = class DetailPage extends PageBase {
 
             area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
                     <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                        <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                        <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                     </a>
                 </div>`;
         });
@@ -754,7 +754,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
             area += `<div class="${_page.galleryShowCol} portfolio-item py-2 filter_name ${filters}" data-filter="${filters}">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'">
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
                                 <h4>${item.name}</h4>
                                 <p>${item.short}</p>
@@ -811,7 +811,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         this.details.chapters.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/error.png'"/>
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                         </a>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}">
                             <h5 class="text-center fw-bold my-3">${item.name}<h5>
@@ -952,7 +952,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         imgs.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name">
                         <a href="${item}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                            <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'" loading="lazy"/>
+                            <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                         </a>
                     </div>`;
         });
@@ -1061,7 +1061,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                     <div class="${sizeChange}">
                                         <div class="video-wrapper">
                                             <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
-                                                <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/error.png'" loading="lazy"/>
+                                                <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                             </a>
                                         </div>
                                     </div>

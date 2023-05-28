@@ -1307,7 +1307,7 @@ section {
   .thumbs-cover-height-4,
   .thumbs-cover-height-6 {
     object-fit: cover;
-    height: 20vh;
+    height: 30vh;
   }
 
   .h1 {
@@ -1316,12 +1316,12 @@ section {
 
   .gallery-content .thumbs {
     object-position: center;
-    height: 20vh;
+    height: 30vh;
   }
 
   .comic .gallery-content .thumbs {
     object-position: center;
-    height: 20vh;
+    height: 30vh;
   }
 }
 
