@@ -306,17 +306,22 @@ const PageBase = class PageBase {
         var videoObject = '';
         var poster = `${this.rootUrl}/assets/img/default-video.png`;
         // poster = playerInfo.thumbs = '' ? poster : playerInfo.thumbs;
-        if (playerInfo.scpType == Constants.videoScpType.video) {
-            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
-                                <video id="video_${playerInfo.id}_${subfix}" name='media' poster="${poster}">
-                                    <source src='${playerInfo.scpt}' type='video/mp4'>
-                                </video>
-                            </div>`;
-        }else{
-            videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
-                                <iframe width="640" height="360" frameborder="0" src="https://mega.nz/embed/cvIBxSLR#JhqTwpCHvoD4r9ZFs8MceKEj4wjHcyJBqv3XOv-P7oQ" allowfullscreen ></iframe>
-                            </div>`;
+
+        var video = ''
+        switch (playerInfo.scpType) {
+            case Constants.videoScpType.video:
+                video = `<video id="video_${playerInfo.id}_${subfix}" name='media' poster="${poster}">
+                            <source src='${playerInfo.scpt}' type='video/mp4'>
+                        </video>`;
+                break;
+            case Constants.videoScpType.iframe:
+                video = `<iframe frameborder="0" src="${playerInfo.scpt}" allowfullscreen ></iframe>`
+                break;
         }
+
+        videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
+                        ${video}
+                    </div>`;
 
         return videoObject;
     }
@@ -1147,7 +1152,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
-        
+
         var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : '';
 
         return `<div class="container">
@@ -1221,7 +1226,11 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             }
             html += `<div class="row pb-3">
                         <div class="${isMobile ? 'col-6' : 'col-12'} video-relation">
-                            ${_page._renderVideoObject(item)}
+                            <div class="video-wrapper">
+                                <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                    <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                </a>
+                            </div>
                         </div>
                         <div class="col py-2">
                             <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
@@ -1252,7 +1261,11 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                     <div class="col-md-6">
                         <div class="row pb-3">
                             <div class="col-6 video-relation">
-                                ${_page._renderVideoObject(item, 'footer')}
+                                <div class="video-wrapper">
+                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                    </a>
+                                </div>
                             </div>
                             <div class="col ps-0">
                                 <div class="text-capitaliz fs-6 lh-sm truncate-overflow">

@@ -5,7 +5,8 @@ const Constants = class Constants {
     static pageContentDetail = 'detail'
     static IsotopeLoading = false;
     static videoScpType = {
-        video: 'video'
+        video: 'video',
+        iframe: 'iframe'
     };
     static galleryType = {
         comic: 'comic',
