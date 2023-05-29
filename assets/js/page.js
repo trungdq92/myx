@@ -542,10 +542,10 @@ const ContentPage = class ContentPage extends PageBase {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
             area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <div class="portfolio-wrap">
-                            <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                            <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                             <div class="portfolio-info">
                                 <h4>
-                                    <a href="${url}" class="text-muted">
+                                    <a href="${url}" class="text-muted text-capitalize">
                                         ${item.name}
                                     </a>
                                 </h4>
@@ -765,7 +765,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <h4>${item.name}</h4>
+                                <h4 class="text-capitalize">${item.name}</h4>
                                 <div>${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" title="">
@@ -823,7 +823,7 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                         </a>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}">
-                            <h5 class="text-center fw-bold my-3">${item.name}<h5>
+                            <h5 class="text-center fw-bold my-3 text-capitalize">${item.name}<h5>
                         </a>
                     </div>`;
         });
@@ -879,7 +879,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         this.details.chapters.forEach((item, index) => {
             menu += `<li>
                         <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}"
-                            class="nav-link ps-4 scrollto ${item.id == this.chapterId ? 'active' : ''}">
+                            class="nav-link ps-4 scrollto text-capitalize ${item.id == this.chapterId ? 'active' : ''}">
                             ${item.name}
                         </a>
                     </li>`;
@@ -999,7 +999,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         return `<a class="${clssPrev}" href="?c=${this.groupId}&d=${this.detailId}&ch=${prevChap}">
                         <i class="bi bi-arrow-left-short"></i>
                     </a>
-                    ${this.chapter.name}
+                    <span class="text-capitalize">${this.chapter.name}</span>
                     <a class="${clssNext}" href="?c=${this.detailId}&d=${this.detailId}&ch=${nextChap}">
                         <i class="bi bi-arrow-right-short"></i>
                     </a>`;
@@ -1076,9 +1076,9 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                     </div>
                                     <div class="col pt-2">
                                         <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
-                                            <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                            <a class="text-capitalize" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                                         </div>
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow pt-2 text-muted">
+                                        <div class="text-capitalize fs-6 lh-sm truncate-overflow pt-2 text-muted">
                                             ${item.short}
                                         </div>
                                     </div>
@@ -1199,7 +1199,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 <div class="row">
                     <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     <div class="row">
-                        <div class="col-12 fst-italic">
+                        <div class="col-12 fst-italic text-capitalize">
                             ${this.playerInfo.short}
                         </div>
                     </div>
@@ -1227,16 +1227,17 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             html += `<div class="row pb-3">
                         <div class="${isMobile ? 'col-6' : 'col-12'} video-relation">
                             <div class="video-wrapper">
-                                <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}" 
+                                    class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
                                     <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                 </a>
                             </div>
                         </div>
                         <div class="col py-2">
-                            <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
+                            <div class="text-capitalize fs-6 lh-sm truncate-overflow">
                                 <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                             </div>
-                            <div class="text-muted fs-6 lh-sm truncate-overflow ${isMobile ? '' : 'd-none'}">${item.short}</div>
+                            <div class="text-muted text-capitalize fs-6 lh-sm truncate-overflow ${isMobile ? '' : 'd-none'}">${item.short}</div>
                         </div>
                     </div>`;
         })
@@ -1262,18 +1263,19 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                         <div class="row pb-3">
                             <div class="col-6 video-relation">
                                 <div class="video-wrapper">
-                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                    <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}" 
+                                        class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
                                         <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                     </a>
                                 </div>
                             </div>
                             <div class="col ps-0">
-                                <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
+                                <div class="text-capitalize fs-6 lh-sm truncate-overflow">
                                     <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">
                                         ${item.name}
                                     </a>
                                 </div>
-                                <div class="text-muted fs-6 lh-sm truncate-overflow">${item.short}</div>
+                                <div class="text-muted text-capitalize fs-6 lh-sm truncate-overflow">${item.short}</div>
                             </div>
                         </div>
                     </div>`;
