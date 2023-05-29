@@ -1061,6 +1061,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                     filters += val + '_filters ';
                 });
 
+                item.hashs.sort().forEach(val => {
+                    filters += val + '_filters ';
+                });
+
                 linehash += ' ' + filters;
                 // var videoObject = this._renderVideoObject(item);
 
@@ -1094,6 +1098,38 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         });
 
         return area;
+    }
+
+    _renderFilter() {
+        super._renderFilter();
+        var tags = [];
+        this.details.hashtags.forEach(item => {
+            item.tags.forEach(val => {
+                if (tags.includes(val)) {
+                    return;
+                }
+                tags.push(val);
+            });
+
+            item.videos.forEach(videos => {
+                videos.hashs.forEach(val => {
+                    if (tags.includes(val)) {
+                        return;
+                    }
+                    tags.push(val);
+                });
+            });
+        });
+
+        var html = ''
+        tags.sort().forEach(item => {
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1 text-capitalize" data-filter="${item}_filters" 
+                    onclick="PageBase._initGalleryAndFilter()">
+                        ${item.replace('_', ' ')}
+                    </button>`;
+        });
+
+        return html;
     }
 }
 
