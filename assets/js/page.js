@@ -551,7 +551,7 @@ const ContentPage = class ContentPage extends PageBase {
                                 </h4>
                                 <div>${item.short}</div>
                                 <div class="portfolio-links">
-                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" title="">
+                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
                                     </a>
                                     <a href="${url}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
@@ -702,7 +702,7 @@ const DetailPage = class DetailPage extends PageBase {
             });
 
             area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
-                    <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                    <a href="${item.path}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="image">
                         <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                     </a>
                 </div>`;
@@ -768,7 +768,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                                 <h4 class="text-capitalize">${item.name}</h4>
                                 <div>${item.short}</div>
                                 <div class="portfolio-links">
-                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" title="">
+                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="portfolioGallery" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
                                     </a>
                                     <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
@@ -960,7 +960,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         var imgs = [...this.chapter.imgs, ...imgRenders];
         imgs.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name">
-                        <a href="${item}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                        <a href="${item}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="image">
                             <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                         </a>
                     </div>`;
@@ -1073,7 +1073,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 <div class="row">
                                     <div class="${sizeChange}">
                                         <div class="video-wrapper">
-                                            <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                            <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="image">
                                                 <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                             </a>
                                         </div>
@@ -1180,6 +1180,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
+        InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
     }
 
