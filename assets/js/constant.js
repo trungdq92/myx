@@ -105,19 +105,12 @@ const CommomFunction = class CommomFunction {
 const InitGalleryFuntion = class InitGalleryFuntion {
     constructor() { }
     static _initGLightbox(id) {
-        var g = GLightbox({
+        return GLightbox({
             selector: id,
             touchNavigation: true,
             keyboardNavigation: true,
             loop: true,
-            closeOnOutsideClick: false,
         });
-        g.on('open', () => {
-            g.reload();
-        });
-
-
-        return g;
     }
 
     static _initIsotope(clazzContainer, clazzItem) {

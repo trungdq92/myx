@@ -132,24 +132,6 @@ const PageBase = class PageBase {
         return;
     }
 
-    static _initGalleryAndFilter() {
-        if (event) {
-            if (!this.glightBox)
-                this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-
-            if (!this.lGalleryFilters)
-                this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
-                    valueNames: [
-                        { attr: 'data-filter', name: 'filter_name' }
-                    ]
-                })
-
-            InitGalleryFuntion._eventfilterGallery(event.target, this.lGalleryFilters, this.glightBox);
-        }
-
-        return;
-    }
-
     _renderPage() {
         var content = this._renderContent();
         var sideMenu = this._renderSideMenu();
@@ -602,6 +584,13 @@ const DetailPage = class DetailPage extends PageBase {
             ]
         })
 
+        var _page = this;
+        document.querySelectorAll('.portfolio-flters-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
+            })
+        });
+
         var loadImg = setInterval(function () {
             console.log("img loading")
             var images = document.querySelectorAll('img');
@@ -724,12 +713,14 @@ const DetailPage = class DetailPage extends PageBase {
         });
 
         var html = ''
-        tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" 
-                    onclick="PageBase._initGalleryAndFilter()">
+        tags.sort().forEach((item, index) => {
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" id="btn-filter-detail-"${index}
+                    onclick="">
                         ${item.replace('_', ' ')}
                     </button>`;
         });
+
+
 
         return html;
     }
@@ -748,6 +739,13 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                 { attr: 'data-filter', name: 'filter_name' }
             ]
         })
+
+        var _page = this;
+        document.querySelectorAll('.portfolio-flters-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
+            })
+        });
 
         DomEventFuntion._removePreload();
     }
@@ -796,7 +794,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
         var html = ''
         tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" onclick="PageBase._initGalleryAndFilter()">${item.replace('_', ' ')}</button>`;
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters">${item.replace('_', ' ')}</button>`;
         });
 
         return html;
@@ -1126,8 +1124,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 
         var html = ''
         tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1 text-capitalize" data-filter="${item}_filters" 
-                    onclick="PageBase._initGalleryAndFilter()">
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1 text-capitalize" data-filter="${item}_filters">
                         ${item.replace('_', ' ')}
                     </button>`;
         });
