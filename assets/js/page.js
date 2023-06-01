@@ -223,7 +223,7 @@ const PageBase = class PageBase {
                             <i class="bi bi-list navbar-toggler"></i>
                         </button>
 
-                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="false" data-bs-backdrop="static__">
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="true" data-bs-backdrop="static__">
                             <div class="offcanvas-header">
                                 <a href="${this.rootUrl}"><h3 id="offcanvasRightLabel" class="h3 p-0 my-0 text-uppercase text-muted">${Constants.pjName}</h3></a>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -350,7 +350,7 @@ const HomePage = class HomePage extends PageBase {
         var background = ["#272829", "transparent"];
         var galleryInfo = '';
         this.gallery.children.forEach((item, index) => {
-            galleryInfo += `<div class="row py-5" style="background: ${background[index % 2]}">
+            galleryInfo += `<div class="py-5" style="background: ${background[index % 2]}">
                                 <div class="card border-0 bg-transparent">
                                     <div class="card-body container">
                                         <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
@@ -887,7 +887,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
         return `<div class="row">
                     <div class="col-12"> 
-                        <div class="offcanvas offcanvas-start" tabindex="-1" id="menuChapters" aria-labelledby="menuChapters" data-bs-scroll="false" data-bs-backdrop="static__">
+                        <div class="offcanvas offcanvas-start" tabindex="-1" id="menuChapters" aria-labelledby="menuChapters" data-bs-scroll="true" data-bs-backdrop="static__">
                             <div class="offcanvas-header">
                                 <h3 class="h3 p-0 my-0 text-uppercase">Chapters</h3>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -1068,12 +1068,15 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 linehash += ' ' + filters;
                 // var videoObject = this._renderVideoObject(item);
 
-
+                var glightBoxDataType = 'external';
+                if (item.scpType == Constants.videoScpType.video) {
+                    glightBoxDataType = 'video';
+                }
                 htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2" data-filter="${filters}">
                                 <div class="row">
                                     <div class="${sizeChange}">
                                         <div class="video-wrapper">
-                                            <a href="${item.thumbs}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="image">
+                                            <a href="${item.scpt}" class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
                                                 <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                             </a>
                                         </div>
@@ -1190,7 +1193,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
 
-        var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : '';
+        var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : 'container-fluid';
 
         return `<div class="container">
                     <div class="row">
@@ -1261,11 +1264,16 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (item.id == _page.playerId) {
                 return;
             }
+
+            var glightBoxDataType = 'external';
+            if (item.scpType == Constants.videoScpType.video) {
+                glightBoxDataType = 'video';
+            }
             html += `<div class="row pb-3">
                         <div class="${isMobile ? 'col-6' : 'col-12'} video-relation">
                             <div class="video-wrapper">
-                                <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}" 
-                                    class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                <a href="${item.scpt}" 
+                                    class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
                                     <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                 </a>
                             </div>
@@ -1295,13 +1303,18 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (item.id == _page.playerId) {
                 return;
             }
+
+            var glightBoxDataType = 'external';
+            if (item.scpType == Constants.videoScpType.video) {
+                glightBoxDataType = 'video';
+            }
             html += `
                     <div class="col-md-6">
                         <div class="row pb-3">
                             <div class="col-6 video-relation">
                                 <div class="video-wrapper">
-                                    <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}" 
-                                        class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true">
+                                    <a href="${item.scpt}" 
+                                        class="portfolio-lightbox" data-gallery="gallery" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
                                         <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                                     </a>
                                 </div>
@@ -1329,7 +1342,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     _renderGalleryShowColumn() {
         var viewType = this.gridViewType;
         var colShow = 'col-md-10';
-        var colThumbs = 'col';
+        var colThumbs = 'col-md-2';
         this.thumbsLeftDisplay = '';
         this.thumbsFooterDisplay = 'd-none';
         switch (viewType) {
