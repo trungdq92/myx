@@ -527,7 +527,7 @@ const ContentPage = class ContentPage extends PageBase {
                             <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                             <div class="portfolio-info">
                                 <h4>
-                                    <a href="${url}" class="text-muted text-capitalize">
+                                    <a href="${url}" class="text-muted text-capitalize fw-bold">
                                         ${item.name}
                                     </a>
                                 </h4>
@@ -759,17 +759,20 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                 filters += val + '_filters ';
             });
 
+            var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`;
             area += `<div class="${_page.galleryShowCol} portfolio-item py-2 filter_name ${filters}" data-filter="${filters}">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <h4 class="text-capitalize">${item.name}</h4>
+                                <a href="${url}" class="text-muted text-capitalize fw-bold">
+                                        ${item.name}
+                                </a>
                                 <div>${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
                                     </a>
-                                    <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
+                                    <a href="${url}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
                                         <i class="bi bi-link-45deg"></i>
                                     </a>
                                 </div>
@@ -924,23 +927,13 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     
 
                     <section id="portfolio" class="portfolio section-bg">
-                        <div class="section-title">
-                            <h2 id="chapter-name">${chapterName}</h2>
-                            <div class="row justify-content-center">
-                                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuChapters">
-                                    <i class="bi bi-list-task navbar-toggler"></i>
-                                </button>
-                            <div>
+                        ${chapterName}
                         ${this.galleryDisplayColHtml}
-                        </div>
-
                         <div id="content-detail-area" class="row portfolio-container comic">${detail}</div>
                     </section>
 
                     <section>
-                        <div class="section-title">
-                            <h2 id="chapter-name-footer">${chapterName}</h2>
-                        </div>
+                        ${chapterName}
                     </section>
                 </div>`;
     }
@@ -994,13 +987,23 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
             }
         });
 
-        return `<a class="${clssPrev}" href="?c=${this.groupId}&d=${this.detailId}&ch=${prevChap}">
-                        <i class="bi bi-arrow-left-short"></i>
-                    </a>
-                    <span class="text-capitalize">${this.chapter.name}</span>
-                    <a class="${clssNext}" href="?c=${this.detailId}&d=${this.detailId}&ch=${nextChap}">
-                        <i class="bi bi-arrow-right-short"></i>
-                    </a>`;
+        return `<div class="section-title pb-0">
+                    <h2 id="chapter-name">
+                        <a class="${clssPrev}" href="?c=${this.groupId}&d=${this.detailId}&ch=${prevChap}">
+                            <i class="bi bi-arrow-left-short"></i>
+                        </a>
+                        <span class="text-capitalize fs-3">${this.chapter.name}</span>
+                        <a class="${clssNext}" href="?c=${this.detailId}&d=${this.detailId}&ch=${nextChap}">
+                            <i class="bi bi-arrow-right-short"></i>
+                        </a>
+                    </h2>
+                    <div class="row justify-content-center">
+                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuChapters">
+                            <i class="bi bi-list navbar-toggler"></i>
+                        </button>
+                    </div>
+                </div>
+                `;
     }
 }
 
@@ -1050,10 +1053,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 break;
         }
 
-        timelineKey.forEach(line => {
+        timelineKey.forEach((line, index) => {
             var htmlLine = '';
             var linehash = '';
-            timelines[line].forEach((item, index) => {
+            timelines[line].forEach(item => {
                 var filters = '';
                 item.tags.sort().forEach(val => {
                     filters += val + '_filters ';
@@ -1091,10 +1094,14 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                             </div>`;
             });
 
-            area += ` <div class="col-12 ${linehash}">
-                        <h3 class="h3 text-start fs-5 pb-0">${new Date(line).toDateString()}<hr/></h3>
+            area += ` <div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
+                        <h3 class="h3 text-end fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
                     </div>
-                    ${htmlLine}
+                    <div class="collapse fade show " id="timeline-${index}">
+                       <div class="row">
+                            ${htmlLine}
+                       </div>
+                    </div>
                     `;
         });
 

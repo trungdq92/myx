@@ -1451,3 +1451,13 @@ section {
   --delay: Calc(-1s * (var(--is-single-line, 1) - 1));
   animation: states 1s var(--delay) paused;
 }
+
+.p-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 990;
+}
+
+.navbar-toggler-medium {
+  font-size: 25px !important;
+}
