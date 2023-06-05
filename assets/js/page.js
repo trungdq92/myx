@@ -531,7 +531,7 @@ const ContentPage = class ContentPage extends PageBase {
                                         ${item.name}
                                     </a>
                                 </h4>
-                                <div>${item.short}</div>
+                                <div class="text-muted text-capitalize">${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
@@ -767,7 +767,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                                 <a href="${url}" class="text-muted text-capitalize fw-bold">
                                         ${item.name}
                                 </a>
-                                <div>${item.short}</div>
+                                <div class="text-muted text-capitalize">${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>

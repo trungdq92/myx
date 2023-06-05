@@ -1,0 +1,42 @@
+{
+    "id": "izayoi_seishin",
+    "parentid": "fakku",
+    "chapters": [
+        {
+            "id": "boshi_double_soukan_en",
+            "name": "Boshi Double Soukan [EN]",
+            "thumbs": "https://m5.hentairox.com/017/yjfp5n6icm/cover.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://m5.hentairox.com/017/yjfp5n6icm/",
+                ".jpg",
+                "1",
+                "221"
+            ]
+        },
+        {
+            "id": "boshi_double_soukan_jp",
+            "name": "Boshi Double Soukan[JP]",
+            "thumbs": "https://m5.hentairox.com/017/yjfp5n6icm/cover.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://m4.hentairox.com/014/ha4eobt3wv/",
+                ".jpg",
+                "1",
+                "213"
+            ]
+        },
+        {
+            "id": "inY_Akajuutan_Omake_en",
+            "name": "InY Akajuutan + Omake [EN]",
+            "thumbs": "https://m4.hentairox.com/014/3pz6y9nw5g/cover.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://m4.hentairox.com/014/3pz6y9nw5g/",
+                ".jpg",
+                "1",
+                "229"
+            ]
+        }
+    ]
+}
