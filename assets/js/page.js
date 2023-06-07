@@ -1074,7 +1074,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                     glightBoxDataType = 'video';
                 }
                 htmlLine += `
-                            <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2 collapse fade show" id="timeline-${index}">
+                            <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2 collapse fade show" id="timeline-${index}1">
                                 <div class="row">
                                     <div class="${sizeChange}">
                                         <div class="video-wrapper">
