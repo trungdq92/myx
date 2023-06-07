@@ -1073,7 +1073,8 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 if (item.scpType == Constants.videoScpType.video) {
                     glightBoxDataType = 'video';
                 }
-                htmlLine += `<div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2" data-filter="${filters}">
+                htmlLine += `
+                            <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2 collapse fade show" id="timeline-${index}">
                                 <div class="row">
                                     <div class="${sizeChange}">
                                         <div class="video-wrapper">
@@ -1097,11 +1098,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
             area += ` <div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
                         <h3 class="h3 text-end fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
                     </div>
-                    <div class="collapse fade show " id="timeline-${index}">
-                       <div class="row">
-                            ${htmlLine}
-                       </div>
-                    </div>
+                    ${htmlLine}
                     `;
         });
 
