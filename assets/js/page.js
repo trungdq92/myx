@@ -137,6 +137,23 @@ const PageBase = class PageBase {
         Constants.IsotopeLoading = false;
         return;
     }
+    _initGallery() {
+        var _page = this;
+        this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
+            pagination: true,
+            page: _page.itemsPerPage,
+            valueNames: [
+                { attr: 'data-filter', name: 'filter_name' }
+            ]
+        })
+
+        document.querySelectorAll('.portfolio-flters-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
+            })
+        });
+    }
 
     _loadIsotopeImg = () => {
         var loadImg = setInterval(function () {
@@ -146,7 +163,7 @@ const PageBase = class PageBase {
                 clearInterval(loadImg);
                 return false;
             }
-            
+
             InitGalleryFuntion._initIsotope();
             var load = images[images.length - 1].complete;
             if (load) {
@@ -635,21 +652,8 @@ const DetailPage = class DetailPage extends PageBase {
         super._initAnomationAfterRender();
         var _page = this;
         Constants.IsotopeLoading = true;
-        this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
-            pagination: true,
-            page: _page.itemsPerPage,
-            valueNames: [
-                { attr: 'data-filter', name: 'filter_name' }
-            ]
-        })
 
-        document.querySelectorAll('.portfolio-flters-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
-            })
-        });
-
+        this._initGallery();
         this._loadIsotopeImg();
         DomEventFuntion._removePreload();
         document.body.onscroll = () => { this._scrollHandler() };
@@ -896,6 +900,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         super();
         this.chapterId = CommomFunction._getUrlParameter('ch');
         this.chapter = {};
+        this.itemsPerPage = 48;
         this._init();
     }
 
@@ -923,8 +928,9 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+        this._initGallery();
         DomEventFuntion._removePreload();
+        document.body.onscroll = () => { this._scrollHandler() };
     }
 
     _renderLeftMenu() {
@@ -982,7 +988,16 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     <section id="portfolio" class="portfolio section-bg">
                         ${chapterName}
                         ${this.galleryDisplayColHtml}
-                        <div id="content-detail-area" class="row portfolio-container comic">${detail}</div>
+                        <div id="items-container">
+                            <div id="content-detail-area" class="list row portfolio-container comic">${detail}</div>
+                            <div class="loader" id="loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div class="pagination" hidden></div>
+                        </div>
+                        
                     </section>
 
                     <section>
@@ -1003,7 +1018,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
         var imgs = [...this.chapter.imgs, ...imgRenders];
         imgs.forEach((item, index) => {
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name">
+            area += `<div class="${_page.galleryShowCol} portfolio-item">
                         <a href="${item}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
                             <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                         </a>
