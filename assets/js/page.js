@@ -205,6 +205,7 @@ const PageBase = class PageBase {
             if (endOfPage) {
                 _page.page++;
                 _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
+                _page.glightBox.reload();
                 _page._loadIsotopeImg();
                 document.getElementById('loader').classList.remove('show');
             }
