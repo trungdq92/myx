@@ -1,0 +1,54 @@
+{
+    "id": "majicmix_realistic",
+    "parentid": "stable_diffusion",
+    "hashtags": [
+        {
+            "tags": [
+                "sd",
+                "normal"
+            ],
+            "imgs": [
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/463df9c6-9e44-449a-b1a4-337c6631e15f/width=1280/00043-1709830997.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/bce1322e-6f41-49e8-a68c-e665ec741b19/width=1280/00036-2072241982.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3b30ebf3-1bf7-4a51-bf96-e30dcba40ec4/width=1024/00039-3118369444.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c516583e-f641-4324-bbf1-b57adf3669ee/width=1280/00034-1146723433.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5baab7ad-b2a3-425f-8005-e9c852ec4e2d/width=1024/00037-2632506770.jpeg",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a702fbbb-1d30-44d6-bb80-81cb02e50b3a/width=1024/00040-2473922744.jpeg",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3aae3de7-ae49-4941-a084-2bd5158fc227/width=1136,anim=true/1685586039_chf3_ghq5_1.jpeg",
+                "",
+                ""
+            ]
+        },
+        {
+            "tags": [
+                "sd",
+                "girl"
+            ],
+            "imgs": [
+                
+            ]
+        },
+        {
+            "tags": [
+                "sd",
+                "nsfw"
+            ],
+            "imgs": [
+            ]
+        }
+    ]
+}

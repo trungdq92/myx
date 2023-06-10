@@ -48,6 +48,16 @@
             "contents": [
                 "BRA (Beautiful Realistic Asians) is a famous model that can generate realistic Japanese illustrations with Stable Diffusion"
             ]
+        },
+        {
+            "id": "majicmix_realistic",
+            "name": "majicMIX realistic",
+            "short": "majicMIX realistic",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.ytimg.com/vi/oci1VoQM_WM/maxresdefault.jpg",
+            "contents": [
+                "A good looking model, suitable for NSFW and dark scene (because I added noiseoffset). long-range facial detail require inpainting to achieve the best results. You can also use after detailer."
+            ]
         }
     ]
 }
