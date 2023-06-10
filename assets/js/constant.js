@@ -120,8 +120,9 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     }
 
     static _initIsotope(clazzContainer, clazzItem) {
-        // if (CommomFunction._isMobile())
-        //     return false;
+        if (CommomFunction._isMobile())
+            return false;
+            
         if (!Constants.IsotopeLoading)
             return false;
 

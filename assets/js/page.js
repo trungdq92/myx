@@ -197,7 +197,7 @@ const PageBase = class PageBase {
             return false;
 
         setTimeout(() => {
-            //InitGalleryFuntion._initIsotope();
+            InitGalleryFuntion._initIsotope();
         }, this.throttleTimer / 5)
 
         var currentItems = this.page * this.itemsPerPage;
