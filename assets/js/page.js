@@ -188,6 +188,7 @@ const PageBase = class PageBase {
             return false;
 
         var currentItems = this.page * this.itemsPerPage;
+        console.log(currentItems + "/" + this.lGalleryFilters.items.length)
         if (currentItems >= this.lGalleryFilters.items.length)
             return false;
         else
