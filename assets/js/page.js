@@ -187,6 +187,10 @@ const PageBase = class PageBase {
         if (!this.lGalleryFilters)
             return false;
 
+        setTimeout(() => {
+            InitGalleryFuntion._initIsotope();
+        }, this.throttleTimer / 5)
+        
         var currentItems = this.page * this.itemsPerPage;
         console.log(currentItems + "/" + this.lGalleryFilters.items.length)
         if (currentItems >= this.lGalleryFilters.items.length)
@@ -194,9 +198,9 @@ const PageBase = class PageBase {
         else
             document.getElementById('loader').classList.add('show');
 
+
         var _page = this;
         this._paggingHandler(() => {
-            InitGalleryFuntion._initIsotope();
             var endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
             if (endOfPage) {
                 _page.page++;
