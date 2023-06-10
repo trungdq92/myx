@@ -170,7 +170,7 @@ const PageBase = class PageBase {
                 console.log("img loaded")
                 clearInterval(loadImg);
             }
-        }, this.throttleTimer / 4)
+        }, this.throttleTimer / 5)
     };
 
     _paggingHandler = (callback, time) => {
@@ -195,6 +195,7 @@ const PageBase = class PageBase {
 
         var _page = this;
         this._paggingHandler(() => {
+            InitGalleryFuntion._initIsotope();
             var endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
             if (endOfPage) {
                 _page.page++;
