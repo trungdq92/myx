@@ -118,6 +118,7 @@ const PageBase = class PageBase {
         this.page = 1;
         this.itemsPerPage = 24;
         this.throttleTimer = 1000;
+        this.isLoading = false;
     }
 
     async _init() {
@@ -156,6 +157,7 @@ const PageBase = class PageBase {
     }
 
     _loadIsotopeImg = () => {
+        var _page = this;
         var loadImg = setInterval(function () {
             console.log("img loading")
             var images = document.querySelectorAll('img');
@@ -165,17 +167,22 @@ const PageBase = class PageBase {
             }
 
             InitGalleryFuntion._initIsotope();
+            _page.isLoading = true;
             var load = images[images.length - 1].complete;
             if (load) {
                 console.log("img loaded")
                 clearInterval(loadImg);
+                _page.isLoading = false;
+                if (document.getElementById('loader')) document.getElementById('loader').classList.remove('show');
             }
         }, this.throttleTimer / 5)
     };
 
     _paggingHandler = (callback, time) => {
+
         var _page = this;
-        if (_page.scrolling) return;
+        if (_page.isLoading) return false;
+        if (_page.scrolling) return false;
         _page.scrolling = true;
         setTimeout(() => {
             callback();
@@ -184,13 +191,15 @@ const PageBase = class PageBase {
     };
 
     _scrollHandler() {
+        if (this.isLoading) return false;
+
         if (!this.lGalleryFilters)
             return false;
 
         setTimeout(() => {
-            InitGalleryFuntion._initIsotope();
+            //InitGalleryFuntion._initIsotope();
         }, this.throttleTimer / 5)
-        
+
         var currentItems = this.page * this.itemsPerPage;
         console.log(currentItems + "/" + this.lGalleryFilters.items.length)
         if (currentItems >= this.lGalleryFilters.items.length)
@@ -207,7 +216,7 @@ const PageBase = class PageBase {
                 _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
                 _page.glightBox.reload();
                 _page._loadIsotopeImg();
-                document.getElementById('loader').classList.remove('show');
+
             }
         }, this.throttleTimer);
     }

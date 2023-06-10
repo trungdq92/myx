@@ -122,6 +122,8 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     static _initIsotope(clazzContainer, clazzItem) {
         // if (CommomFunction._isMobile())
         //     return false;
+        if (!Constants.IsotopeLoading)
+            return false;
 
         if (typeof (Isotope) === 'undefined') {
             console.log('Isotope undefined');
@@ -140,8 +142,7 @@ const InitGalleryFuntion = class InitGalleryFuntion {
             itemSelector: '.' + selector
         }
 
-        if (Constants.IsotopeLoading)
-            new Isotope('.' + clzz, options);
+        new Isotope('.' + clzz, options);
     }
 
     static _initListFilters(id, options) {
