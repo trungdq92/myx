@@ -120,8 +120,8 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     }
 
     static _initIsotope(clazzContainer, clazzItem) {
-        if (CommomFunction._isMobile())
-            return false;
+        // if (CommomFunction._isMobile())
+        //     return false;
             
         if (!Constants.IsotopeLoading)
             return false;
@@ -222,7 +222,7 @@ const DomEventFuntion = class DomEventFuntion {
 
     static _changeViewPageStyle(type, page) {
         localStorage.setItem(Constants.galleryCache.gridViewType + page, type);
-        location.reload();
+        location.reload(true);
     }
 
 }

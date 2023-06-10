@@ -119,6 +119,7 @@ const PageBase = class PageBase {
         this.itemsPerPage = 24;
         this.throttleTimer = 1000;
         this.isLoading = false;
+        if (CommomFunction._isMobile()) this.itemsPerPage = this.itemsPerPage / 2;
     }
 
     async _init() {
@@ -181,7 +182,7 @@ const PageBase = class PageBase {
     _paggingHandler = (callback, time) => {
 
         var _page = this;
-        if (_page.isLoading) return false;
+        // if (_page.isLoading) return false;
         if (_page.scrolling) return false;
         _page.scrolling = true;
         setTimeout(() => {
@@ -191,7 +192,7 @@ const PageBase = class PageBase {
     };
 
     _scrollHandler() {
-        if (this.isLoading) return false;
+        // if (this.isLoading) return false;
 
         if (!this.lGalleryFilters)
             return false;
@@ -917,6 +918,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         this.chapterId = CommomFunction._getUrlParameter('ch');
         this.chapter = {};
         this.itemsPerPage = 48;
+        if (CommomFunction._isMobile()) this.itemsPerPage = this.itemsPerPage / 2;
         this._init();
     }
 
