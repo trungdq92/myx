@@ -116,10 +116,9 @@ const PageBase = class PageBase {
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 24;
+        this.itemsPerPage = 1000;
         this.throttleTimer = 1000;
         this.isLoading = false;
-        if (CommomFunction._isMobile()) this.itemsPerPage = this.itemsPerPage / 2;
     }
 
     async _init() {
@@ -917,8 +916,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         super();
         this.chapterId = CommomFunction._getUrlParameter('ch');
         this.chapter = {};
-        this.itemsPerPage = 48;
-        if (CommomFunction._isMobile()) this.itemsPerPage = this.itemsPerPage / 2;
         this._init();
     }
 

@@ -120,10 +120,12 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     }
 
     static _initIsotope(clazzContainer, clazzItem) {
-        // if (CommomFunction._isMobile())
-        //     return false;
-            
         if (!Constants.IsotopeLoading)
+            return false;
+
+        var pageNane = Page._getPage();
+        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + pageNane);
+        if (viewType == '1')
             return false;
 
         if (typeof (Isotope) === 'undefined') {
