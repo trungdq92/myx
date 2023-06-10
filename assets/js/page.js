@@ -112,6 +112,12 @@ const PageBase = class PageBase {
         this.filters = '';
         this.glightBox = {};
         this.lGalleryFilters = {};
+
+        //scrolling
+        this.scrolling = false;
+        this.page = 1;
+        this.itemsPerPage = 24;
+        this.throttleTimer = 1000;
     }
 
     async _init() {
@@ -131,6 +137,57 @@ const PageBase = class PageBase {
         Constants.IsotopeLoading = false;
         return;
     }
+
+    _loadIsotopeImg = () => {
+        var loadImg = setInterval(function () {
+            console.log("img loading")
+            var images = document.querySelectorAll('img');
+            if (images.length == 0) {
+                clearInterval(loadImg);
+                return false;
+            }
+            
+            InitGalleryFuntion._initIsotope();
+            var load = images[images.length - 1].complete;
+            if (load) {
+                console.log("img loaded")
+                clearInterval(loadImg);
+            }
+        }, this.throttleTimer / 4)
+    };
+
+    _paggingHandler = (callback, time) => {
+        var _page = this;
+        if (_page.scrolling) return;
+        _page.scrolling = true;
+        setTimeout(() => {
+            callback();
+            _page.scrolling = false;
+        }, time);
+    };
+
+    _scrollHandler() {
+        if (!this.lGalleryFilters)
+            return false;
+
+        var currentItems = this.page * this.itemsPerPage;
+        if (currentItems >= this.lGalleryFilters.items.length)
+            return false;
+        else
+            document.getElementById('loader').classList.add('show');
+
+        var _page = this;
+        this._paggingHandler(() => {
+            var endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
+            if (endOfPage) {
+                _page.page++;
+                _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
+                _page._loadIsotopeImg();
+                document.getElementById('loader').classList.remove('show');
+            }
+        }, this.throttleTimer);
+    }
+
 
     _renderPage() {
         var content = this._renderContent();
@@ -576,38 +633,26 @@ const DetailPage = class DetailPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
+        var _page = this;
         Constants.IsotopeLoading = true;
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
+            pagination: true,
+            page: _page.itemsPerPage,
             valueNames: [
                 { attr: 'data-filter', name: 'filter_name' }
             ]
         })
 
-        var _page = this;
         document.querySelectorAll('.portfolio-flters-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
             })
         });
 
-        var loadImg = setInterval(function () {
-            console.log("img loading")
-            var images = document.querySelectorAll('img');
-            if (images.length == 0) {
-                clearInterval(loadImg);
-                return false;
-            }
-
-            var load = images[images.length - 1].complete;
-            if (load) {
-                console.log("img loaded")
-                InitGalleryFuntion._initIsotope();
-                clearInterval(loadImg);
-            }
-        }, 500);
-
+        this._loadIsotopeImg();
         DomEventFuntion._removePreload();
+        document.body.onscroll = () => { this._scrollHandler() };
     }
 
     _renderContent() {
@@ -656,7 +701,15 @@ const DetailPage = class DetailPage extends PageBase {
                             </div>
                         </div>
                         ${this.galleryDisplayColHtml}
-                        <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                        <div id="items-container">
+                            <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                            <div class="loader" id="loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div class="pagination" hidden></div>
+                        </div>
                     </section>
                 
                 </div>`;
