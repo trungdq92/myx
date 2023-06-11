@@ -147,6 +147,7 @@ const PageBase = class PageBase {
         Constants.ListFitersLoading = true;
         return;
     }
+
     _initGallery() {
         var _page = this;
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
@@ -615,7 +616,15 @@ const ContentPage = class ContentPage extends PageBase {
                             </div>
                         </div>
                         ${this._renderGalleryShowColumn()}
-                        <div id="content-detail-area" class="portfolio-container row list">${detail}</div>
+                        <div id="items-container">
+                            <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                            <div class="loader" id="loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div class="pagination" hidden></div>
+                        </div>
                     </section>
                 </div>`;
     }
@@ -726,7 +735,15 @@ const DetailPage = class DetailPage extends PageBase {
                             <h2>Gallery</h2>
                         </div>
                         ${this.galleryDisplayColHtml}
-                        <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                        <div id="items-container">
+                            <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                            <div class="loader" id="loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div class="pagination" hidden></div>
+                        </div>
                     </section>
                 
                 </div>`;
@@ -750,7 +767,7 @@ const DetailPage = class DetailPage extends PageBase {
                     if (index > (_page.DefaultGalleyViewer / countHash) && Constants.galleryType.gallery == _page.groupId)
                         return;
 
-                    imgHtml += `<div class="${_page.galleryShowCol} portfolio-item p-1 gallery">
+                    imgHtml += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name gallery">
                                 <div class="video-wrapper">
                                     <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
                                         <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
@@ -933,11 +950,9 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
     }
 
     _initAnomationAfterRender() {
-        Constants.ListFitersLoading = false;
-        super._initAnomationAfterRender();
-
+        Constants.IsotopeLoading = false;
+        Constants.ListFitersLoading = true;
         this._initGallery();
-
     }
 
     _renderContentDetails() {
@@ -950,7 +965,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
             });
 
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`;
-            area += `<div class="${_page.galleryShowCol} portfolio-item py-2 filter_name ${filters}" data-filter="${filters}">
+            area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
@@ -1222,7 +1237,68 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = true;
 
-        super._initAnomationAfterRender();
+        this._initGallery();
+        this._loadIsotopeImg();
+        document.body.onscroll = () => { this._scrollHandler() };
+    }
+
+    _renderContent() {
+        var detail = this._renderContentDetails();
+        var short = this.detailInfo.short;
+        var description = this.detailInfo.contents.join('');
+        var detailName = this.detailInfo.name;
+        var contentName = this.contentInfo.name;
+        var filters = this._renderFilter();
+        return `<div class="container">
+                    <div class="row">
+                        <h1 class="h1 text-capitalize pb-0">${contentName}<hr /></h1>
+                    </div>
+                    <div class="row">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize" active aria-current="page">${detailName}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                   
+
+                    <section id="about" class="about">
+                        <div class="section-title">
+                            <h2>About</h2>
+                            <div class="fst-italic text-muted" id="content-short">${short}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="content-description" class="text-muted">${description}</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="portfolio" class="portfolio section-bg">
+                        <div class="section-title">
+                            <h2>Gallery</h2>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12">
+                                <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
+                            </div>
+                        </div>
+                        ${this.galleryDisplayColHtml}
+                        <div id="items-container">
+                            <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                            <div class="loader" id="loader">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div class="pagination" hidden></div>
+                        </div>
+                    </section>
+                
+                </div>`;
     }
 
     _renderContentDetails() {

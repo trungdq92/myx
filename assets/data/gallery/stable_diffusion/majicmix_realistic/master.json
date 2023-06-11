@@ -109,7 +109,6 @@
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a7483426-233a-4170-959e-a01a5443eb65/width=768/00217-2239948722.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/037c9733-1825-4dab-bd9e-ae9dae38ae65/width=1024/00018-65027995.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/05a95422-88a0-4721-89c7-c1322be2460f/width=1024/00068-1408726284-More%20details,best%20quality,ultra%20high%20res,(photorealistic_1.4),1girl,(Front_1.2),Bedroom,looking%20at%20viewer,Coordinated%20figure,bla.jpeg",
-                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/3aae3de7-ae49-4941-a084-2bd5158fc227/width=1136,anim=true/1685586039_chf3_ghq5_1.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/e3645a87-3e7e-4810-b9e7-12a74eb3eb00/width=512,anim=true/1685833348.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b33d1be2-a292-4fb5-816f-82cd105e0f1c/width=512/00106-1887062222.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/a230d347-608f-4ec0-8fc8-085e93d2549f/width=512/00235-2157590124.jpeg",
@@ -139,7 +138,21 @@
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/59ea3c43-cf6b-4171-9e35-5c640a1484ba/width=2048/00006-264828020.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/51ff8f13-04c3-40be-ba79-449216b503c7/width=768/00373-474900255.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/f3df838a-7509-4caa-bcb7-2ea53a8c1d28/width=768/00198-2321280587.jpeg",
-                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d5758471-ad8a-41bc-b1f1-a9b49ecbd4d9/width=1024/00623-2885937755.jpeg",
+                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/d5758471-ad8a-41bc-b1f1-a9b49ecbd4d9/width=1024/00623-2885937755.jpeg"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "b_girl",
+            "name": "b girl",
+            "hashtags": [
+                {
+                    "tags": [
+                        "sd",
+                        "normal"
+                    ],
+                    "imgs": [
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/029ae28e-0734-42f7-bfb2-a2e638ffa868/width=2048/00130-315230987-%EF%BC%88masterpiece,%20best%20quality,8K%EF%BC%89,1girl,day,.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ada95d56-338b-4046-abd6-7d8e8b8f0806/width=768/00055-2306277458.jpeg",
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/b6524559-2e53-48d6-a83b-a60a151c8f7d/width=768/00059-2419755987.jpeg",
@@ -293,7 +306,7 @@
         },
         {
             "id": "s_girl",
-            "name": "girl nfsw",
+            "name": "s girl",
             "hashtags": [
                 {
                     "tags": [
