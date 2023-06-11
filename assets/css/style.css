@@ -1438,6 +1438,10 @@ section {
   background-color: transparent;
 }
 
+.gallery .video-wrapper {
+  --aspect-ratio: 1/1;
+}
+
 .truncate-overflow {
   --line-clamp: 2;
   display: -webkit-box;

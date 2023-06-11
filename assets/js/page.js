@@ -36,7 +36,10 @@ const Page = class Page {
                 // chapter
                 if (this.groupId == constComic) {
                     new ComicChapterPage();
-                } else {
+                } else if (this.groupId == constGallery) {
+                    new GalleryViewerPage();
+                }
+                else {
                     new VideoPlayerPage();
                 }
                 break;
@@ -74,6 +77,9 @@ const Page = class Page {
                     page = '_chapter_comic'
                 } else if (groupId == Constants.galleryType.video) {
                     page = '_player_video'
+                }
+                else {
+                    page = '_viewer_gallery'
                 }
                 break;
         }
@@ -116,9 +122,11 @@ const PageBase = class PageBase {
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 1000;
+        this.itemsPerPage = 24;
         this.throttleTimer = 1000;
         this.isLoading = false;
+
+        this.DefaultGalleyViewer = 12;
     }
 
     async _init() {
@@ -136,11 +144,16 @@ const PageBase = class PageBase {
 
     _initAnomationAfterRender() {
         Constants.IsotopeLoading = false;
+        Constants.ListFitersLoading = true;
         return;
     }
     _initGallery() {
         var _page = this;
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
+        DomEventFuntion._removePreload();
+
+        if (!Constants.ListFitersLoading) return false;
+
         this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
             pagination: true,
             page: _page.itemsPerPage,
@@ -555,8 +568,8 @@ const ContentPage = class ContentPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        DomEventFuntion._removePreload();
+        Constants.ListFitersLoading = false;
+        this._initGallery();
     }
 
     _renderContent() {
@@ -666,13 +679,11 @@ const DetailPage = class DetailPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        var _page = this;
-        Constants.IsotopeLoading = true;
+        Constants.IsotopeLoading = false;
+        Constants.ListFitersLoading = false;
 
         this._initGallery();
         this._loadIsotopeImg();
-        DomEventFuntion._removePreload();
-        document.body.onscroll = () => { this._scrollHandler() };
     }
 
     _renderContent() {
@@ -682,7 +693,6 @@ const DetailPage = class DetailPage extends PageBase {
         var description = this.detailInfo.contents.join('');
         var detailName = this.detailInfo.name;
         var contentName = this.contentInfo.name;
-        var filters = this._renderFilter();
         return `<div class="container">
                     <div class="row">
                         <h1 class="h1 text-capitalize pb-0">${contentName}<hr /></h1>
@@ -715,6 +725,126 @@ const DetailPage = class DetailPage extends PageBase {
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
+                        ${this.galleryDisplayColHtml}
+                        <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                    </section>
+                
+                </div>`;
+    }
+
+    _renderContentDetails() {
+        var area = '';
+        var _page = this;
+        this.details.viewer.forEach(viewer => {
+            var imgHtml = '';
+            var countHash = viewer.hashtags.length;
+            viewer.hashtags.forEach((item) => {
+                var renderImgs = item.renderImg;
+                var imgRenders = [];
+                if (renderImgs && renderImgs.length > 3) {
+                    imgRenders = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
+                }
+
+                var renders = [...item.imgs, ...imgRenders];
+                renders.forEach((path, index) => {
+                    if (index > (_page.DefaultGalleyViewer / countHash) && Constants.galleryType.gallery == _page.groupId)
+                        return;
+
+                    imgHtml += `<div class="${_page.galleryShowCol} portfolio-item p-1 gallery">
+                                <div class="video-wrapper">
+                                    <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
+                                        <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                                    </a>
+                                </div>
+                            </div>`;
+                });
+
+            })
+
+            area += `<div class="col-12">
+                        <div class="row">
+                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}">
+                                <h3 class="h3 fs-3 text-end text-capitalize">${viewer.name}</h3>
+                            </a>
+                        </div>
+                        <div class="row">
+                            ${imgHtml}
+                        </div>
+                    </div>`;
+        });
+
+        return area;
+    }
+
+    _renderFilter() {
+        return '';
+    }
+}
+
+const GalleryViewerPage = class GalleryViewerPage extends PageBase {
+    constructor() {
+        super();
+        this.viewerId = CommomFunction._getUrlParameter('v');
+        this.viewer = {};
+        this._init();
+    }
+
+    async _init() {
+        await super._init();
+        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+        var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
+        if (!this.viewerId || !dataGroup || !dataContent || !dataDetail) {
+            history.back();
+        }
+
+        this.groups = dataGroup;
+        this.contents = dataContent;
+        this.details = dataDetail;
+        this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
+        this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
+        this.viewer = this.details.viewer.find(x => x.id === this.viewerId);
+
+        this._renderPage();
+        this._initAnomationAfterRender();
+    }
+
+    _initAnomationAfterRender() {
+        super._initAnomationAfterRender();
+        Constants.IsotopeLoading = true;
+        Constants.ListFitersLoading = true;
+
+        this._initGallery();
+        this._loadIsotopeImg();
+        document.body.onscroll = () => { this._scrollHandler() };
+    }
+
+    _renderContent() {
+        super._renderContent();
+        var detail = this._renderContentDetails();
+        var detailName = this.detailInfo.name;
+        var contentName = this.contentInfo.name;
+        var filters = this._renderFilter();
+        return `<div class="container">
+                    <div class="row">
+                        <h1 class="h1 text-capitalize pb-0">${contentName}<hr /></h1>
+                    </div>
+                    <div class="row">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                            <li class="breadcrumb-item text-capitalize" active aria-current="page">${this.viewer.name}</li>
+                            </ol>
+                        </nav>
+                    </div>
+                   
+                    <section id="portfolio" class="portfolio section-bg">
+                        <div class="section-title">
+                            <h2>Gallery</h2>
+                        </div>
                         <div class="row justify-content-center">
                             <div class="col-lg-12">
                                 <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
@@ -739,7 +869,7 @@ const DetailPage = class DetailPage extends PageBase {
         var area = '';
         var imgs = [];
         var _page = this;
-        this.details.hashtags.forEach(item => {
+        this.viewer.hashtags.forEach(item => {
             var renderImgs = item.renderImg;
             var imgRenders = [];
             if (renderImgs && renderImgs.length > 3) {
@@ -776,7 +906,7 @@ const DetailPage = class DetailPage extends PageBase {
     _renderFilter() {
         super._renderFilter();
         var tags = [];
-        this.details.hashtags.forEach(item => {
+        this.viewer.hashtags.forEach(item => {
             item.tags.forEach(val => {
                 if (tags.includes(val)) {
                     return;
@@ -793,8 +923,6 @@ const DetailPage = class DetailPage extends PageBase {
                     </button>`;
         });
 
-
-
         return html;
     }
 }
@@ -805,22 +933,11 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
     }
 
     _initAnomationAfterRender() {
+        Constants.ListFitersLoading = false;
         super._initAnomationAfterRender();
-        this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
-            valueNames: [
-                { attr: 'data-filter', name: 'filter_name' }
-            ]
-        })
 
-        var _page = this;
-        document.querySelectorAll('.portfolio-flters-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
-            })
-        });
+        this._initGallery();
 
-        DomEventFuntion._removePreload();
     }
 
     _renderContentDetails() {
@@ -883,9 +1000,10 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
     }
 
     _initAnomationAfterRender() {
-        super._initAnomationAfterRender();
         Constants.IsotopeLoading = false;
-        DomEventFuntion._removePreload();
+        Constants.ListFitersLoading = false;
+
+        super._initAnomationAfterRender();
     }
 
     _renderContentDetails() {
@@ -915,6 +1033,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     constructor() {
         super();
         this.chapterId = CommomFunction._getUrlParameter('ch');
+        this.itemsPerPage = 300;
         this.chapter = {};
         this._init();
     }
@@ -944,7 +1063,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
         this._initGallery();
-        DomEventFuntion._removePreload();
         document.body.onscroll = () => { this._scrollHandler() };
     }
 
@@ -1101,9 +1219,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
     }
 
     _initAnomationAfterRender() {
-        super._initAnomationAfterRender();
         Constants.IsotopeLoading = false;
-        DomEventFuntion._removePreload();
+        Constants.ListFitersLoading = true;
+
+        super._initAnomationAfterRender();
     }
 
     _renderContentDetails() {
@@ -1267,8 +1386,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
-        DomEventFuntion._removePreload();
+        Constants.ListFitersLoading = false;
+        this._initGallery();
     }
 
     _renderContent() {

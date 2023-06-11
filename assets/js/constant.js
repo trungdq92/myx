@@ -4,6 +4,7 @@ const Constants = class Constants {
     static pageContent = 'content'
     static pageContentDetail = 'detail'
     static IsotopeLoading = false;
+    static ListFitersLoading = false;
     static videoScpType = {
         video: 'video',
         iframe: 'iframe'
@@ -149,6 +150,9 @@ const InitGalleryFuntion = class InitGalleryFuntion {
     }
 
     static _initListFilters(id, options) {
+        if (!Constants.ListFitersLoading)
+            return false;
+
         if (typeof (List) === 'undefined') {
             console.log('List undefined');
             return false;
