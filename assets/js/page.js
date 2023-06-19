@@ -781,7 +781,7 @@ const DetailPage = class DetailPage extends PageBase {
             area += `<div class="col-12">
                         <div class="row">
                             <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}">
-                                <h3 class="h3 fs-3 text-end text-capitalize">${viewer.name}</h3>
+                                <h3 class="h2 pb-0 text-end text-capitalize">${viewer.name}</h3>
                             </a>
                         </div>
                         <div class="row">

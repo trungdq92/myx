@@ -1355,6 +1355,7 @@ section {
 .theme-dark .portfolio,
 .theme-dark .portfolio li,
 .theme-dark .h1,
+.theme-dark .h2,
 .theme-dark .section-title h2,
 .theme-dark h5,
 .theme-dark .offcanvas {
@@ -1530,22 +1531,4 @@ section {
     top: 24px;
     height: 32px;
   }
-}
-
-.pic-over {
-  position: relative;
-  text-align: center;
-}
-
-.item-description {
-  position: absolute;
-  bottom: 8px;
-  right: 0;
-  color: #17ead9;
-  opacity: 0;
-}
-
-.item-description:hover,
-.pic-over:hover {
-  opacity: 1;
 }
