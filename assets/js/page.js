@@ -969,9 +969,9 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <a href="${url}" class="text-muted text-capitalize fw-bold">
-                                        ${item.name}
-                                </a>
+                                <span class="text-muted text-capitalize fw-bold">
+                                    ${item.name}
+                                </span>
                                 <div class="text-muted text-capitalize">${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
@@ -1025,13 +1025,25 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         var area = '';
         var _page = this;
         this.details.chapters.forEach((item, index) => {
+
+            var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}`;
             area += `<div class="${_page.galleryShowCol} portfolio-item">
-                        <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true">
-                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" loading="lazy" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
-                        </a>
-                        <a href="${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}">
-                            <h5 class="text-center fw-bold my-3 text-capitalize">${item.name}<h5>
-                        </a>
+                        <div class="portfolio-wrap">
+                            <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
+                            <div class="portfolio-info">
+                                <span class="text-muted text-capitalize truncate-overflow fw-bold px-4">
+                                    ${item.name}
+                                </span>
+                                <div class="portfolio-links">
+                                    <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </a>
+                                    <a href="${url}" class="portfolio-details-lightbox" data-glightbox="type: external" title="${item.name}">
+                                        <i class="bi bi-link-45deg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>`;
         });
 
