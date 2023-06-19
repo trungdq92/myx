@@ -1456,6 +1456,20 @@ section {
   animation: states 1s var(--delay) paused;
 }
 
+.truncate-overflow-one {
+  --line-clamp: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--line-clamp, 1);
+  -webkit-box-orient: vertical;
+  word-break: var(--word-break, 'none');
+  overflow: hidden;
+  hyphens: auto;
+  text-align: var(--align, left);
+  --is-single-line: 1 - Clamp(0, Calc(var(--line-clamp) - 1), var(--line-clamp));
+  --delay: Calc(-1s * (var(--is-single-line, 1) - 1));
+  animation: states 1s var(--delay) paused;
+}
+
 .p-sticky {
   position: sticky;
   top: 0;
@@ -1516,4 +1530,22 @@ section {
     top: 24px;
     height: 32px;
   }
+}
+
+.pic-over {
+  position: relative;
+  text-align: center;
+}
+
+.item-description {
+  position: absolute;
+  bottom: 8px;
+  right: 0;
+  color: #17ead9;
+  opacity: 0;
+}
+
+.item-description:hover,
+.pic-over:hover {
+  opacity: 1;
 }

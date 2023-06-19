@@ -5,6 +5,7 @@ const Constants = class Constants {
     static pageContentDetail = 'detail'
     static IsotopeLoading = false;
     static ListFitersLoading = false;
+    static BackGroundColor = ["#272829", "transparent"];
     static videoScpType = {
         video: 'video',
         iframe: 'iframe'

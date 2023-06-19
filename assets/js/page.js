@@ -433,7 +433,7 @@ const HomePage = class HomePage extends PageBase {
 
     _renderContent() {
         super._renderContent();
-        var background = ["#272829", "transparent"];
+        var background = Constants.BackGroundColor;
         var galleryInfo = '';
         this.gallery.children.forEach((item, index) => {
             galleryInfo += `<div class="py-5" style="background: ${background[index % 2]}">
@@ -520,7 +520,7 @@ const GroupPage = class GroupPage extends PageBase {
         var path = `${this.rootUrl}/pages/${this.groupId}`
         var html = '';
         var _page = this;
-        var background = ["#272829", "transparent"];
+        var background = Constants.BackGroundColor;
         this.groups.children.forEach((item, index) => {
             html += `<section class="gallery-item py-5" style="background: ${background[index % 2]}">
                         <div class="section-title">
@@ -1318,16 +1318,21 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         var timelineKey = Object.keys(timelines);
 
         var sizeChange = '';
+        var background = Constants.BackGroundColor[1];
         var isMobile = CommomFunction._isMobile();
+        var wrapperGallery = 'gallery';
         switch (this.gridViewType) {
             case '1':
-                sizeChange = isMobile ? 'col-6' : 'col-4';
+                sizeChange = isMobile ? "col-4" : "col-2";
+                background = Constants.BackGroundColor[0];
                 break;
             case '2':
-                sizeChange = 'col-md-6';
+                sizeChange = 'col-md-12';
+                wrapperGallery = '';
                 break;
             case '3':
                 sizeChange = 'col-md-12';
+                _page.galleryShowCol = isMobile ? "col-6" : "col-4";
                 break;
         }
 
@@ -1345,32 +1350,57 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 });
 
                 linehash += ' ' + filters;
-                // var videoObject = this._renderVideoObject(item);
-
                 var glightBoxDataType = 'external';
                 if (item.scpType == Constants.videoScpType.video) {
                     glightBoxDataType = 'video';
                 }
-                htmlLine += `
-                            <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-2 collapse fade show" id="timeline-${index}1">
-                                <div class="row">
-                                    <div class="${sizeChange}">
+
+                var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
+                if (this.gridViewType == '1') {
+                    htmlLine += `
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 collapse fade show p-1 mb-1 rounded-4" id="timeline-${index}1" style="background: ${background}">
+                                    <div class="row ${wrapperGallery}">
+                                        <div class="${sizeChange}">
+                                            <div class="video-wrapper">
+                                                <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+                                                    <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col m-auto">
+                                            <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
+                                                <a class="text-capitalize text-white fs-5" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                            </div>
+                                            <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
+                                                ${item.short}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                } else {
+                    htmlLine += `
+                                <div class="${_page.galleryShowCol} portfolio-item ${filters}" id="timeline-${index}1">
+                                    <div class="portfolio-wrap ${wrapperGallery}">
                                         <div class="video-wrapper">
-                                            <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                                <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
-                                            </a>
+                                            <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                                        </div>
+                                        <div class="portfolio-info">
+                                            <h4 class="text-capitalize fw-bold truncate-overflow-one px-4">
+                                                ${item.name}
+                                            </h4>
+                                            <div class="text-muted text-capitalize lh-sm truncate-overflow px-4">${item.short}</div>
+                                            <div class="portfolio-links">
+                                                <a href="${item.scpt}" class="portfolio-lightbox" data-type="${glightBoxDataType}">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </a>
+                                                <a href="${url}" class="portfolio-details-lightbox" title="${item.name}">
+                                                    <i class="bi bi-link-45deg"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col pt-2">
-                                        <div class="text-capitaliz fs-6 lh-sm truncate-overflow">
-                                            <a class="text-capitalize" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
-                                        </div>
-                                        <div class="text-capitalize fs-6 lh-sm truncate-overflow pt-2 text-muted">
-                                            ${item.short}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
+                                </div>`;
+                }
             });
 
             area += ` <div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
@@ -1421,8 +1451,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.playerId = CommomFunction._getUrlParameter('vs');
         this.players = [];
         this.playerInfo = {};
-        this.thumbsLeftDisplay = '';
-        this.thumbsFooterDisplay = '';
+        this.galleryColRelationThumbs = '';
         this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
         if (!this.gridViewType) {
             this.gridViewType = '2';
@@ -1496,19 +1525,14 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                     ${this._renderVideoObject(this.playerInfo)}
                                 </div>
                             </div>
-                            
-                            <div class="${this.thumbsLeftDisplay}">${detailInfo}</div>
-                        </div>
-
-                        <div class="col ${this.galleryColThumbs} ${this.thumbsLeftDisplay}">
-                            ${this._renderRelationVideo()}
+                           
                         </div>
                     </div>
                 </div>
 
-                <div class="container ${this.thumbsFooterDisplay}">
-                    ${detailInfo}
-                    ${this._renderFooterRelationVideo()}
+                <div class="container">
+                    <div class="">${detailInfo}</div>
+                    ${this._renderRelationVideo()}
                 </div>`;
     }
 
@@ -1538,7 +1562,6 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     _renderRelationVideo() {
         var html = '';
         var _page = this;
-        var isMobile = CommomFunction._isMobile();
         this.players.forEach(item => {
             if (item.id == _page.playerId) {
                 return;
@@ -1548,101 +1571,80 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (item.scpType == Constants.videoScpType.video) {
                 glightBoxDataType = 'video';
             }
-            html += `<div class="row pb-3">
-                        <div class="${isMobile ? 'col-6' : 'col-12'} video-relation">
-                            <div class="video-wrapper">
-                                <a href="${item.scpt}" 
-                                    class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                    <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
-                                </a>
+
+            var isMobile = CommomFunction._isMobile();
+            var background = Constants.BackGroundColor[0];
+
+            var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
+            if (this.gridViewType == '1') {
+                html += `<div class="portfolio-item filter_name p-1 mb-1 rounded-4" style="background: ${background}">
+                            <div class="row gallery">
+                                <div class="${isMobile ? 'col-4' : 'col-2'}">
+                                    <div class="video-wrapper">
+                                        <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+                                            <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col m-auto">
+                                    <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
+                                        <a class="text-capitalize text-white fs-5" href="${url}">${item.name}</a>
+                                    </div>
+                                    <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
+                                        ${item.short}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col py-2">
-                            <div class="text-capitalize fs-6 lh-sm truncate-overflow">
-                                <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
-                            </div>
-                            <div class="text-muted text-capitalize fs-6 lh-sm truncate-overflow ${isMobile ? '' : 'd-none'}">${item.short}</div>
-                        </div>
-                    </div>`;
-        })
-
-        return `<div class="row">
-                    <div class="col-md-12">
-                        <h3 class="h3 fs-3 py-0">Relations<hr/></h3>
-                    </div>
-                </div>
-                ${html}
-                `;
-    }
-
-    _renderFooterRelationVideo() {
-        var html = '';
-        var _page = this;
-        this.players.forEach(item => {
-            if (item.id == _page.playerId) {
-                return;
-            }
-
-            var glightBoxDataType = 'external';
-            if (item.scpType == Constants.videoScpType.video) {
-                glightBoxDataType = 'video';
-            }
-            html += `
-                    <div class="col-md-6">
-                        <div class="row pb-3">
-                            <div class="col-6 video-relation">
+                        </div>`;
+            } else {
+                var colShowR = isMobile ? 'col-6' : 'col-xl-2 col-lg-3 col-md-6 col-6';
+                html += `<div class="${colShowR} portfolio-item video-relation p-1 filter_name" >
+                            <div class="portfolio-wrap gallery">
                                 <div class="video-wrapper">
-                                    <a href="${item.scpt}" 
+                                    <a href="${item.scpt}"
                                         class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy" />
                                     </a>
                                 </div>
-                            </div>
-                            <div class="col ps-0">
-                                <div class="text-capitalize fs-6 lh-sm truncate-overflow">
-                                    <a class="" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">
+                                <div class="portfolio-info">
+                                    <h4 class="text-capitalize fw-bold truncate-overflow px-4 fs-6">
                                         ${item.name}
-                                    </a>
+                                    </h4>
+                                    <div class="portfolio-links">
+                                        <a href="${item.scpt}" class="portfolio-lightbox" data-type="${glightBoxDataType}">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </a>
+                                        <a href="${url}" class="portfolio-details-lightbox" title="${item.name}">
+                                            <i class="bi bi-link-45deg"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="text-muted text-capitalize fs-6 lh-sm truncate-overflow">${item.short}</div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div> `;
+            }
         })
 
         return `<div class="row">
                     <div class="col-md-12">
-                        <h3 class="h3 fs-3 py-0">Relations<hr/></h3>
+                        <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
                     </div>
                 </div>
-                <div class="row">${html}</div>`;
+                <div class="container portfolio"><div class="row">${html}</div></div>`;
     }
 
     _renderGalleryShowColumn() {
         var viewType = this.gridViewType;
-        var colShow = 'col-md-10';
-        var colThumbs = 'col-md-2';
-        this.thumbsLeftDisplay = '';
-        this.thumbsFooterDisplay = 'd-none';
-        switch (viewType) {
-            case '1':
-                colShow = 'col-md-12';
-                this.thumbsLeftDisplay = 'd-none';
-                this.thumbsFooterDisplay = '';
-                break;
-        }
-        this.galleryShowCol = colShow;
-        this.galleryColThumbs = colThumbs;
+        this.galleryShowCol = 'col-md-12';
 
         return ` <div class="col-12">
                     <div class="row justify-content-center chapter-grid-view-style">
                         <div class="col-lg-12 text-end">
                             <div class="my-1 fs-4">
                                 <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 2 ? 'd-none' : ''}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
-                                <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? 'd-none' : ''}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
+                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? 'd-none' : ''}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
                             </div>
                         </div>
-                    </div>
-                </div>`;
+                    </div >
+                </div > `;
     }
 }
