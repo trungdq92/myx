@@ -636,7 +636,7 @@ const ContentPage = class ContentPage extends PageBase {
         var _page = this;
         this.contents.children.forEach(item => {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
-            area += `<div class="${_page.galleryShowCol} portfolio-item">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                             <div class="portfolio-info">
