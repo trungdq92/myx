@@ -130,7 +130,6 @@ const PageBase = class PageBase {
     }
 
     async _init() {
-        DomEventFuntion._backToTop();
         this.galleryDisplayColHtml = this._renderGalleryShowColumn();
         var dataGallery = await CommomFunction._loadJsonAsync(this.loadGalleyPath);
         if (!dataGallery) {
@@ -145,6 +144,7 @@ const PageBase = class PageBase {
     _initAnomationAfterRender() {
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = true;
+        DomEventFuntion._backToTop();
         return;
     }
 
@@ -190,6 +190,8 @@ const PageBase = class PageBase {
                 if (document.getElementById('loader')) document.getElementById('loader').classList.remove('show');
             }
         }, this.throttleTimer / 5)
+
+        DomEventFuntion._backToTop();
     };
 
     _paggingHandler = (callback, time) => {
@@ -1017,7 +1019,6 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
     _initAnomationAfterRender() {
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = false;
-
         super._initAnomationAfterRender();
     }
 
