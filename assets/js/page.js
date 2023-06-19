@@ -967,13 +967,13 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
             });
 
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`;
-            area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0 ${filters}" data-filter="${filters}">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <span class="text-muted text-capitalize fw-bold">
+                                <h4 class="text-muted text-capitalize fw-bold">
                                     ${item.name}
-                                </span>
+                                </h4>
                                 <div class="text-muted text-capitalize">${item.short}</div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
@@ -1028,13 +1028,13 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
         this.details.chapters.forEach((item, index) => {
 
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}`;
-            area += `<div class="${_page.galleryShowCol} portfolio-item">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0">
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <span class="text-muted text-capitalize truncate-overflow fw-bold px-4">
+                                <h4 class="text-muted text-capitalize truncate-overflow fw-bold px-4">
                                     ${item.name}
-                                </span>
+                                </h4>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
@@ -1146,7 +1146,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     </div>
                     
 
-                    <section id="portfolio" class="portfolio section-bg">
+                    <section id="portfolio" class="portfolio section-bg container">
                         ${chapterName}
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
@@ -1179,7 +1179,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
         var imgs = [...this.chapter.imgs, ...imgRenders];
         imgs.forEach((item, index) => {
-            area += `<div class="${_page.galleryShowCol} portfolio-item">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1">
                         <a href="${item}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
                             <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
                         </a>
@@ -1290,7 +1290,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                         </div>
                     </section>
 
-                    <section id="portfolio" class="portfolio section-bg">
+                    <section id="portfolio" class="portfolio section-bg container">
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
@@ -1341,7 +1341,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 break;
             case '2':
                 sizeChange = 'col-md-12';
-                wrapperGallery = '';
+                wrapperGallery = isMobile ? 'gallery' : '';
                 break;
             case '3':
                 sizeChange = 'col-md-12';
@@ -1371,7 +1371,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
                 if (this.gridViewType == '1') {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 collapse fade show p-1 mb-1 rounded-4" id="timeline-${index}1" style="background: ${background}">
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4" id="timeline-${index}1" style="background: ${background}">
                                     <div class="row ${wrapperGallery}">
                                         <div class="${sizeChange}">
                                             <div class="video-wrapper">
@@ -1392,7 +1392,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 </div>`;
                 } else {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item ${filters}" id="timeline-${index}1">
+                                <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1" id="timeline-${index}1">
                                     <div class="portfolio-wrap ${wrapperGallery}">
                                         <div class="video-wrapper">
                                             <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
@@ -1590,7 +1590,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
             var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
             if (this.gridViewType == '1') {
-                html += `<div class="portfolio-item filter_name p-1 mb-1 rounded-4" style="background: ${background}">
+                html += `<div class="portfolio-item filter_name p-0 mb-1 rounded-4" style="background: ${background}">
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'}">
                                     <div class="video-wrapper">
@@ -1611,7 +1611,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                         </div>`;
             } else {
                 var colShowR = isMobile ? 'col-6' : 'col-xl-2 col-lg-3 col-md-6 col-6';
-                html += `<div class="${colShowR} portfolio-item video-relation p-1 filter_name" >
+                html += `<div class="${colShowR} portfolio-item video-relation filter_name p-1" >
                             <div class="portfolio-wrap gallery">
                                 <div class="video-wrapper">
                                     <a href="${item.scpt}"
