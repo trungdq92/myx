@@ -385,9 +385,9 @@ const PageBase = class PageBase {
         this.galleryColThumbs = colThumbs;
 
         var isMobileShow = CommomFunction._isMobile() ? 'd-none' : '';
-        return ` <div class="row justify-content-center chapter-grid-view-style">
-                    <div class="col-lg-12 text-end">
-                        <div class="my-3 fs-4">
+        return ` <div class="chapter-grid-view-style">
+                    <div class="row justify-content-center text-end">
+                        <div class="col-lg-12 my-3 fs-4 px-0">
                             <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="1"><i class="bi bi-list navbar-toggler"></i></a>
                             <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="2"><i class="bi bi-grid navbar-toggler"></i></i></a>
                             <a href="javascript:DomEventFuntion._changeViewPageStyle(3,'${pageNane}');" class="p-2 mx-1 grid-style" data-type="3"><i class="bi bi-grid-3x3-gap navbar-toggler"></i></a>
@@ -461,13 +461,18 @@ const HomePage = class HomePage extends PageBase {
                             </div>`;
         })
         return `<div class="container__">
-                    <section id="about" class="about container">
+                    <div class="container"> 
+                        <div class="row">
+                            <h1 class="h1 text-capitalize pb-0 fw-bold">MYX<hr></h1>
+                        </div>
+                    </div>
+                    <section id="about" class="about container_">
                         <div class="section-title">
                             <h2>About</h2>
                         </div>
-                        <div class="row justify-content-center container">
-                            <div class="col-lg-12 pt-4 content text-center">
-                                <div class="text-muted">
+                        <div class="container">
+                            <div class="row pt-4 content text-center">
+                                <div class="col-lg-12 text-muted">
                                     ${this.gallery.contents.join("")}
                                 </div>
                             </div>
@@ -537,7 +542,7 @@ const GroupPage = class GroupPage extends PageBase {
         this.groups.children.forEach((item, index) => {
             html += `<section class="gallery-item py-5 ${background[index % 2]}">
                         <div class="section-title">
-                            <h2 class="bg-transparent">
+                            <h2 class="">
                                 <a href="${path}/content/${item.id}">${item.name}<a>
                             </h2>
                         </div>
@@ -607,24 +612,24 @@ const ContentPage = class ContentPage extends PageBase {
                         </nav>
                    </div>
                 
-                    <section id="about" class="about">
+                    <section id="about" class="about row">
                         <div class="section-title">
                             <h2>About</h2>
                             <div class="fst-italic text-muted" id="content-short"></div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="col-12">
+                            <div class="row">
                                 <div id="content-description" class=" text-muted">${description}</div>
                             </div>
                         </div>
                     </section>
                 
-                    <section id="portfolio" class="portfolio section-bg gallery-content">
+                    <section id="portfolio" class="portfolio section-bg gallery-content row">
                         <div class="section-title">
                             <h2> Gallery </h2>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12">
+                        <div class="col-12">
+                            <div class="row justify-content-center">
                                 <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
                             </div>
                         </div>
@@ -729,21 +734,20 @@ const DetailPage = class DetailPage extends PageBase {
                             </ol>
                         </nav>
                     </div>
-                   
 
-                    <section id="about" class="about">
+                    <section id="about" class="about row">
                         <div class="section-title">
                             <h2>About</h2>
                             <div class="fst-italic text-muted" id="content-short">${short}</div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="col-12">
+                            <div class="row">
                                 <div id="content-description" class="text-muted">${description}</div>
                             </div>
                         </div>
                     </section>
 
-                    <section id="portfolio" class="portfolio section-bg">
+                    <section id="portfolio" class="portfolio section-bg row">
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
@@ -871,12 +875,12 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
                         </nav>
                     </div>
                    
-                    <section id="portfolio" class="portfolio section-bg">
+                    <section id="portfolio" class="portfolio section-bg row">
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            <div class="row justify-content-center">
                                 <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
                             </div>
                         </div>
@@ -1157,7 +1161,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     </div>
                     
 
-                    <section id="portfolio" class="portfolio section-bg container">
+                    <section id="portfolio" class="portfolio section-bg row">
                         ${chapterName}
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
@@ -1289,30 +1293,30 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                     </div>
                    
 
-                    <section id="about" class="about">
+                    <section id="about" class="about row">
                         <div class="section-title">
                             <h2>About</h2>
                             <div class="fst-italic text-muted" id="content-short">${short}</div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="col-12">
+                            <div class="row">
                                 <div id="content-description" class="text-muted">${description}</div>
                             </div>
                         </div>
                     </section>
 
-                    <section id="portfolio" class="portfolio section-bg">
+                    <section id="portfolio" class="portfolio section-bg row">
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12">
+                        <div class="col-lg-12">
+                            <div class="row justify-content-center">
                                 <div id="portfolio-flters" class="portfolio-flters my-3">${filters}</div>
                             </div>
                         </div>
                         ${this.galleryDisplayColHtml}
-                        <div id="items-container">
-                            <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                        <div id="items-container" class="">
+                            <div id="content-detail-area" class="list row portfolio-container px-2">${detail}</div>
                             <div class="loader" id="loader">
                                 <div></div>
                                 <div></div>
@@ -1382,7 +1386,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
                 if (this.gridViewType == '1') {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
                                     <div class="row ${wrapperGallery}">
                                         <div class="${sizeChange}">
                                             <div class="video-wrapper">
@@ -1427,7 +1431,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 }
             });
 
-            area += `<div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
+            area += `<div class="col-12 px-1 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
                         <h3 class="h3 text-end fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
                     </div>
                     ${htmlLine}
@@ -1555,7 +1559,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 </div>
 
                 <div class="container">
-                    <div class="">${detailInfo}</div>
+                    ${detailInfo}
                     ${this._renderRelationVideo()}
                 </div>`;
     }
@@ -1565,20 +1569,14 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 ${this._renderGalleryShowColumn()}
                 <div class="row">
                     <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
-                    <div class="row">
-                        <div class="col-12 fst-italic text-capitalize">
-                            ${this.playerInfo.short}
-                        </div>
+                    <div class="col-12 fst-italic text-capitalize">
+                        ${this.playerInfo.short}
                     </div>
-                    <div class="row py-2">
-                        <div class="col-12 fw-bold">
-                            ${this.playerInfo.hashs.join(" ")}
-                        </div>
+                    <div class="col-12 fw-bold py-2">
+                        ${this.playerInfo.hashs.join(" ")}
                     </div>
-                    <div class="row py-5">
-                        <div class="col-12">
-                            ${this.playerInfo.contents.join(" ")}
-                        </div>
+                    <div class="col-12 py-5">
+                        ${this.playerInfo.contents.join(" ")}
                     </div>
                 </div>`;
     }
@@ -1653,7 +1651,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                         <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
                     </div>
                 </div>
-                <div class="container portfolio"><div class="row">${html}</div></div>`;
+                <div class="container"><div class="row portfolio">${html}</div></div>`;
     }
 
     _renderGalleryShowColumn() {

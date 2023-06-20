@@ -612,10 +612,8 @@ section {
 }
 
 .portfolio {
-  margin: 0 auto 25px auto;
   list-style: none;
   text-align: center;
-  background: #fff;
   border-radius: 50px;
 }
 
@@ -1521,19 +1519,21 @@ section {
 .theme-dark .portfolio li,
 .theme-dark .h1,
 .theme-dark .h2,
-.theme-dark .section-title h2,
-.theme-dark h5,
+.theme-dark .section-title h2 .theme-dark h5,
+.theme-dark .offcanvas,
+.theme-dark .chapter-grid-view-style a {
+  color: var(--dark-color);
+}
+
 .theme-dark .offcanvas,
 .theme-dark .chapter-grid-view-style a {
   background: var(--dark-bg-color) !important;
-  color: var(--dark-color);
 }
 
 .theme-dark .portfolio li:hover,
 .theme-dark .portfolio li.filter-active {
   color: var(--dark-li-color);
 }
-
 
 .theme-dark .list-group-item,
 .theme-dark .nav-menu a {
@@ -1549,7 +1549,7 @@ section {
 }
 
 .theme-dark .bg-color-second {
-  background: var(--dark-bg-color-second);
+  background: var(--dark-bg-color-second) !important;
 }
 
 /* end theme dark */
@@ -1565,11 +1565,18 @@ section {
 .theme-light .portfolio li,
 .theme-light .h1,
 .theme-light .h2,
-.theme-light .section-title h2,
 .theme-light h5,
+.theme-light .section-title h2 .theme-light .offcanvas,
+.theme-light .chapter-grid-view-style a {
+  color: var(--light-color);
+}
+
 .theme-light .offcanvas,
 .theme-light .chapter-grid-view-style a {
   background: var(--light-bg-color) !important;
+}
+
+.theme-light .section-title h2 {
   color: var(--light-color);
 }
 
@@ -1593,7 +1600,7 @@ section {
 }
 
 .theme-light .bg-color-second {
-  background: var(--light-bg-color-second);
+  background: var(--light-bg-color-second) !important;
 }
 
 /* end theme light */
