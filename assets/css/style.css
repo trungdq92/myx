@@ -1345,21 +1345,149 @@ section {
   color: #45505b;
 }
 
+.change-theme {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.breadcrumb-item,
+.bx {
+  font-weight: bold;
+}
+
+.offcanvas-body button.btn {
+  text-align: start;
+  width: 100%;
+  padding: 6px;
+  border: 0;
+  border-radius: 0;
+}
+
+/* theme dark */
+:root {
+  --dark-bg-color: #1a1b1e;
+  --dark-color: #c1c2c5;
+  --dark-color-active: #fff;
+  --dark-li-color: #0563bb;
+  --dark-bg-color-second: #272829;
+
+  --light-bg-color: #fff;
+  --light-color: #45505b;
+  --light-color-active: #fff;
+  --light-li-color: #0563bb;
+  --light-bg-color-second: #F2F2F2;
+}
+
 .bg-primary,
 .btn-primary {
   background-color: #0563bb;
   border: #0563bb 1px solid;
 }
 
-.btn-check:checked+.btn,
-.btn.active,
-.btn.show,
-.btn:first-child:active,
-:not(.btn-check)+.btn:active {
-  color: #c1c2c5;
-  background: #1a1b1e;
-  border: #c1c2c5 1px solid;
+.theme-dark {
+  color: var(--dark-color);
+  background: var(--dark-bg-color) !important;
 }
+
+.theme-dark .change-theme,
+.theme-dark label,
+.theme-dark .portfolio,
+.theme-dark .portfolio li,
+.theme-dark .h1,
+.theme-dark .h2,
+.theme-dark .section-title h2,
+.theme-dark h5,
+.theme-dark .offcanvas,
+.theme-dark .btn-close,
+.theme-dark .chapter-grid-view-style a {
+  color: var(--dark-color);
+}
+
+.theme-dark .offcanvas,
+.theme-dark .chapter-grid-view-style a {
+  background: var(--dark-bg-color) !important;
+}
+
+.theme-dark .portfolio li:hover,
+.theme-dark .portfolio li.filter-active {
+  color: var(--dark-li-color);
+}
+
+.theme-dark .list-group-item,
+.theme-dark .nav-menu a {
+  background-color: var(--dark-bg-color-second);
+  color: var(--dark-color);
+}
+
+.theme-dark .offcanvas-body a.active,
+.theme-dark .offcanvas-body button.active {
+  color: var(--dark-color-active);
+  background: var(--dark-li-color);
+  border-top: 1px solid var(--dark-bg-color-second);
+}
+
+.theme-dark .bg-color-second {
+  background: var(--dark-bg-color-second) !important;
+}
+
+/* end theme dark */
+/* theme light */
+.theme-light {
+  color: var(--light-color);
+  background: var(--light-bg-color) !important;
+}
+
+.theme-light .change-theme,
+.theme-light label,
+.theme-light .portfolio,
+.theme-light .portfolio li,
+.theme-light .h1,
+.theme-light .h2,
+.theme-light h5,
+.theme-light .section-title h2,
+.theme-light .offcanvas,
+.theme-light .chapter-grid-view-style a {
+  color: var(--light-color);
+}
+
+.theme-light .offcanvas,
+.theme-light .chapter-grid-view-style a {
+  background: var(--light-bg-color) !important;
+}
+
+.theme-light .section-title h2 {
+  color: var(--light-color);
+}
+
+.theme-light .portfolio li:hover,
+.theme-light .portfolio li.filter-active {
+  color: var(--light-li-color);
+}
+
+.theme-light .list-group-item,
+.theme-light .nav-menu a {
+  background-color: var(--light-bg-color-second);
+  color: var(--light-color);
+}
+
+.theme-light .offcanvas-body a.active,
+.theme-light .offcanvas-body button.active {
+  color: var(--light-color-active);
+  background-color: var(--light-li-color);
+  border-top: 1px solid var(--light-bg-color-second);
+}
+
+.theme-light .bg-color-second {
+  background: var(--light-bg-color-second) !important;
+}
+
+.theme-light .btn-close-white {
+  filter: unset;
+}
+
+/* end theme light */
+
 
 .video-wrapper iframe,
 .video-wrapper video,
@@ -1423,7 +1551,6 @@ section {
   font-size: 25px !important;
 }
 
-
 .loader {
   display: inline-block;
   position: relative;
@@ -1442,7 +1569,7 @@ section {
   position: absolute;
   left: 8px;
   width: 16px;
-  background: #0563bb;
+  background: var(--dark-li-color);
   animation: loader 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
@@ -1473,134 +1600,3 @@ section {
     height: 32px;
   }
 }
-
-.breadcrumb-item,
-.bx {
-  font-weight: bold;
-}
-
-.offcanvas-body button.btn {
-  text-align: start;
-  width: 100%;
-  padding: 6px;
-  border: 0;
-  border-radius: 0;
-}
-
-.change-theme {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-/* theme dark */
-:root {
-  --dark-bg-color: #1a1b1e;
-  --dark-color: #c1c2c5;
-  --dark-color-active: #fff;
-  --dark-li-color: #0563bb;
-  --dark-bg-color-second: #272829;
-
-  --light-bg-color: #fff;
-  --light-color: #45505b;
-  --light-color-active: #fff;
-  --light-li-color: #0563bb;
-  --light-bg-color-second: #F2F2F2;
-}
-
-.theme-dark {
-  color: var(--dark-color);
-  background: var(--dark-bg-color) !important;
-}
-
-.theme-dark .change-theme,
-.theme-dark label,
-.theme-dark .portfolio,
-.theme-dark .portfolio li,
-.theme-dark .h1,
-.theme-dark .h2,
-.theme-dark .section-title h2 .theme-dark h5,
-.theme-dark .offcanvas,
-.theme-dark .chapter-grid-view-style a {
-  color: var(--dark-color);
-}
-
-.theme-dark .offcanvas,
-.theme-dark .chapter-grid-view-style a {
-  background: var(--dark-bg-color) !important;
-}
-
-.theme-dark .portfolio li:hover,
-.theme-dark .portfolio li.filter-active {
-  color: var(--dark-li-color);
-}
-
-.theme-dark .list-group-item,
-.theme-dark .nav-menu a {
-  background-color: var(--dark-bg-color-second);
-  color: var(--dark-color);
-}
-
-.theme-dark .offcanvas-body a.active,
-.theme-dark .offcanvas-body button.active {
-  color: var(--dark-color-active);
-  background: var(--dark-li-color);
-  border-top: 1px solid var(--dark-bg-color-second);
-}
-
-.theme-dark .bg-color-second {
-  background: var(--dark-bg-color-second) !important;
-}
-
-/* end theme dark */
-/* theme light */
-.theme-light {
-  color: var(--light-color);
-  background: var(--light-bg-color) !important;
-}
-
-.theme-light .change-theme,
-.theme-light label,
-.theme-light .portfolio,
-.theme-light .portfolio li,
-.theme-light .h1,
-.theme-light .h2,
-.theme-light h5,
-.theme-light .section-title h2 .theme-light .offcanvas,
-.theme-light .chapter-grid-view-style a {
-  color: var(--light-color);
-}
-
-.theme-light .offcanvas,
-.theme-light .chapter-grid-view-style a {
-  background: var(--light-bg-color) !important;
-}
-
-.theme-light .section-title h2 {
-  color: var(--light-color);
-}
-
-.theme-light .portfolio li:hover,
-.theme-light .portfolio li.filter-active {
-  color: var(--light-li-color);
-}
-
-
-.theme-light .list-group-item,
-.theme-light .nav-menu a {
-  background-color: var(--light-bg-color-second);
-  color: var(--light-color);
-}
-
-.theme-light .offcanvas-body a.active,
-.theme-light .offcanvas-body button.active {
-  color: var(--light-color-active);
-  background: var(--light-li-color);
-  border-top: 1px solid var(--light-bg-color-second);
-}
-
-.theme-light .bg-color-second {
-  background: var(--light-bg-color-second) !important;
-}
-
-/* end theme light */
