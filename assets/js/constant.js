@@ -5,7 +5,12 @@ const Constants = class Constants {
     static pageContentDetail = 'detail'
     static IsotopeLoading = false;
     static ListFitersLoading = false;
-    static BackGroundColor = ["#272829", "transparent"];
+    static BackGroundColor = ["bg-color-second", "bg-transparent"];
+    static ThemeKey = 'ThemeStyle';
+    static ThemeStyle = {
+        dark: 'theme-dark',
+        light: 'theme-light'
+    };
     static videoScpType = {
         video: 'video',
         iframe: 'iframe'
@@ -232,4 +237,19 @@ const DomEventFuntion = class DomEventFuntion {
         location.reload(true);
     }
 
+    static _changeThemeStyle() {
+        var type = localStorage.getItem(Constants.ThemeKey);
+        switch (type) {
+            case Constants.ThemeStyle.dark:
+                localStorage.setItem(Constants.ThemeKey, Constants.ThemeStyle.light);
+                break;
+            case Constants.ThemeStyle.light:
+                localStorage.setItem(Constants.ThemeKey, Constants.ThemeStyle.dark);
+                break;
+            default:
+                localStorage.setItem(Constants.ThemeKey, Constants.ThemeStyle.dark);
+        }
+
+        location.reload(true);
+    }
 }

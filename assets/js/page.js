@@ -126,6 +126,7 @@ const PageBase = class PageBase {
         this.throttleTimer = 1000;
         this.isLoading = false;
 
+        this.themes = 'theme-dark';
         this.DefaultGalleyViewer = 12;
     }
 
@@ -139,6 +140,11 @@ const PageBase = class PageBase {
 
         var dataGalleryMenu = await CommomFunction._loadJsonAsync(this.loadGalleyTree);
         this.treeMenu = dataGalleryMenu;
+
+        // setting theme
+        this.themes = localStorage.getItem(Constants.ThemeKey);
+        if (!this.themes) this.themes = Constants.ThemeStyle.dark;
+        document.body.className = this.themes;
     }
 
     _initAnomationAfterRender() {
@@ -316,12 +322,17 @@ const PageBase = class PageBase {
                                 <a href="${this.rootUrl}"><h3 id="offcanvasRightLabel" class="h3 p-0 my-0 text-uppercase text-muted">${Constants.pjName}</h3></a>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
-                            <div class="offcanvas-body px-0 pt-0">
-                                <div class="offcanvas-body nav-menu">
-                                    ${menu}
+                            <div class="offcanvas-body px-0 pt-0 nav-menu">
+                                ${menu}
+                                <div class="change-theme px-5 py-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input mt-1" type="checkbox" id="change-theme-style" 
+                                            ${this.themes == Constants.ThemeStyle.dark ? 'checked' : ''}
+                                            onchange="DomEventFuntion._changeThemeStyle()">
+                                        <label class="form-check-label" for="change-theme-style">Dark Theme</label>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>`
@@ -438,7 +449,7 @@ const HomePage = class HomePage extends PageBase {
         var background = Constants.BackGroundColor;
         var galleryInfo = '';
         this.gallery.children.forEach((item, index) => {
-            galleryInfo += `<div class="py-5" style="background: ${background[index % 2]}">
+            galleryInfo += `<div class="py-5 ${background[index % 2]}">
                                 <div class="card border-0 bg-transparent">
                                     <div class="card-body container">
                                         <h3 class="h3 text-capitalize"><a href="${this.rootUrl}/pages/${item.id}/">${item.name}</a></h3>
@@ -524,7 +535,7 @@ const GroupPage = class GroupPage extends PageBase {
         var _page = this;
         var background = Constants.BackGroundColor;
         this.groups.children.forEach((item, index) => {
-            html += `<section class="gallery-item py-5" style="background: ${background[index % 2]}">
+            html += `<section class="gallery-item py-5 ${background[index % 2]}">
                         <div class="section-title">
                             <h2 class="bg-transparent">
                                 <a href="${path}/content/${item.id}">${item.name}<a>
@@ -1290,7 +1301,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                         </div>
                     </section>
 
-                    <section id="portfolio" class="portfolio section-bg container">
+                    <section id="portfolio" class="portfolio section-bg">
                         <div class="section-title">
                             <h2>Gallery</h2>
                         </div>
@@ -1371,7 +1382,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
                 if (this.gridViewType == '1') {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4" id="timeline-${index}1" style="background: ${background}">
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
                                     <div class="row ${wrapperGallery}">
                                         <div class="${sizeChange}">
                                             <div class="video-wrapper">
@@ -1382,7 +1393,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                         </div>
                                         <div class="col m-auto">
                                             <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
-                                                <a class="text-capitalize text-white fs-5" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                                <a class="text-capitalize h2 fs-5" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                                             </div>
                                             <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
                                                 ${item.short}
@@ -1416,7 +1427,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 }
             });
 
-            area += ` <div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
+            area += `<div class="col-12 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
                         <h3 class="h3 text-end fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
                     </div>
                     ${htmlLine}
@@ -1590,7 +1601,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
             var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
             if (this.gridViewType == '1') {
-                html += `<div class="portfolio-item filter_name p-0 mb-1 rounded-4" style="background: ${background}">
+                html += `<div class="portfolio-item filter_name p-0 mb-1 rounded-4 ${background}">
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'}">
                                     <div class="video-wrapper">
@@ -1601,7 +1612,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                 </div>
                                 <div class="col m-auto">
                                     <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
-                                        <a class="text-capitalize text-white fs-5" href="${url}">${item.name}</a>
+                                        <a class="text-capitalize h2 fs-5" href="${url}">${item.name}</a>
                                     </div>
                                     <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
                                         ${item.short}
