@@ -122,7 +122,7 @@ const PageBase = class PageBase {
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 24;
+        this.itemsPerPage = 240;
         this.throttleTimer = 1000;
         this.isLoading = false;
 
