@@ -1433,7 +1433,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col m-auto">
+                                        <div class="col m-auto px-0">
                                             <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
                                                 <a class="text-capitalize h2 fs-5" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
                                             </div>
@@ -1646,7 +1646,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                         </a>
                                     </div>
                                 </div>
-                                <div class="col m-auto">
+                                <div class="col m-auto px-0">
                                     <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
                                         <a class="text-capitalize h2 fs-5" href="${url}">${item.name}</a>
                                     </div>
