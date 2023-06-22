@@ -206,7 +206,6 @@ const InitGalleryFuntion = class InitGalleryFuntion {
         glightBox.reload();
         this._initIsotope();
     }
-
 }
 
 const DomEventFuntion = class DomEventFuntion {

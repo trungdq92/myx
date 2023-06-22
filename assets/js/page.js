@@ -769,8 +769,10 @@ const DetailPage = class DetailPage extends PageBase {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        this.details.viewer.forEach(viewer => {
+        this.details.viewer.forEach((viewer, vIndex) => {
             var imgHtml = '';
+            var imgIndicators = '';
+            var imgInLines = [];
             var countHash = viewer.hashtags.length;
             viewer.hashtags.forEach((item) => {
                 var renderImgs = item.renderImg;
@@ -780,18 +782,38 @@ const DetailPage = class DetailPage extends PageBase {
                 }
 
                 var renders = [...item.imgs, ...imgRenders];
+                var defaultGalleyImgs = [];
                 renders.forEach((path, index) => {
                     if (index > (_page.DefaultGalleyViewer / countHash) && Constants.galleryType.gallery == _page.groupId)
                         return;
 
-                    imgHtml += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name gallery">
-                                <div class="video-wrapper">
-                                    <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
-                                        <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
-                                    </a>
-                                </div>
-                            </div>`;
+                    defaultGalleyImgs.push(path);
                 });
+
+                var colsplit = _page.galleryShowCol.split('-');
+                var intCol = parseInt(_page.galleryShowCol.split('-')[colsplit.length - 1]);
+                intCol = 12 / intCol;
+                var inlineLegth = defaultGalleyImgs.length % intCol == 0 ? defaultGalleyImgs.length / intCol : defaultGalleyImgs.length / intCol + 1;
+                imgInLines = Array.from({ length: inlineLegth }, () => defaultGalleyImgs.splice(0, intCol));
+
+                imgInLines.forEach((arr, index) => {
+                    imgIndicators += `<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${index}" class=" ${index == 0 ? 'active' : ''}" aria-current="true" aria-label="Slide ${index}"></button>`;
+                    var lines = '';
+                    arr.forEach((path, index) => {
+                        lines += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name gallery">
+                                            <div class="video-wrapper">
+                                                <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
+                                                    <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                                                </a>
+                                            </div>
+                                        </div>`;
+                    })
+
+                    imgHtml += `<div class="carousel-item ${index == 0 ? 'active' : ''}">
+                                    <div class="row">${lines}</div>
+                                </div>`;
+
+                })
 
             })
 
@@ -802,7 +824,22 @@ const DetailPage = class DetailPage extends PageBase {
                             </a>
                         </div>
                         <div class="row">
-                            ${imgHtml}
+                            <div id="carousel-${vIndex}" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    ${imgIndicators}
+                                </div>
+                                <div class="carousel-inner">
+                                    ${imgHtml}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
                     </div>`;
         });

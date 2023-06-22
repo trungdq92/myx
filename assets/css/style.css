@@ -1356,6 +1356,10 @@ section {
   font-weight: bold;
 }
 
+.carousel{
+  padding: 0;
+}
+
 .offcanvas-body button.btn {
   text-align: start;
   width: 100%;
@@ -1427,7 +1431,8 @@ section {
   border-top: 1px solid var(--dark-bg-color-second);
 }
 
-.theme-dark .bg-color-second {
+.theme-dark .bg-color-second,
+.theme-dark .carousel {
   background: var(--dark-bg-color-second) !important;
 }
 
@@ -1478,7 +1483,8 @@ section {
   border-top: 1px solid var(--light-bg-color-second);
 }
 
-.theme-light .bg-color-second {
+.theme-light .bg-color-second,
+.theme-light .carousel {
   background: var(--light-bg-color-second) !important;
 }
 
