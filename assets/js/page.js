@@ -770,10 +770,13 @@ const DetailPage = class DetailPage extends PageBase {
         var area = '';
         var _page = this;
         this.details.viewer.forEach((viewer, vIndex) => {
+            var countHash = viewer.hashtags.length;
+            var defaultGalleyImgs = [];
+            var imgInLines = [];
             var imgHtml = '';
             var imgIndicators = '';
-            var imgInLines = [];
-            var countHash = viewer.hashtags.length;
+
+            // get imgs list
             viewer.hashtags.forEach((item) => {
                 var renderImgs = item.renderImg;
                 var imgRenders = [];
@@ -782,38 +785,36 @@ const DetailPage = class DetailPage extends PageBase {
                 }
 
                 var renders = [...item.imgs, ...imgRenders];
-                var defaultGalleyImgs = [];
                 renders.forEach((path, index) => {
                     if (index > (_page.DefaultGalleyViewer / countHash) && Constants.galleryType.gallery == _page.groupId)
                         return;
 
                     defaultGalleyImgs.push(path);
                 });
+            })
 
-                var colsplit = _page.galleryShowCol.split('-');
-                var intCol = parseInt(_page.galleryShowCol.split('-')[colsplit.length - 1]);
-                intCol = 12 / intCol;
-                var inlineLegth = defaultGalleyImgs.length % intCol == 0 ? defaultGalleyImgs.length / intCol : defaultGalleyImgs.length / intCol + 1;
-                imgInLines = Array.from({ length: inlineLegth }, () => defaultGalleyImgs.splice(0, intCol));
+            var colsplit = _page.galleryShowCol.split('-');
+            var intCol = parseInt(_page.galleryShowCol.split('-')[colsplit.length - 1]);
+            intCol = 12 / intCol;
+            var inlineLegth = defaultGalleyImgs.length % intCol == 0 ? defaultGalleyImgs.length / intCol : defaultGalleyImgs.length / intCol + 1;
+            imgInLines = Array.from({ length: inlineLegth }, () => defaultGalleyImgs.splice(0, intCol));
 
-                imgInLines.forEach((arr, index) => {
-                    imgIndicators += `<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${index}" class=" ${index == 0 ? 'active' : ''}" aria-current="true" aria-label="Slide ${index}"></button>`;
-                    var lines = '';
-                    arr.forEach((path, index) => {
-                        lines += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name gallery">
+            imgInLines.forEach((arr, index) => {
+                imgIndicators += `<button type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide-to="${index}" class=" ${index == 0 ? 'active' : ''}" aria-current="true" aria-label="Slide ${index}"></button>`;
+                var lines = '';
+                arr.forEach((path, aIndex) => {
+                    lines += `<div class="${_page.galleryShowCol} portfolio-item p-0 px-1 filter_name gallery">
                                             <div class="video-wrapper">
                                                 <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
-                                                    <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                                                    <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${aIndex}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                                                 </a>
                                             </div>
                                         </div>`;
-                    })
+                })
 
-                    imgHtml += `<div class="carousel-item ${index == 0 ? 'active' : ''}">
+                imgHtml += `<div class="carousel-item ${index == 0 ? 'active' : ''}">
                                     <div class="row">${lines}</div>
                                 </div>`;
-
-                })
 
             })
 
