@@ -355,6 +355,7 @@ const PageBase = class PageBase {
         var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + pageNane);
         var colShow = '';
         var colThumbs = '';
+        var isMobile = CommomFunction._isMobile();
         switch (viewType) {
             case '1':
                 colShow = 'col-12';
@@ -377,14 +378,14 @@ const PageBase = class PageBase {
                 colThumbs = 'thumbs-cover-height-6';
                 break;
             default:
-                colShow = 'col-4';
+                colShow = isMobile ? 'col-6' : 'col-4';
                 colThumbs = 'thumbs-cover-height-4';
         }
 
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
 
-        var isMobileShow = CommomFunction._isMobile() ? 'd-none' : '';
+        var isMobileShow = isMobile ? 'd-none' : '';
         return ` <div class="chapter-grid-view-style">
                     <div class="row justify-content-center text-end">
                         <div class="col-lg-12 my-3 fs-4 px-0">
@@ -1382,6 +1383,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         //timeline
         timelines = CommomFunction._groupBy(links, 'times');
         var timelineKey = Object.keys(timelines);
+        var timelineKey = timelineKey.sort((a, b) => Date.parse(b) - Date.parse(a));
 
         var sizeChange = '';
         var background = Constants.BackGroundColor[1];
