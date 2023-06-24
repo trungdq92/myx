@@ -1,0 +1,92 @@
+{
+    "id": "nanase_mizuho",
+    "parentid": "lxhen",
+    "chapters": [
+        {
+            "id": "my_lover_is_a_vampire",
+            "name": "Người Yêu Của Tôi Là Vampire",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1610714445581.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/7cae090e-17c6-4d8a-82db-10d7a09e3c46/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "23"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/e4af798d-a3aa-4e42-93e2-3f70405ba6da/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/e1a8186d-dc7d-41b3-a49a-6823ac51aaf6/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/0ef755ba-7302-4618-b5af-4fd45ff53d03/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/84b6891d-3da0-46be-a784-c086d0cfc295/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/235d0300-6b7b-409b-9692-655d51dd4a8a/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/9cf57815-6f4a-464f-b24f-2ab620e769f5/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c8",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/b7546bf7-e226-435f-9526-88f9ebbcac24/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "13"
+                },
+                {
+                    "id": "c9",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/e4a9c32e-8c5a-498c-9eb0-a2ffee1644ba/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c10",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/284e4158-11d8-4f01-b95e-c6b2d1cf54bc/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "12"
+                },
+                {
+                    "id": "c11",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/9e1010b8-6b52-47fa-9485-81377dd363d3/dce381ac-e739-4bd6-8983-1081f0a1db89/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                }
+            ]
+        }
+    ]
+}

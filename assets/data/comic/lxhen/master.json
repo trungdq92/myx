@@ -3,14 +3,12 @@
     "parentid": "comic",
     "children": [
         {
-            "id": "living_with_succubus",
-            "name": "Living with Succubus",
+            "id": "sasamori_tomoe",
+            "name": "sasamori tomoe",
             "artist": "Sasamori Tomoe",
             "short": "Sasamori Tomoe",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "succubus",
                 "sasamori_tomoe"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/159999325730.jpg",
@@ -20,32 +18,12 @@
             ]
         },
         {
-            "id": "mikakinos_secret_sexlife",
-            "name": "Mikakinos Secret Sex Life",
-            "artist": "Sasamori Tomoe",
-            "short": "Sasamori Tomoe",
-            "datetime": "2022-02-02",
-            "hashtags": [
-                "lxhen",
-                "life",
-                "sasamori_tomoe"
-            ],
-            "thumbs": "https://lxmanga.net/storage/images/covers/1646763125778.jpg",
-            "contents": [
-                "Sasamori Tomoe<br/>Thể loại: Ngực Lớn OneShot Nữ Sinh Truyện Không Che LXHENTAI",
-                ""
-            ]
-        },
-        {
-            "id": "secret_sex_room",
-            "name": "Secret Sex Room",
+            "id": "nico_pun_nise",
+            "name": "Nico Pun Nise",
             "artist": "Nico Pun Nise",
             "short": "Nico Pun Nise",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "secret",
-                "life",
                 "nico_pun_nise"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1651197027361.jpg",
@@ -55,15 +33,12 @@
             ]
         },
         {
-            "id": "melty_lover",
-            "name": "Melty Lover",
+            "id": "savan",
+            "name": "SAVAN",
             "artist": "SAVAN",
             "short": "SAVAN",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "life",
-                "school",
                 "SAVAN"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1600437302386.jpg",
@@ -73,16 +48,12 @@
             ]
         },
         {
-            "id": "my_lover_is_a_vampire",
-            "name": "Người Yêu Của Tôi Là Vampire",
+            "id": "nanase_mizuho",
+            "name": "Nanase Mizuho",
             "artist": "Nanase Mizuho",
             "short": "Nanase Mizuho",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "life",
-                "school",
-                "elf",
                 "nanase_mizuho"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1610714445581.jpg",
@@ -92,15 +63,12 @@
             ]
         },
         {
-            "id": "boshi_double_soukan",
-            "name": "Boshi Double Soukan",
+            "id": "izayoi_seishin",
+            "name": "Izayoi Seishin",
             "artist": "Izayoi Seishin",
             "short": "Izayoi Seishin",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "life",
-                "family",
                 "izayoi_seishin"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1606830854949.jpg",
@@ -110,15 +78,12 @@
             ]
         },
         {
-            "id": "zecchou_yokkyuu",
-            "name": "Zecchou Yokkyuu",
+            "id": "mikami_cannon",
+            "name": "Mikami Cannon",
             "artist": "Mikami Cannon",
             "short": "Mikami Cannon",
             "datetime": "2022-02-02",
             "hashtags": [
-                "lxhen",
-                "life",
-                "friend",
                 "mikami_cannon"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1599883128502.jpg",
@@ -128,15 +93,12 @@
             ]
         },
         {
-            "id": "shameless",
-            "name": "Shameless",
+            "id": "utu",
+            "name": "Utu",
             "artist": "Utu",
             "short": "Utu",
             "datetime": "2022-07-02",
             "hashtags": [
-                "lxhen",
-                "life",
-                "friend",
                 "Utu"
             ],
             "thumbs": "https://lxmanga.net/storage/images/covers/1600528545324.jpg",

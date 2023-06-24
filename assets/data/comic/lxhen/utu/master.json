@@ -1,0 +1,85 @@
+{
+    "id": "utu",
+    "parentid": "lxhen",
+    "chapters": [
+        {
+            "id": "shameless",
+            "name": "shameless",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1600528545324.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/75315ac0-a696-4544-96e3-47a52e7e0bd5/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "33"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/75e4fd40-c678-4b97-9c1a-cee26ae591bb/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/c17813e4-7469-46bc-b124-376989188ec9/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/c467b402-a943-4015-b3a7-61729334e6eb/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "20"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/929b6bff-bb37-4b08-8fa7-a267a7ee0a30/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/ef82964d-3929-457a-a485-84524d38e9b0/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "24"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/ef5c5a20-7b19-42ec-8825-28f5fe2c6486/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c8",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/af3f6c2e-9a35-4f41-9322-cedd5cc0a20d/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "20"
+                },
+                {
+                    "id": "c9",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/a790e043-6b78-476c-b6ab-ee6233e3f21c/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c10",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/96ea62ab-6b4f-4f00-99ac-238cf1a5b235/69d334c8-c528-4457-921f-2782f930c76a/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "27"
+                }
+            ]
+        }
+    ]
+}

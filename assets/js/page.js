@@ -1058,7 +1058,7 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
 
         var html = ''
         tags.sort().forEach(item => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters">${item.replace('_', ' ')}</button>`;
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters">${item.replaceAll('_', ' ')}</button>`;
         });
 
         return html;
@@ -1231,7 +1231,15 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
             imgRenders = CommomFunction._createImgLinkLoop(renderImgs[0], renderImgs[1], parseInt(renderImgs[2]), parseInt(renderImgs[3]));
         }
 
+        var renderGroupImgs = [];
+        if (this.chapter.renderGroupImgs)
+            this.chapter.renderGroupImgs.forEach(item => {
+                var group = CommomFunction._createImgLinkLoop(item.prefix, item.subfix, parseInt(item.start), parseInt(item.end));
+                renderGroupImgs = [...renderGroupImgs, ...group];
+            })
+
         var imgs = [...this.chapter.imgs, ...imgRenders];
+        imgs = [...imgs, ...renderGroupImgs]
         imgs.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1">
                         <a href="${item}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">

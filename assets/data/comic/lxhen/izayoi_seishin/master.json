@@ -1,0 +1,71 @@
+{
+    "id": "izayoi_seishin",
+    "parentid": "lxhen",
+    "chapters": [
+        {
+            "id": "boshi_double_soukan",
+            "name": "Boshi Double Soukan",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1606830854949.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/fe9a1258-c3d1-47bb-b2ba-ee8d279f3373/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "24"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/2ea6cf95-e1c6-4405-820e-a8f8ca9f2596/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "11"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/d422d2c6-2c3f-4e83-97fd-3210b183a83e/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "26"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/e3a780e2-2461-4c44-bfe8-daa6030f5d78/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "14"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/2e15c92e-f331-4adb-8211-937bd776d3fa/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "31"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/f32dc871-edae-4310-a2e6-51856acf65d1/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "33"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/292907e0-242e-4006-a992-fb0e87286c38/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "33"
+                },
+                {
+                    "id": "c8",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f5c1463f-5a2b-4c64-b3e2-b9d2f6c2f55f/eaa60ed0-acb1-4373-8948-0e2a750140ee/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "43"
+                }
+            ]
+        }
+    ]
+}
