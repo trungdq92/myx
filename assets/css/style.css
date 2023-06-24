@@ -1251,15 +1251,15 @@ section {
 .thumbs-cover-height-1,
 .thumbs-cover-height-2,
 .thumbs-cover-height-6 {
-  height: 20vw;
+  height: calc(100vw/6);
 }
 
 .thumbs-cover-height-3 {
-  height: 35vw;
+  height: calc(100vw/3);
 }
 
 .thumbs-cover-height-4 {
-  height: 40vw;
+  height: calc(100vw/4);
 }
 
 .thumbs-cover-video {
