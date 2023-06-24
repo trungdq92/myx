@@ -1,0 +1,147 @@
+{
+    "id": "linda",
+    "parentid": "fakku",
+    "chapters": [
+        {
+            "id": "love_sharing",
+            "name": "Love Sharing",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1630077851627.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/550db992-f04e-41c7-8a42-59d76e9e9af3/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/e17bbd93-dce1-407e-895e-4b7b2d516a00/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/80bfe610-96ac-460f-a524-b8ea62484239/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/a5555882-f53a-4cba-aa3b-068a768358e2/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/0d0e4f2b-bee9-431a-b286-38ea1582bce1/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "10"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/4b3e2116-5e94-4cbb-9748-c9d682f4c87e/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/11eab770-8416-4551-bab2-0d39ae5f1913/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c8",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/14c95e1e-6336-4b68-9d73-8c03bde7bf9a/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c9",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/8f606047-462b-4a20-9135-750c9d30e921/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "23"
+                },
+                {
+                    "id": "c10",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/37f132c1-1811-44bb-977e-886abb802ae4/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c10",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/37f132c1-1811-44bb-977e-886abb802ae4/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                },
+                {
+                    "id": "c11",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/f7d54221-cf0c-4493-84e1-3fc0fd0c009d/239e7a27-3371-4429-a838-4e544a810985/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "18"
+                }
+            ]
+        },
+        {
+            "id": "party",
+            "name": "Tối Nay Các Cô Vợ Mở Tiệc",
+            "thumbs": "https://lxmanga.net/storage/images/covers/7543dbe1-ac38-456a-a6f8-b6657519e67c.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/7543dbe1-ac38-456a-a6f8-b6657519e67c/f156d3c3-8e01-49a6-8e30-ab41615fda3a/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "47"
+                }
+            ]
+        },
+        {
+            "id": "night_secret",
+            "name": "Đêm Mà Em Chưa Bao Giờ Nói Với Anh",
+            "thumbs": "https://lxmanga.net/storage/images/covers/c689c540-4fd2-4e42-80e1-18d9d42cad1f.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/c689c540-4fd2-4e42-80e1-18d9d42cad1f/3ad553d9-6d26-4eec-917d-4b22061527bd/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "54"
+                }
+            ]
+        },
+        {
+            "id": "wife_cheats",
+            "name": "If My Wife Cheats on Me",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1648745714303.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/4cd8a878-b14a-4da0-9db6-eae2e6318905/30bbe6bf-77ca-428a-9d71-18f3d0a11869/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "56"
+                }
+            ]
+        }
+    ]
+}
