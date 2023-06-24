@@ -127,6 +127,59 @@
                 "0",
                 "51"
             ]
+        },
+        {
+            "id": "gaming_harem",
+            "name": "Gaming Harem",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1612290004336.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/28a80797-bc8a-4dfb-8452-25e66da3d230/2099b119-d851-4c7a-b442-e5a91c3ad5c6/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "52"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/28a80797-bc8a-4dfb-8452-25e66da3d230/fb97d0b8-3aa1-48dd-b7d8-52dfb4b0faff/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "50"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/28a80797-bc8a-4dfb-8452-25e66da3d230/a0910a84-545c-47df-b2eb-68e5b79ffb41/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "61"
+                }
+            ]
+        },
+        {
+            "id": "sex_with_senpai",
+            "name": "Sex with Senpai",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1600763130427.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/10488cb6-5127-4bb5-ad7b-70b95d91a2e5/4bd940d0-0873-4221-98d2-8a1ea84c2e8b/",
+                    "subfix": ".jpg",
+                    "start": "0",
+                    "end": "38"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/10488cb6-5127-4bb5-ad7b-70b95d91a2e5/9e5d0db1-f51a-4249-808c-b09acd06c0f0/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "36"
+                }
+            ]
         }
     ]
 }

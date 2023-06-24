@@ -1,0 +1,64 @@
+{
+    "id": "karube_guri",
+    "parentid": "lxhen",
+    "chapters": [
+        {
+            "id": "Head_head_showdown",
+            "name": "Head-To-Head Showdown",
+            "thumbs": "https://lxmanga.net/storage/images/covers/767acaba-8bd2-49bd-bbe4-43abd8aa0feb.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/b82da4e4-837a-43ec-a1a0-52a9014d73b7/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "35"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/fb8c9bfc-bc63-4f09-aa89-ccd356228689/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/93a93d24-442f-4e00-9371-4c11d32661de/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/41f0d820-9162-40b4-b7bc-50f000520b18/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "28"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/5716b7e5-3bd8-4e6b-8c7a-7bf8046f3596/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "16"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/8d196448-ea1a-43a9-8718-2aad090a7d8e/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/767acaba-8bd2-49bd-bbe4-43abd8aa0feb/4c4507a2-3f86-409d-9277-9dd7a461f357/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "35"
+                }
+            ]
+        }
+    ]
+}

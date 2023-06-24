@@ -80,6 +80,71 @@
                     "end": "27"
                 }
             ]
+        },
+        {
+            "id": "spread_the_peace",
+            "name": "Spread the Peace",
+            "thumbs": "https://lxmanga.net/storage/images/covers/1606095946385.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "c1",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/49c6725f-8051-42b8-b90a-c12bfa817891/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "21"
+                },
+                {
+                    "id": "c2",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/d19505bf-284c-465f-8a80-7e57df63e83f/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c3",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/a36556cc-1957-43d4-845e-14ed44fdf48a/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/3a3925b0-52b0-4e32-a195-a375087a6787/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c5",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/d5815f0f-8687-4524-9b35-eb7cd5758a4b/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "26"
+                },
+                {
+                    "id": "c6",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/aaaf1626-1387-474c-ae8f-38809db5536f/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c7",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/c1b934fe-c8c2-4939-a23e-8ce6e2914df0/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "22"
+                },
+                {
+                    "id": "c8",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/555d9d57-5d60-477b-97c7-8758314c88b6/100b4d68-8cf4-41a6-b24e-ce0ed0ceac1a/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "33"
+                }
+            ]
         }
     ]
 }
