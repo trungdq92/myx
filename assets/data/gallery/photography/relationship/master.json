@@ -12,7 +12,8 @@
                         "relationship",
                         "colleague",
                         "Admin",
-                        "VMO"
+                        "VMO",
+                        "ThuThuy"
                     ],
                     "imgs": [
                         "https://lh3.google.com/u/0/d/1P3ti-YhYvv9f5cmUOp_POKgDEbNywzLc=w1920-h961-iv1",
@@ -26,8 +27,23 @@
                     "tags": [
                         "photography",
                         "relationship",
+                        "colleague",
+                        "Tester",
+                        "VMO",
+                        "Huyen"
+                    ],
+                    "imgs": [
+                        "https://lh3.google.com/u/0/d/1C9UZX6Jk2FOy0rmNyOvWhFphvqnCn1gZ=w1365-h955-iv1"
+                    ],
+                    "renderImg": []
+                },
+                {
+                    "tags": [
+                        "photography",
+                        "relationship",
                         "friend",
-                        "university"
+                        "university",
+                        "ThuyNga"
                     ],
                     "imgs": [
                         "https://lh3.google.com/u/0/d/1FGP45KZqNsbLrfbcTo8Qz6Ey2Q7EdUFf=w1165-h961-iv1",
@@ -42,7 +58,8 @@
                         "relationship",
                         "colleague",
                         "VMO",
-                        "BA"
+                        "BA",
+                        "ThuNga"
                     ],
                     "imgs": [
                         "https://lh3.google.com/u/0/d/1jdtmkATeJ4PWNFmqvJ5mbwmd5bxNwP7d=w1165-h961-iv1",
@@ -62,7 +79,11 @@
                         "https://lh3.google.com/u/0/d/1NPjjsrlyPMlk6LX2G5vy6c4yp8S6WQx6=w1165-h961-iv1",
                         "https://lh3.google.com/u/0/d/18HQ32ElM2RzeIEjjDJ6JlemM3_Y5Bf1U=w1165-h961-iv1",
                         "https://lh3.google.com/u/0/d/1LNDSK208jjI9pYZFKT0aylQWQs2XkXc2=w1165-h961-iv1",
-                        "https://lh3.google.com/u/0/d/1DO0e2V6XMyHTF2Ozoe8jfS2dqI6XgL_V=w1165-h961-iv1"
+                        "https://lh3.google.com/u/0/d/1DO0e2V6XMyHTF2Ozoe8jfS2dqI6XgL_V=w1165-h961-iv1",
+                        "https://lh3.google.com/u/0/d/1ugpcg5YWNVG7RUYlNO2FHi5KdYkDYN-0=w1920-h955-iv1",
+                        "https://lh3.google.com/u/0/d/1Z0CcU79inl9Ko5ssjjRAxer_h60RDJw1=w1365-h955-iv1",
+                        "https://lh3.google.com/u/0/d/1nVyVl1Mwm7IJ6i7isKej2fZP8uP71c9Z=w1365-h955-iv1",
+                        "https://lh3.google.com/u/0/d/1H7vip0DC5hHXQGoh0sW4Ny32jpPGoUuX=w1365-h955-iv1"
                     ],
                     "renderImg": []
                 },
@@ -72,7 +93,8 @@
                         "relationship",
                         "colleague",
                         "Luvina",
-                        "Admin"
+                        "Admin",
+                        "Hieu"
                     ],
                     "imgs": [
                         "https://lh3.google.com/u/0/d/1FREpWPyixufDGVx6NT7Q7G75plW2L_7p=w1165-h961-iv1",

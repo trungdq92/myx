@@ -23,6 +23,17 @@
                 "An intimate relationship is an interpersonal relationship that involves physical or emotional intimacy. Although an intimate relationship is commonly a sexual relationship, it may also be a non-sexual relationship involving family, friends, or acquaintances",
                 ""
             ]
+        },
+        {
+            "id": "star",
+            "name": "Star",
+            "short": "Star",
+            "datetime": "2022-02-02",
+            "thumbs": "https://i.bloganchoi.com/bloganchoi.com/wp-content/uploads/2021/02/tong-dat-696x391.jpg?fit=700%2C20000&quality=95&ssl=1&is-pending-load=1",
+            "contents": [
+                "Famous for being famous is a term, usually used pejoratively, for someone who attains celebrity status for no clearly identifiable reason (as opposed to fame based on achievement, skill, or talent) and appears to generate their own fame, or someone who achieves fame through a family or relationship association with an existing celebrity",
+                ""
+            ]
         }
     ]
 }
