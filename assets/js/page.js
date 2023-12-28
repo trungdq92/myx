@@ -1,4 +1,4 @@
-const Page = class Page {
+﻿const Page = class Page {
     constructor() {
         // get lv tree
         var lvl = location.pathname.split('/').length;
@@ -1435,7 +1435,10 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 if (this.gridViewType == '1') {
                     htmlLine += `
                                 <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
-                                    <div class="row ${wrapperGallery}">
+                                    <div class="row ${wrapperGallery} position-relative">
+                                        <div class="data-block-indicators ms-1">
+                                            ▶️ ${item.short}
+                                        </div>
                                         <div class="${sizeChange}">
                                             <div class="video-wrapper">
                                                 <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
@@ -1456,7 +1459,13 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 } else {
                     htmlLine += `
                                 <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1" id="timeline-${index}1">
-                                    <div class="portfolio-wrap ${wrapperGallery}">
+                                    <div class="portfolio-wrap ${wrapperGallery} position-relative">
+                                        <div class="data-block-indicators">
+                                            ▶️ ${item.short}
+                                        </div>
+                                        <div class="data-block-indicators data-block-indicator-bottom">
+                                            ${item.name}
+                                        </div>
                                         <div class="video-wrapper">
                                             <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                                         </div>
@@ -1649,7 +1658,10 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (this.gridViewType == '1') {
                 html += `<div class="portfolio-item filter_name p-0 mb-1 rounded-4 ${background}">
                             <div class="row gallery">
-                                <div class="${isMobile ? 'col-4' : 'col-2'}">
+                                <div class="${isMobile ? 'col-4' : 'col-2'} position-relative">
+                                    <div class="data-block-indicators ms-1">
+                                        ▶️ ${item.short}
+                                    </div>
                                     <div class="video-wrapper">
                                         <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
                                             <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
@@ -1668,7 +1680,13 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                         </div>`;
             } else {
                 var colShowR = isMobile ? 'col-6' : 'col-xl-2 col-lg-3 col-md-6 col-6';
-                html += `<div class="${colShowR} portfolio-item video-relation filter_name p-1" >
+                html += `<div class="position-relative ${colShowR} portfolio-item video-relation filter_name p-1" >
+                            <div class="data-block-indicators">
+                                ▶️ ${item.short}
+                            </div>
+                            <div class="data-block-indicators data-block-indicator-bottom">
+                                ${item.name}
+                            </div>
                             <div class="portfolio-wrap gallery">
                                 <div class="video-wrapper">
                                     <a href="${item.scpt}"

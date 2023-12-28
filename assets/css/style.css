@@ -1621,3 +1621,30 @@ section {
     height: 32px;
   }
 }
+
+.data-block-indicators {
+  display: inline-flex;
+  float: left;
+  justify-content: flex-start;
+  position: absolute;
+  z-index: 2;
+  padding: 5px;
+  background: rgba(34, 34, 34, 0.5);
+  border-radius: 10px;
+  font-size: x-small;
+  width: auto;
+  max-width: calc(100% - 20px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  left: 10px;
+  top: 10px;
+  bottom: auto;
+  text-transform: capitalize;
+}
+
+.data-block-indicator-bottom {
+  left: 10px;
+  bottom: 10px;
+  top: auto;
+}
