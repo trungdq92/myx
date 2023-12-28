@@ -24,6 +24,7 @@ const Constants = class Constants {
     static galleryCache = {
         details: 'galleryCache',
         gridViewType: 'galleryGridViewType',
+        gridPlayerType: 'galleryGridPlayerType',
     }
     constructor() { }
 }
@@ -233,6 +234,11 @@ const DomEventFuntion = class DomEventFuntion {
 
     static _changeViewPageStyle(type, page) {
         localStorage.setItem(Constants.galleryCache.gridViewType + page, type);
+        location.reload(true);
+    }
+    
+    static _changePlayerType(type, page) {
+        localStorage.setItem(Constants.galleryCache.gridPlayerType + page, type);
         location.reload(true);
     }
 

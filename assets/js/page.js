@@ -1533,6 +1533,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
 const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     constructor() {
         super();
+        this.gridColShow = 'd-none';
         this.playerId = CommomFunction._getUrlParameter('vs');
         this.players = [];
         this.playerInfo = {};
@@ -1540,6 +1541,11 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
         if (!this.gridViewType) {
             this.gridViewType = '2';
+        }
+
+        this.gridPlayerType = localStorage.getItem(Constants.galleryCache.gridPlayerType + '_player_video');
+        if (!this.gridPlayerType) {
+            this.gridPlayerType = '1';
         }
         this._init();
     }
@@ -1570,6 +1576,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
+
+
         this._renderPage();
         this._initAnomationAfterRender();
     }
@@ -1586,7 +1594,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
 
-        var sizeContainerChange = (this.gridViewType && parseInt(this.gridViewType) > 1) ? 'container' : 'container-fluid';
+        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid';
 
         return `<div class="container">
                     <div class="row">
@@ -1610,7 +1618,6 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                     ${this._renderVideoObject(this.playerInfo)}
                                 </div>
                             </div>
-                           
                         </div>
                     </div>
                 </div>
@@ -1679,15 +1686,24 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             </div>
                         </div>`;
             } else {
-                var colShowR = isMobile ? 'col-6' : 'col-xl-2 col-lg-3 col-md-6 col-6';
-                html += `<div class="position-relative ${colShowR} portfolio-item video-relation filter_name p-1" >
+                var wrapperGallery = 'gallery';
+                switch (this.gridViewType) {
+                    case '2':
+                        _page.galleryShowCol = 'col-6';
+                        wrapperGallery = isMobile ? 'gallery' : '';
+                        break;
+                    default:
+                        _page.galleryShowCol = isMobile ? "col-6" : "col-xl-2 col-lg-3 col-md-6";
+                        break;
+                }
+                html += `<div class="position-relative ${_page.galleryShowCol} portfolio-item video-relation filter_name p-1" >
                             <div class="data-block-indicators">
                                 ▶️ ${item.short}
                             </div>
                             <div class="data-block-indicators data-block-indicator-bottom">
                                 ${item.name}
                             </div>
-                            <div class="portfolio-wrap gallery">
+                            <div class="portfolio-wrap ${wrapperGallery}">
                                 <div class="video-wrapper">
                                     <a href="${item.scpt}"
                                         class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
@@ -1712,7 +1728,8 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             }
         })
 
-        return `<div class="row">
+        return `${this._renderGalleryShowColumnRelation()}
+                <div class="row">
                     <div class="col-md-12">
                         <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
                     </div>
@@ -1721,18 +1738,22 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderGalleryShowColumn() {
-        var viewType = this.gridViewType;
+        var viewType = this.gridPlayerType;
         this.galleryShowCol = 'col-md-12';
 
         return ` <div class="col-12">
                     <div class="row justify-content-center chapter-grid-view-style">
                         <div class="col-lg-12 text-end">
                             <div class="my-1 fs-4">
-                                <a href="javascript:DomEventFuntion._changeViewPageStyle(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 2 ? 'd-none' : ''}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
-                            <a href="javascript:DomEventFuntion._changeViewPageStyle(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? 'd-none' : ''}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
+                                <a href="javascript:DomEventFuntion._changePlayerType(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? '' : 'd-none'}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
+                            <a href="javascript:DomEventFuntion._changePlayerType(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType != 1 ? '' : 'd-none'}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
                             </div>
                         </div>
                     </div >
                 </div > `;
+    }
+
+    _renderGalleryShowColumnRelation() {
+        return super._renderGalleryShowColumn();
     }
 }

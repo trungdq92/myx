@@ -1631,7 +1631,7 @@ section {
   padding: 5px;
   background: rgba(34, 34, 34, 0.5);
   border-radius: 10px;
-  font-size: x-small;
+  font-size: small;
   width: auto;
   max-width: calc(100% - 20px);
   text-overflow: ellipsis;
