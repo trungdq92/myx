@@ -1405,10 +1405,11 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
             case '2':
                 sizeChange = 'col-md-12';
                 wrapperGallery = isMobile ? 'gallery' : '';
+                _page.galleryShowCol = isMobile ? "col-6" : "col-xl-4 col-lg-6";
                 break;
             case '3':
                 sizeChange = 'col-md-12';
-                _page.galleryShowCol = isMobile ? "col-6" : "col-4";
+                _page.galleryShowCol = isMobile ? "col-6" : "col-xl-2 col-lg-3 col-md-6";
                 break;
         }
 
@@ -1689,7 +1690,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 var wrapperGallery = 'gallery';
                 switch (this.gridViewType) {
                     case '2':
-                        _page.galleryShowCol = 'col-6';
+                        _page.galleryShowCol = isMobile ? "col-6" : "col-xl-4 col-lg-6";
                         wrapperGallery = isMobile ? 'gallery' : '';
                         break;
                     default:
