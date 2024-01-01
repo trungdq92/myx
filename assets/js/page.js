@@ -415,7 +415,7 @@ const PageBase = class PageBase {
                         </video>`;
                 break;
             case Constants.videoScpType.iframe:
-                video = `<iframe frameborder="0" src="${playerInfo.scpt}" allowfullscreen ></iframe>`
+                video = `<iframe frameborder="0" src="${playerInfo.scpt}" allowfullscreen class="rounded-0"></iframe>`
                 break;
         }
 
@@ -821,8 +821,8 @@ const DetailPage = class DetailPage extends PageBase {
 
             area += `<div class="col-12">
                         <div class="row">
-                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}">
-                                <h3 class="h2 pb-0 text-end text-capitalize">${viewer.name}</h3>
+                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}" class="p-0">
+                                <h3 class="h2 p-0 mb-0 pt-3 text-end text-capitalize">${viewer.name}</h3>
                             </a>
                         </div>
                         <div class="row">
@@ -1595,7 +1595,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
 
-        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid';
+        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid px-0';
 
         return `<div class="container">
                     <div class="row">
