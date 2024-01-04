@@ -1442,7 +1442,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                         <div class="data-block-indicators ms-1">
                                             <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                         </div>
-                                        <div class="${sizeChange}">
+                                        <div class="${sizeChange} p-0">
                                             <div class="video-wrapper">
                                                 <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
                                                     <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
@@ -1661,7 +1661,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             if (this.gridViewType == '1') {
                 html += `<div class="portfolio-item filter_name py-0 mb-1 rounded-4 ${background}">
                             <div class="row gallery">
-                                <div class="${isMobile ? 'col-4' : 'col-2'} position-relative">
+                                <div class="${isMobile ? 'col-4' : 'col-2'} position-relative p-0">
                                     <div class="data-block-indicators ms-1">
                                         <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                     </div>
