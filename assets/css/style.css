@@ -1525,13 +1525,19 @@ section {
   /* --aspect-ratio: 1/1; */
   position: relative;
   padding-bottom: calc(var(--aspect-ratio, .5625) * 100%);
-  height: auto;
+  height: 100%;
   /* background-color: #272829; */
   background-color: transparent;
 }
 
 .gallery .video-wrapper {
   --aspect-ratio: 1/1;
+}
+
+.video-portfolio-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
 }
 
 .truncate-overflow {
@@ -1647,4 +1653,20 @@ section {
   left: 10px;
   bottom: 10px;
   top: auto;
+  width: 100%;
+}
+
+.data-block-indicator-bottom>a {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.gslide-external {
+  max-height: 100vh;
+  height: auto;
+  background: transparent;
+}
+
+.gslide iframe.gvideo {
+  min-height: calc(var(--aspect-ratio, .5625) * 100vw);
 }

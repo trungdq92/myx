@@ -419,7 +419,7 @@ const PageBase = class PageBase {
                 break;
         }
 
-        videoObject = `<div class ="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
+        videoObject = `<div class="video-wrapper" onclick="document.getElementById('video_${playerInfo.id}_${subfix}').controls = true;"> 
                         ${video}
                     </div>`;
 
@@ -1438,7 +1438,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
                                     <div class="row ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators ms-1">
-                                            ▶️ ${item.short}
+                                            <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                         </div>
                                         <div class="${sizeChange}">
                                             <div class="video-wrapper">
@@ -1449,7 +1449,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                         </div>
                                         <div class="col m-auto px-0">
                                             <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
-                                                <a class="text-capitalize h2 fs-5" href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}">${item.name}</a>
+                                                <a class="text-capitalize h2 fs-5" href="${url}">${item.name}</a>
                                             </div>
                                             <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
                                                 ${item.short}
@@ -1460,29 +1460,17 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 } else {
                     htmlLine += `
                                 <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1" id="timeline-${index}1">
-                                    <div class="portfolio-wrap ${wrapperGallery} position-relative">
+                                    <div class="video-portfolio-wrap ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators">
-                                            ▶️ ${item.short}
+                                            <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                         </div>
                                         <div class="data-block-indicators data-block-indicator-bottom">
-                                            ${item.name}
+                                            <a class="text-white" href="${url}">${item.name}</a>
                                         </div>
                                         <div class="video-wrapper">
-                                            <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
-                                        </div>
-                                        <div class="portfolio-info">
-                                            <h4 class="text-capitalize fw-bold truncate-overflow-one px-4">
-                                                ${item.name}
-                                            </h4>
-                                            <div class="text-muted text-capitalize lh-sm truncate-overflow px-4">${item.short}</div>
-                                            <div class="portfolio-links">
-                                                <a href="${item.scpt}" class="portfolio-lightbox" data-type="${glightBoxDataType}">
-                                                    <i class="bi bi-plus-lg"></i>
-                                                </a>
-                                                <a href="${url}" class="portfolio-details-lightbox" title="${item.name}">
-                                                    <i class="bi bi-link-45deg"></i>
-                                                </a>
-                                            </div>
+                                            <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+                                                <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                            </a>     
                                         </div>
                                     </div>
                                 </div>`;
@@ -1597,30 +1585,37 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
         var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid px-0';
 
-        return `<div class="container">
-                    <div class="row">
-                        <h1 class="h1 px-2 text-capitalize pb-0">${detailName}<hr/></h1>
-                    </div>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                            <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                        </ol>
-                    </nav>
-                </div>
-                
-                <div class="${sizeContainerChange}">
+        return `
+                <div class="${sizeContainerChange} my-1">
                     <div class="row">
                         <div class="${this.galleryShowCol}">
                             <div class="row portfolio-container">
-                                <div class="col-12">
+                                <div class="col-12 player-content">
                                     ${this._renderVideoObject(this.playerInfo)}
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="container">
+                    <div class='row'>
+                        <div class='col m-auto'>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                        
+                        ${this._renderGalleryShowColumn()}
+                    </div>
+                    
+                    
+                    <hr/>
                 </div>
 
                 <div class="container">
@@ -1630,9 +1625,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     }
 
     _renderContentDetails() {
-        return `
-                ${this._renderGalleryShowColumn()}
-                <div class="row">
+        return `<div class="row">
                     <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
                     <div class="col-12 fst-italic text-capitalize">
                         ${this.playerInfo.short}
@@ -1668,7 +1661,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'} position-relative">
                                     <div class="data-block-indicators ms-1">
-                                        ▶️ ${item.short}
+                                        <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                     </div>
                                     <div class="video-wrapper">
                                         <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
@@ -1699,30 +1692,16 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 }
                 html += `<div class="position-relative ${_page.galleryShowCol} portfolio-item video-relation filter_name p-1" >
                             <div class="data-block-indicators">
-                                ▶️ ${item.short}
+                                <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                             </div>
                             <div class="data-block-indicators data-block-indicator-bottom">
-                                ${item.name}
+                                <a class="text-white" href='${url}'>${item.name}</a>
                             </div>
-                            <div class="portfolio-wrap ${wrapperGallery}">
+                            <div class="video-portfolio-wrap ${wrapperGallery}">
                                 <div class="video-wrapper">
-                                    <a href="${item.scpt}"
-                                        class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy" />
-                                    </a>
-                                </div>
-                                <div class="portfolio-info">
-                                    <h4 class="text-capitalize fw-bold truncate-overflow px-4 fs-6">
-                                        ${item.name}
-                                    </h4>
-                                    <div class="portfolio-links">
-                                        <a href="${item.scpt}" class="portfolio-lightbox" data-type="${glightBoxDataType}">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="${url}" class="portfolio-details-lightbox" title="${item.name}">
-                                            <i class="bi bi-link-45deg"></i>
-                                        </a>
-                                    </div>
+                                    <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+                                    </a>       
                                 </div>
                             </div>
                         </div> `;
@@ -1742,7 +1721,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var viewType = this.gridPlayerType;
         this.galleryShowCol = 'col-md-12';
 
-        return ` <div class="col-12">
+        return ` <div class="col-auto">
                     <div class="row justify-content-center chapter-grid-view-style">
                         <div class="col-lg-12 text-end">
                             <div class="my-1 fs-4">
