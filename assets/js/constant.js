@@ -232,6 +232,21 @@ const DomEventFuntion = class DomEventFuntion {
         }
     }
 
+    static _showSideMenu() {
+        let menusite = document.getElementById('btn-menu-side');
+        if (menusite) {
+            const showMenuSite = () => {
+                if (window.scrollY > 100) {
+                    menusite.classList.add('active')
+                } else {
+                    menusite.classList.remove('active')
+                }
+            }
+            document.addEventListener('load', showMenuSite);
+            document.addEventListener('scroll', showMenuSite)
+        }
+    }
+
     static _changeViewPageStyle(type, page) {
         localStorage.setItem(Constants.galleryCache.gridViewType + page, type);
         location.reload(true);

@@ -66,6 +66,15 @@ h6 {
   opacity: 1;
 }
 
+#btn-menu-side {
+  opacity: 0;
+}
+
+#btn-menu-side.active {
+  visibility: visible;
+  opacity: 1;
+}
+
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
@@ -1533,6 +1542,14 @@ section {
 .gallery .video-wrapper {
   --aspect-ratio: 1/1;
 }
+
+/* .player-content,
+.player-content .video-wrapper {
+  max-height: calc(100vh - 25px);
+  padding-bottom: calc(var(--aspect-ratio, .5625) * 100vw);
+  height: calc(100vh - 25px);
+  padding-bottom: unset;
+} */
 
 .video-portfolio-wrap {
   position: relative;

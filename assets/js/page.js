@@ -151,6 +151,7 @@ const PageBase = class PageBase {
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = true;
         DomEventFuntion._backToTop();
+        DomEventFuntion._showSideMenu();
         return;
     }
 
@@ -198,6 +199,7 @@ const PageBase = class PageBase {
         }, this.throttleTimer / 5)
 
         DomEventFuntion._backToTop();
+        DomEventFuntion._showSideMenu();
     };
 
     _paggingHandler = (callback, time) => {
@@ -313,7 +315,7 @@ const PageBase = class PageBase {
 
         return `<div class="row">
                     <div class="col-12">
-                        <button class="navbar-toggler collapsed position-fixed top-0 end-0 m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <button id="btn-menu-side" class="navbar-toggler collapsed position-fixed top-0 end-0 m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <i class="bi bi-list navbar-toggler"></i>
                         </button>
 
