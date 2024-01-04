@@ -1305,6 +1305,12 @@ section {
 }
 
 
+.gslide-external {
+  max-height: 100vh;
+  height: auto;
+  background: transparent;
+}
+
 @media (max-width: 991px) {
 
   .thumbs,
@@ -1329,6 +1335,10 @@ section {
   .comic .gallery-content .thumbs {
     object-position: center;
     height: 30vh;
+  }
+
+  .gslide iframe.gvideo {
+    min-height: calc(var(--aspect-ratio, .5625) * 100vw);
   }
 }
 
@@ -1675,14 +1685,4 @@ section {
 .data-block-indicator-bottom>a {
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.gslide-external {
-  max-height: 100vh;
-  height: auto;
-  background: transparent;
-}
-
-.gslide iframe.gvideo {
-  min-height: calc(var(--aspect-ratio, .5625) * 100vw);
 }
