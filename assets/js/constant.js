@@ -236,7 +236,7 @@ const DomEventFuntion = class DomEventFuntion {
         let menusite = document.getElementById('btn-menu-side');
         if (menusite) {
             const showMenuSite = () => {
-                if (window.scrollY > 100) {
+                if (window.scrollY > 50) {
                     menusite.classList.add('active')
                 } else {
                     menusite.classList.remove('active')

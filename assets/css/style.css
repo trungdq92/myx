@@ -71,7 +71,6 @@ h6 {
 }
 
 #btn-menu-side.active {
-  visibility: visible;
   opacity: 1;
 }
 

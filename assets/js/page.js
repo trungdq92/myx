@@ -1437,7 +1437,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
                 if (this.gridViewType == '1') {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos p-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
                                     <div class="row ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators ms-1">
                                             <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
@@ -1585,14 +1585,14 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         var contentName = this.contentInfo.name;
         var detailInfo = this._renderContentDetails();
 
-        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid px-0';
+        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid';
 
         return `
-                <div class="${sizeContainerChange} my-1">
+                <div class="${sizeContainerChange}">
                     <div class="row">
                         <div class="${this.galleryShowCol}">
                             <div class="row portfolio-container">
-                                <div class="col-12 player-content">
+                                <div class="col-12 player-content px-0">
                                     ${this._renderVideoObject(this.playerInfo)}
                                 </div>
                             </div>
@@ -1659,7 +1659,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
             var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
             if (this.gridViewType == '1') {
-                html += `<div class="portfolio-item filter_name p-0 mb-1 rounded-4 ${background}">
+                html += `<div class="portfolio-item filter_name py-0 mb-1 rounded-4 ${background}">
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'} position-relative">
                                     <div class="data-block-indicators ms-1">
