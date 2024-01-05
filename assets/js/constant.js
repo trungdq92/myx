@@ -251,7 +251,7 @@ const DomEventFuntion = class DomEventFuntion {
         localStorage.setItem(Constants.galleryCache.gridViewType + page, type);
         location.reload(true);
     }
-    
+
     static _changePlayerType(type, page) {
         localStorage.setItem(Constants.galleryCache.gridPlayerType + page, type);
         location.reload(true);
@@ -271,5 +271,12 @@ const DomEventFuntion = class DomEventFuntion {
         }
 
         location.reload(true);
+    }
+
+    static _createArrayDom(elements) {
+        //Transform our nodeList into array and apply sort function
+        return [].map.call(elements, function (elm) {
+            return elm;
+        });
     }
 }

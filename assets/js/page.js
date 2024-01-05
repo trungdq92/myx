@@ -110,19 +110,23 @@ const PageBase = class PageBase {
         this.detailInfo = {};
 
         this.galleryShowCol = '';
+        this.galleryColNumber = 1;
         this.galleryColThumbs = '';
         this.galleryDisplayColHtml = '';
         this.gridViewType = '';
         this.gridColShow = '';
 
         this.filters = '';
+        this.galleryFilter = {
+            items: []
+        };
         this.glightBox = {};
         this.lGalleryFilters = {};
 
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 20;
+        this.itemsPerPage = 10;
         this.throttleTimer = 1000;
         this.isLoading = false;
 
@@ -149,7 +153,7 @@ const PageBase = class PageBase {
 
     _initAnomationAfterRender() {
         Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = true;
+        Constants.ListFitersLoading = false;
         DomEventFuntion._backToTop();
         DomEventFuntion._showSideMenu();
         return;
@@ -160,6 +164,10 @@ const PageBase = class PageBase {
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
 
+        document.getElementById('showmore').addEventListener('click', (e) => {
+            this._showMoreGallery(e);
+        })
+
         if (!Constants.ListFitersLoading) return false;
 
         this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
@@ -168,13 +176,26 @@ const PageBase = class PageBase {
             valueNames: [
                 { attr: 'data-filter', name: 'filter_name' }
             ]
-        })
+        });
 
         document.querySelectorAll('.portfolio-flters-item').forEach(item => {
             item.addEventListener('click', (e) => {
+                console.log(e)
                 InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
+                e.classList.toggle("active");
+                var dataFilters = [];
+
+                document.getElementById('portfolio-flters').querySelectorAll('.active').forEach(elm => {
+                    var dataFilter = elm.getAttribute('data-filter');
+                    if (!dataFilters.includes(dataFilter)) {
+                        dataFilters.push(dataFilter);
+                    }
+                })
+
+
+                _page.glightBox.reload();
             })
-        });
+        })
     }
 
     async _loadIsotopeImg() {
@@ -244,19 +265,16 @@ const PageBase = class PageBase {
         }, this.throttleTimer);
     }
 
-    async _showMoreGallery(e) {
-        if (!e) return false;
-
+    _showMoreGallery(e) {
+        if (!e) return;
         var _page = this;
-        await InitGalleryFuntion._initIsotope();
         _page.page++;
-        _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
+        this._renderContentDetails();
         _page.glightBox.reload();
-        await _page._loadIsotopeImg();
 
         var currentItems = _page.page * _page.itemsPerPage;
-        if (currentItems >= _page.lGalleryFilters.items.length) {
-            showmore.remove();
+        if (currentItems >= _page.galleryFilter.items.length) {
+            e.target.remove();
         }
     }
 
@@ -372,6 +390,7 @@ const PageBase = class PageBase {
         var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + pageNane);
         var colShow = '';
         var colThumbs = '';
+        var colNumber = 1;
         var isMobile = CommomFunction._isMobile();
         switch (viewType) {
             case '1':
@@ -401,6 +420,7 @@ const PageBase = class PageBase {
 
         this.galleryShowCol = colShow;
         this.galleryColThumbs = colThumbs;
+        this.galleryColNumber = parseInt(viewType ?? 1);
 
         var isMobileShow = isMobile ? 'd-none' : '';
         return ` <div class="chapter-grid-view-style">
@@ -724,8 +744,6 @@ const DetailPage = class DetailPage extends PageBase {
 
     async _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = false;
 
         this._initGallery();
         await this._loadIsotopeImg();
@@ -901,16 +919,10 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
 
     async _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        Constants.IsotopeLoading = true;
-        Constants.ListFitersLoading = true;
 
         this._initGallery();
-        await this._loadIsotopeImg();
+        // await this._loadIsotopeImg();
         // document.body.onscroll = () => { this._scrollHandler() };
-
-        document.getElementById('showmore').addEventListener('click', (e) => {
-            this._showMoreGallery(e);
-        })
     }
 
     _renderContent() {
@@ -953,12 +965,6 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
                                     <i class="bi bi-arrow-right"></i>
                                 </button>
                             </div>
-                            <div class="loader" id="loader">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                            <div class="pagination" hidden></div>
                         </div>
                     </section>
                 
@@ -966,7 +972,6 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
     }
 
     _renderContentDetails() {
-        var area = '';
         var imgs = [];
         var _page = this;
         this.viewer.hashtags.forEach(item => {
@@ -987,20 +992,56 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
             });
         });
 
-        imgs.forEach((item, index) => {
-            var filters = '';
-            item.tags.sort().forEach(val => {
-                filters += val + '_filters ';
+        _page.galleryFilter.items = imgs;
+        // var paging = imgs.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        var paging = imgs.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        var imgLength = paging.length;
+        var itemPerCol = parseInt(imgLength / _page.galleryColNumber);
+        var divItem = imgLength % _page.galleryColNumber;
+        var divItems = [];
+        var html = '';
+        for (var i = 0; i < _page.galleryColNumber; i++) {
+            divItems.push(divItem > 0 ? 1 : 0);
+            divItem--;
+        }
+
+        var next = 0;
+        var currentCols = document.querySelectorAll('.gallery-col-area');
+        var arrayCols = DomEventFuntion._createArrayDom(currentCols);
+        arrayCols = arrayCols.sort((a, b) => a.querySelectorAll('img').length - b.querySelectorAll('img').length);
+
+        for (var i = 0; i < _page.galleryColNumber; i++) {
+            var itemPerColTemp = itemPerCol + divItems[i];
+            var imgSlice = paging.slice(next, next + itemPerColTemp);
+            next = next + itemPerColTemp;
+            var itemPerColTemp = itemPerCol + divItems[i];
+            var area = '';
+            imgSlice.forEach((item, index) => {
+                var filters = '';
+                item.tags.sort().forEach(val => {
+                    filters += val + '_filters ';
+                });
+
+                area += `<div class="portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
+                            <a href="${item.path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
+                                <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
+                            </a>
+                        </div>`;
             });
 
-            area += `<div class="${_page.galleryShowCol} portfolio-item p-1 filter_name ${filters}" data-filter="${filters}">
-                    <a href="${item.path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
-                        <img src="${item.path}" class="img-fluid rounded-3" alt="" id="img-${index}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
-                    </a>
-                </div>`;
-        });
+            var currentCol = document.getElementById(`gallery-col-show-${i}`);
+            if (!currentCol)
+                html += `<div class="${_page.galleryShowCol} p-0 gallery-col-area" id="gallery-col-show-${i}">
+                        ${area}
+                    </div>`;
+            else {
+                arrayCols[i].innerHTML += area;
+            }
+        }
 
-        return area;
+
+
+        return html;
     }
 
     _renderFilter() {
@@ -1017,7 +1058,7 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
 
         var html = ''
         tags.sort().forEach((item, index) => {
-            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" id="btn-filter-detail-"${index}
+            html += `<button class="btn btn-primary portfolio-flters-item col-auto m-1" data-filter="${item}_filters" id="btn-filter-detail-${index}"
                     onclick="">
                         ${item.replace('_', ' ')}
                     </button>`;
@@ -1033,8 +1074,6 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
     }
 
     _initAnomationAfterRender() {
-        Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = true;
         this._initGallery();
     }
 
@@ -1098,8 +1137,6 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
     }
 
     _initAnomationAfterRender() {
-        Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = false;
         super._initAnomationAfterRender();
     }
 
@@ -1142,7 +1179,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     constructor() {
         super();
         this.chapterId = CommomFunction._getUrlParameter('ch');
-        // this.itemsPerPage = 300;
         this.chapter = {};
         this._init();
     }
@@ -1173,9 +1209,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
         super._initAnomationAfterRender();
         this._initGallery();
         // document.body.onscroll = () => { this._scrollHandler() };
-        document.getElementById('showmore').addEventListener('click', (e) => {
-            this._showMoreGallery(e);
-        })
+
     }
 
     _renderLeftMenu() {
@@ -1241,12 +1275,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                                     <i class="bi bi-arrow-right"></i>
                                 </button>
                             </div>
-                            <div class="loader" id="loader">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                            <div class="pagination" hidden></div>
                         </div>
                         
                     </section>
@@ -1276,7 +1304,10 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
 
         var imgs = [...this.chapter.imgs, ...imgRenders];
         imgs = [...imgs, ...renderGroupImgs]
-        imgs.forEach((item, index) => {
+
+        _page.galleryFilter.items = imgs;
+        var paging = imgs.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach((item, index) => {
             area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1">
                         <a href="${item}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
                             <img src="${item}" class="img-fluid" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
@@ -1284,6 +1315,10 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                     </div>`;
         });
 
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
         return area;
     }
 
@@ -1345,11 +1380,9 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
     }
 
     async _initAnomationAfterRender() {
-        Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = true;
 
         this._initGallery();
-        await this._loadIsotopeImg();
+        // await this._loadIsotopeImg();
     }
 
     _renderContent() {
