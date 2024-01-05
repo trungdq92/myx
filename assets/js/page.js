@@ -126,7 +126,7 @@ const PageBase = class PageBase {
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 10;
+        this.itemsPerPage = 20;
         this.throttleTimer = 1000;
         this.isLoading = false;
 
@@ -164,9 +164,11 @@ const PageBase = class PageBase {
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
 
-        document.getElementById('showmore').addEventListener('click', (e) => {
-            this._showMoreGallery(e);
-        })
+        var showmorebtn = document.getElementById('showmore');
+        if (showmorebtn) {
+            showmorebtn.addEventListener('click', (e) => { this._showMoreGallery(e); });
+            if (_page.page * _page.itemsPerPage >= _page.galleryFilter.items.length) showmorebtn.remove();
+        }
 
         if (!Constants.ListFitersLoading) return false;
 
@@ -266,7 +268,7 @@ const PageBase = class PageBase {
     }
 
     _showMoreGallery(e) {
-        if (!e) return;
+        if (!e.target) return;
         var _page = this;
         _page.page++;
         this._renderContentDetails();
@@ -674,12 +676,12 @@ const ContentPage = class ContentPage extends PageBase {
                         ${this._renderGalleryShowColumn()}
                         <div id="items-container">
                             <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
-                            <div class="loader" id="loader">
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                            <div class="my-3">
+                                <button id="showmore" class="btn btn-sm btn-sm btn-primary rounded-5">
+                                    Show More
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
                             </div>
-                            <div class="pagination" hidden></div>
                         </div>
                     </section>
                 </div>`;
@@ -688,18 +690,27 @@ const ContentPage = class ContentPage extends PageBase {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        this.contents.children.forEach(item => {
+
+        _page.galleryFilter.items = this.contents.children;
+        var paging = this.contents.children.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach(item => {
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-1 position-relative">
+                        <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
+                            <a class="text-white w-100 text-start" href="${url}">
+                                <i class="bi bi-plus-lg"></i>
+                                ${item.name}
+                            </a>
+                        </div>
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid thumbs bg-transparent border-0 rounded-4 ${_page.galleryColThumbs}" alt="" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                             <div class="portfolio-info">
-                                <h4>
-                                    <a href="${url}" class="text-muted text-capitalize fw-bold">
-                                        ${item.name}
+                                <h4></h4>
+                                <div class="text-muted text-capitalize">
+                                    <a href="${url}" class="text-muted text-capitalize fs-6" title="${item.short}">
+                                        ${item.short}
                                     </a>
-                                </h4>
-                                <div class="text-muted text-capitalize">${item.short}</div>
+                                </div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
@@ -713,6 +724,10 @@ const ContentPage = class ContentPage extends PageBase {
                     </div>`;
         });
 
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
         return area;
     }
 }
@@ -746,7 +761,7 @@ const DetailPage = class DetailPage extends PageBase {
         super._initAnomationAfterRender();
 
         this._initGallery();
-        await this._loadIsotopeImg();
+        // await this._loadIsotopeImg();
     }
 
     _renderContent() {
@@ -790,12 +805,12 @@ const DetailPage = class DetailPage extends PageBase {
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
                             <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
-                            <div class="loader" id="loader">
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                            <div class="my-3">
+                                <button id="showmore" class="btn btn-sm btn-sm btn-primary rounded-5">
+                                    Show More
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
                             </div>
-                            <div class="pagination" hidden></div>
                         </div>
                     </section>
                 
@@ -805,7 +820,9 @@ const DetailPage = class DetailPage extends PageBase {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        this.details.viewer.forEach((viewer, vIndex) => {
+        _page.galleryFilter.items = this.details.viewer;
+        var paging = this.details.viewer.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach((viewer, vIndex) => {
             var countHash = viewer.hashtags.length;
             var defaultGalleyImgs = [];
             var imgInLines = [];
@@ -840,7 +857,7 @@ const DetailPage = class DetailPage extends PageBase {
                 var lines = '';
                 arr.forEach((path, aIndex) => {
                     lines += `<div class="${_page.galleryShowCol} portfolio-item p-0 px-1 filter_name gallery">
-                                            <div class="video-wrapper">
+                                            <div class="video-wrapper position-relative">
                                                 <a href="${path}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="image">
                                                     <img src="${path}" class="img-fluid rounded-3 thumbs-cover" alt="" id="img-${aIndex}" loading="lazy"  onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'"/>
                                                 </a>
@@ -854,33 +871,43 @@ const DetailPage = class DetailPage extends PageBase {
 
             })
 
-            area += `<div class="col-12">
+            area += `<div class="col-12 py-3">
                         <div class="row">
-                            <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}" class="p-0">
-                                <h3 class="h2 p-0 mb-0 pt-3 text-end text-capitalize">${viewer.name}</h3>
-                            </a>
+                            <div class="col-12">
+                                <a href="${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/viewer/?v=${viewer.id}" class="p-0">
+                                    <h3 class="text-start h2 p-0 mb-0 text-capitalize">${viewer.name}</h3>
+                                    <p class="text-start text-muted py-1 m-0 text-capitalize">${viewer.short}</p>
+                                    <hr class="mt-0"/>
+                                </a>
+                           </div>
                         </div>
                         <div class="row">
-                            <div id="carousel-${vIndex}" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    ${imgIndicators}
+                            <div class="col-12">
+                                <div id="carousel-${vIndex}" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        ${imgIndicators}
+                                    </div>
+                                    <div class="carousel-inner">
+                                        ${imgHtml}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
                                 </div>
-                                <div class="carousel-inner">
-                                    ${imgHtml}
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carousel-${vIndex}" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
                             </div>
                         </div>
                     </div>`;
         });
 
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
         return area;
     }
 
@@ -1080,21 +1107,31 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        this.contents.children.forEach(item => {
+        _page.galleryFilter.items = this.contents.children;
+        var paging = this.contents.children.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach(item => {
             var filters = '';
             item.hashtags.sort().forEach(val => {
                 filters += val + '_filters ';
             });
 
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${item.id}`;
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0 ${filters}" data-filter="${filters}">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0 ${filters} position-relative" data-filter="${filters}">
+                        <div class="data-block-indicators data-block-indicator-bottom">
+                            <a class="text-white w-100 text-start" href="${url}" title="${item.name}">
+                                <i class="bi bi-plus-lg"></i>
+                                ${item.name}
+                            </a>
+                        </div>
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <h4 class="text-muted text-capitalize fw-bold">
-                                    ${item.name}
-                                </h4>
-                                <div class="text-muted text-capitalize">${item.short}</div>
+                                <h4 class="text-muted text-capitalize fw-bold"></h4>
+                                <div class="text-muted text-capitalize">
+                                    <a class="text-muted fs-6 w-100 text-start" href="${url}" title="${item.name}">
+                                        ${item.short}
+                                    </a>
+                                </div>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
                                         <i class="bi bi-plus-lg"></i>
@@ -1108,6 +1145,10 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
                     </div>`;
         });
 
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
         return area;
     }
 
@@ -1143,15 +1184,25 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        this.details.chapters.forEach((item, index) => {
+        _page.galleryFilter.items = this.details.chapters;
+        var paging = this.details.chapters.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach((item, index) => {
 
             var url = `${this.rootUrl}/pages/${this.groupId}/content/${this.contentId}/detail/${this.detailId}/chapter/?ch=${item.id}`;
-            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0">
+            area += `<div class="${_page.galleryShowCol} portfolio-item filter_name p-0 position-relative">
+                        <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
+                            <a class="text-white w-100 text-start" href="${url}">
+                                <i class="bi bi-plus-lg"></i>
+                                ${item.name}
+                            </a>
+                        </div>
                         <div class="portfolio-wrap">
                             <img src="${item.thumbs}" class="img-fluid img-thumbnail bg-transparent border-0 rounded-4 thumbs-cover ${_page.galleryColThumbs}" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'">
                             <div class="portfolio-info">
-                                <h4 class="text-muted text-capitalize truncate-overflow fw-bold px-4">
-                                    ${item.name}
+                                <h4 class="text-muted text-center text-capitalize truncate-overflow px-1">
+                                    <a class="text-muted fs-6 w-100 text-start" href="${url}" title="${item.name}">
+                                        ${item.name}
+                                    </a>
                                 </h4>
                                 <div class="portfolio-links">
                                     <a href="${item.thumbs}" class="portfolio-lightbox" data-type="image">
@@ -1166,8 +1217,11 @@ const ComicDetailPage = class ComicDetailPage extends DetailPage {
                     </div>`;
         });
 
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
         return area;
-
     }
 
     _renderFilter() {
@@ -1432,12 +1486,12 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                         ${this.galleryDisplayColHtml}
                         <div id="items-container" class="">
                             <div id="content-detail-area" class="list row portfolio-container px-2">${detail}</div>
-                            <div class="loader" id="loader">
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                            <div class="my-3">
+                                <button id="showmore" class="btn btn-sm btn-primary rounded-5">
+                                    Show More
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
                             </div>
-                            <div class="pagination" hidden></div>
                         </div>
                     </section>
                 
@@ -1449,6 +1503,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         var timelines = [];
         var links = [];
         var _page = this;
+
         this.details.hashtags.forEach(item => {
             item.videos.forEach(info => {
                 info.tags = item.tags;
@@ -1481,7 +1536,9 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 break;
         }
 
-        timelineKey.forEach((line, index) => {
+        _page.galleryFilter.items = timelineKey;
+        var paging = timelineKey.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach((line, index) => {
             var htmlLine = '';
             var linehash = '';
             timelines[line].forEach(item => {
@@ -1503,7 +1560,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
                 if (this.gridViewType == '1') {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}" id="timeline-${index}">
+                                <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}">
                                     <div class="row ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators ms-1">
                                             <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
@@ -1527,12 +1584,12 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 </div>`;
                 } else {
                     htmlLine += `
-                                <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1" id="timeline-${index}1">
+                                <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1">
                                     <div class="video-portfolio-wrap ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators">
                                             <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                         </div>
-                                        <div class="data-block-indicators data-block-indicator-bottom">
+                                        <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
                                             <a class="text-white" href="${url}">${item.name}</a>
                                         </div>
                                         <div class="video-wrapper">
@@ -1545,12 +1602,24 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                 }
             });
 
-            area += `<div class="col-12 px-1 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${index}" aria-expanded="false">
-                        <h3 class="h3 text-end fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
+            var timeLineIndex = document.querySelectorAll('.timeline-area').length;
+            timeLineIndex = timeLineIndex === 0 ? index : timeLineIndex;
+
+            area += `<div class="col-12 px-1 ${linehash}"  data-bs-toggle="collapse" data-bs-target="#timeline-${timeLineIndex}" aria-expanded="false" aria-controls="#timeline-${timeLineIndex}">
+                        <h3 class="h3 text-start fs-5 pb-0 mt-5">${new Date(line).toDateString()}<hr/></h3>
                     </div>
-                    ${htmlLine}
+                    <div id="timeline-${timeLineIndex}" class="collapse show timeline-area">
+                        <div class="row">
+                            ${htmlLine}
+                        </div>
+                    </div>
                     `;
         });
+
+        var contentDetails = document.getElementById('content-detail-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += area;
+        }
 
         return area;
     }
@@ -1688,7 +1757,13 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
                 <div class="container">
                     ${detailInfo}
-                    ${this._renderRelationVideo()}
+                    <div id="video-relation">${this._renderRelationVideo()}</div>
+                    <div class="my-3">
+                        <button id="showmore" class="btn btn-sm btn-primary rounded-5">
+                            Show More
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>`;
     }
 
@@ -1710,7 +1785,9 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
     _renderRelationVideo() {
         var html = '';
         var _page = this;
-        this.players.forEach(item => {
+        _page.galleryFilter.items = this.players;
+        var paging = this.players.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        paging.forEach(item => {
             if (item.id == _page.playerId) {
                 return;
             }
@@ -1728,7 +1805,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 html += `<div class="portfolio-item filter_name py-0 mb-1 rounded-4 ${background}">
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'} position-relative p-0">
-                                    <div class="data-block-indicators ms-1">
+                                    <div class="data-block-indicators ms-1" title="${item.short}">
                                         <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                                     </div>
                                     <div class="video-wrapper">
@@ -1762,7 +1839,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             <div class="data-block-indicators">
                                 <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
                             </div>
-                            <div class="data-block-indicators data-block-indicator-bottom">
+                            <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
                                 <a class="text-white" href='${url}'>${item.name}</a>
                             </div>
                             <div class="video-portfolio-wrap ${wrapperGallery}">
@@ -1776,13 +1853,18 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
             }
         })
 
+        var contentDetails = document.getElementById('relation-videos-area');
+        if (contentDetails) {
+            contentDetails.innerHTML += html;
+        }
+
         return `${this._renderGalleryShowColumnRelation()}
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
                     </div>
                 </div>
-                <div class="container"><div class="row portfolio">${html}</div></div>`;
+                <div class="container"><div class="row portfolio" id="relation-videos-area">${html}</div></div>`;
     }
 
     _renderGalleryShowColumn() {
@@ -1803,5 +1885,18 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _renderGalleryShowColumnRelation() {
         return super._renderGalleryShowColumn();
+    }
+
+    _showMoreGallery(e) {
+        if (!e.target) return;
+        var _page = this;
+        _page.page++;
+        this._renderRelationVideo();
+        _page.glightBox.reload();
+
+        var currentItems = _page.page * _page.itemsPerPage;
+        if (currentItems >= _page.galleryFilter.items.length) {
+            e.target.remove();
+        }
     }
 }

@@ -1559,7 +1559,7 @@ section {
   height: calc(100vh - 25px);
   padding-bottom: unset;
 } */
-
+.content-portfolio-wrap,
 .video-portfolio-wrap {
   position: relative;
   overflow: hidden;
