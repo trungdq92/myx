@@ -122,7 +122,7 @@ const PageBase = class PageBase {
         //scrolling
         this.scrolling = false;
         this.page = 1;
-        this.itemsPerPage = 240;
+        this.itemsPerPage = 20;
         this.throttleTimer = 1000;
         this.isLoading = false;
 
@@ -216,7 +216,7 @@ const PageBase = class PageBase {
 
     _scrollHandler() {
         // if (this.isLoading) return false;
-
+        return false;
         if (!this.lGalleryFilters)
             return false;
 
@@ -243,6 +243,25 @@ const PageBase = class PageBase {
 
             }
         }, this.throttleTimer);
+    }
+
+    _showMoreGallery() {
+        var showmore = document.getElementById('showmore');
+        if (!showmore) return false;
+
+        var _page = this;
+        setTimeout(() => {
+            InitGalleryFuntion._initIsotope();
+        }, this.throttleTimer / 5)
+        _page.page++;
+        _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
+        _page.glightBox.reload();
+        _page._loadIsotopeImg();
+
+        var currentItems = _page.page * _page.itemsPerPage;
+        if (currentItems >= _page.lGalleryFilters.items.length) {
+            showmore.remove();
+        }
     }
 
 
@@ -892,6 +911,10 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
         this._initGallery();
         this._loadIsotopeImg();
         document.body.onscroll = () => { this._scrollHandler() };
+
+        document.getElementById('showmore').addEventListener('click', (e) => {
+            this._showMoreGallery();
+        })
     }
 
     _renderContent() {
@@ -928,6 +951,7 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
                             <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
+                            <div><button id="showmore">More</button></div>
                             <div class="loader" id="loader">
                                 <div></div>
                                 <div></div>
@@ -1117,7 +1141,7 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     constructor() {
         super();
         this.chapterId = CommomFunction._getUrlParameter('ch');
-        this.itemsPerPage = 300;
+        // this.itemsPerPage = 300;
         this.chapter = {};
         this._init();
     }
