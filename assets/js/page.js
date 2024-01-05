@@ -177,7 +177,7 @@ const PageBase = class PageBase {
         });
     }
 
-    _loadIsotopeImg = () => {
+    async _loadIsotopeImg() {
         var _page = this;
         var loadImg = setInterval(function () {
             console.log("img loading")
@@ -216,7 +216,6 @@ const PageBase = class PageBase {
 
     _scrollHandler() {
         // if (this.isLoading) return false;
-        return false;
         if (!this.lGalleryFilters)
             return false;
 
@@ -245,18 +244,15 @@ const PageBase = class PageBase {
         }, this.throttleTimer);
     }
 
-    _showMoreGallery() {
-        var showmore = document.getElementById('showmore');
-        if (!showmore) return false;
+    async _showMoreGallery(e) {
+        if (!e) return false;
 
         var _page = this;
-        setTimeout(() => {
-            InitGalleryFuntion._initIsotope();
-        }, this.throttleTimer / 5)
+        await InitGalleryFuntion._initIsotope();
         _page.page++;
         _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
         _page.glightBox.reload();
-        _page._loadIsotopeImg();
+        await _page._loadIsotopeImg();
 
         var currentItems = _page.page * _page.itemsPerPage;
         if (currentItems >= _page.lGalleryFilters.items.length) {
@@ -726,13 +722,13 @@ const DetailPage = class DetailPage extends PageBase {
         this._initAnomationAfterRender();
     }
 
-    _initAnomationAfterRender() {
+    async _initAnomationAfterRender() {
         super._initAnomationAfterRender();
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = false;
 
         this._initGallery();
-        this._loadIsotopeImg();
+        await this._loadIsotopeImg();
     }
 
     _renderContent() {
@@ -903,17 +899,17 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
         this._initAnomationAfterRender();
     }
 
-    _initAnomationAfterRender() {
+    async _initAnomationAfterRender() {
         super._initAnomationAfterRender();
         Constants.IsotopeLoading = true;
         Constants.ListFitersLoading = true;
 
         this._initGallery();
-        this._loadIsotopeImg();
-        document.body.onscroll = () => { this._scrollHandler() };
+        await this._loadIsotopeImg();
+        // document.body.onscroll = () => { this._scrollHandler() };
 
         document.getElementById('showmore').addEventListener('click', (e) => {
-            this._showMoreGallery();
+            this._showMoreGallery(e);
         })
     }
 
@@ -951,7 +947,12 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
                             <div id="content-detail-area" class="list row portfolio-container">${detail}</div>
-                            <div><button id="showmore">More</button></div>
+                            <div class="my-3">
+                                <button id="showmore" class="btn btn-sm btn-sm btn-primary rounded-5">
+                                    Show More
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
                             <div class="loader" id="loader">
                                 <div></div>
                                 <div></div>
@@ -1171,7 +1172,10 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
         this._initGallery();
-        document.body.onscroll = () => { this._scrollHandler() };
+        // document.body.onscroll = () => { this._scrollHandler() };
+        document.getElementById('showmore').addEventListener('click', (e) => {
+            this._showMoreGallery(e);
+        })
     }
 
     _renderLeftMenu() {
@@ -1231,6 +1235,12 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
                         ${this.galleryDisplayColHtml}
                         <div id="items-container">
                             <div id="content-detail-area" class="list row portfolio-container comic">${detail}</div>
+                            <div class="my-3">
+                                <button id="showmore" class="btn btn-sm btn-primary rounded-5">
+                                    Show More
+                                    <i class="bi bi-arrow-right"></i>
+                                </button>
+                            </div>
                             <div class="loader" id="loader">
                                 <div></div>
                                 <div></div>
@@ -1334,13 +1344,12 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         await super._init();
     }
 
-    _initAnomationAfterRender() {
+    async _initAnomationAfterRender() {
         Constants.IsotopeLoading = false;
         Constants.ListFitersLoading = true;
 
         this._initGallery();
-        this._loadIsotopeImg();
-        document.body.onscroll = () => { this._scrollHandler() };
+        await this._loadIsotopeImg();
     }
 
     _renderContent() {
