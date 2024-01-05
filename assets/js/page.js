@@ -163,13 +163,14 @@ const PageBase = class PageBase {
         var _page = this;
         this.glightBox = InitGalleryFuntion._initGLightbox('.portfolio-lightbox');
         DomEventFuntion._removePreload();
+        DomEventFuntion._backToTop();
+        DomEventFuntion._showSideMenu();
 
         var showmorebtn = document.getElementById('showmore');
         if (showmorebtn) {
             showmorebtn.addEventListener('click', (e) => { this._showMoreGallery(e); });
             if (_page.page * _page.itemsPerPage >= _page.galleryFilter.items.length) showmorebtn.remove();
         }
-
         if (!Constants.ListFitersLoading) return false;
 
         this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
