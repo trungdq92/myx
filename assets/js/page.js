@@ -171,23 +171,18 @@ const PageBase = class PageBase {
             showmorebtn.addEventListener('click', (e) => { this._showMoreGallery(e); });
             if (_page.page * _page.itemsPerPage >= _page.galleryFilter.items.length) showmorebtn.remove();
         }
-        if (!Constants.ListFitersLoading) return false;
-
-        this.lGalleryFilters = InitGalleryFuntion._initListFilters('portfolio', {
-            pagination: true,
-            page: _page.itemsPerPage,
-            valueNames: [
-                { attr: 'data-filter', name: 'filter_name' }
-            ]
-        });
 
         document.querySelectorAll('.portfolio-flters-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                console.log(e)
-                InitGalleryFuntion._eventfilterGallery(e.target, _page.lGalleryFilters, _page.glightBox);
-                e.classList.toggle("active");
-                var dataFilters = [];
+            const url = location.pathname;
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('filters') ?? ''.split(',');
+            if (filterParam.includes(item.getAttribute('data-filter'))) {
+                item.classList.add('active');
+            }
 
+            item.addEventListener('click', (e) => {
+                e.target.classList.toggle("active");
+                var dataFilters = [];
                 document.getElementById('portfolio-flters').querySelectorAll('.active').forEach(elm => {
                     var dataFilter = elm.getAttribute('data-filter');
                     if (!dataFilters.includes(dataFilter)) {
@@ -195,10 +190,18 @@ const PageBase = class PageBase {
                     }
                 })
 
+                console.log(dataFilters)
 
-                _page.glightBox.reload();
+
+                if (urlParams.has('filters'))
+                    urlParams.set('filters', dataFilters.toString());
+                else
+                    urlParams.append('filters', dataFilters.toString());
+
+                location.href = url + '?' + urlParams;
             })
         })
+
     }
 
     async _loadIsotopeImg() {
@@ -1002,6 +1005,9 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
     _renderContentDetails() {
         var imgs = [];
         var _page = this;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filters') ?? '';
         this.viewer.hashtags.forEach(item => {
             var renderImgs = item.renderImg;
             var imgRenders = [];
@@ -1011,12 +1017,18 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
 
             var renders = [...item.imgs, ...imgRenders];
             renders.forEach(path => {
-                imgs.push(
-                    {
-                        path: path,
-                        tags: item.tags
-                    }
-                );
+                var isView = false;
+                item.tags.forEach(tag => {
+                    if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
+                });
+
+                if (isView)
+                    imgs.push(
+                        {
+                            path: path,
+                            tags: item.tags
+                        }
+                    );
             });
         });
 
@@ -1108,8 +1120,21 @@ const ComicContentPage = class ComicContentPage extends ContentPage {
     _renderContentDetails() {
         var area = '';
         var _page = this;
-        _page.galleryFilter.items = this.contents.children;
-        var paging = this.contents.children.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filters') ?? '';
+
+        var galleries = [];
+        this.contents.children.forEach(item => {
+            var isView = false;
+            item.hashtags.forEach(tag => {
+                if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
+            })
+            if (isView)
+                galleries.push(item);
+        });
+
+        _page.galleryFilter.items = galleries;
+        var paging = galleries.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
         paging.forEach(item => {
             var filters = '';
             item.hashtags.sort().forEach(val => {
@@ -1505,11 +1530,26 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
         var links = [];
         var _page = this;
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const filterParam = urlParams.get('filters') ?? '';
+
         this.details.hashtags.forEach(item => {
-            item.videos.forEach(info => {
-                info.tags = item.tags;
-                links.push(info);
+            var isView = false;
+            item.tags.forEach(tag => {
+                if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
             });
+
+            item.videos.forEach(info => {
+                info.hashs.forEach(hash => {
+                    if (filterParam.indexOf(hash) > -1 || filterParam.length === 0) isView = true;
+                });
+            });
+
+            if (isView)
+                item.videos.forEach(info => {
+                    info.tags = item.tags;
+                    links.push(info);
+                });
         });
 
         //timeline

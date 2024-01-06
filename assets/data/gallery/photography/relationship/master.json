@@ -5,6 +5,7 @@
         {
             "id": "colleague",
             "name": "colleague",
+            "short": "this for colleague ",
             "hashtags": [
                 {
                     "tags": [

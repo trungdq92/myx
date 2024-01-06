@@ -5,6 +5,7 @@
         {
             "id": "dog",
             "name": "dog",
+            "short": "dog",
             "hashtags": [
                 {
                     "tags": [
@@ -32,6 +33,7 @@
         {
             "id": "cat",
             "name": "cat",
+            "short": "dog",
             "hashtags": [
                 {
                     "tags": [
