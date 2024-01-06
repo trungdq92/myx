@@ -9,8 +9,6 @@
             "hashtags": [
                 {
                     "tags": [
-                        "photography",
-                        "relationship",
                         "colleague",
                         "Admin",
                         "VMO",
@@ -26,8 +24,6 @@
                 },
                 {
                     "tags": [
-                        "photography",
-                        "relationship",
                         "colleague",
                         "Tester",
                         "VMO",
@@ -40,8 +36,6 @@
                 },
                 {
                     "tags": [
-                        "photography",
-                        "relationship",
                         "friend",
                         "university",
                         "ThuyNga"
@@ -55,8 +49,6 @@
                 },
                 {
                     "tags": [
-                        "photography",
-                        "relationship",
                         "colleague",
                         "VMO",
                         "BA",
@@ -90,8 +82,6 @@
                 },
                 {
                     "tags": [
-                        "photography",
-                        "relationship",
                         "colleague",
                         "Luvina",
                         "Admin",
@@ -105,6 +95,55 @@
                         "https://lh3.google.com/u/0/d/1yNOHUXLXtje2P6XgugNVtZFSh7_rSipo=w1165-h961-iv1",
                         "https://lh3.google.com/u/0/d/15_MN571RauLydqqAGbvrXql6HV9SMTKe=w1165-h961-iv1",
                         "https://lh3.google.com/u/0/d/1xeZjy7bRsrAi0sPJG78YlVCig2K1IMOc=w1165-h961-iv1"
+                    ],
+                    "renderImg": []
+                },
+                {
+                    "tags": [
+                        "colleague",
+                        "VMO",
+                        "Sale",
+                        "KimChi"
+                    ],
+                    "imgs": [
+                        "https://lh3.google.com/u/0/d/1bMGQQ_plqIfmry9bnwrcmg1yboASFvCB=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1hAB6RmJqY78Lex4KsaB6yjiYSOW2BO6p=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1637SX9Nw5sDSil4TIDz4RYGV2b2YefYg=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1QF7Tkx8FySfx_txuH5NRUgDT2iqvNqBe=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1p0CFULOHtRdHJGUygbRceH3ecblm3Sma=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1JKoTsvvRJhpzZyuiZuJ729ieCSZeQ6MJ=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1lm38vcqGafdHVCLdJ94ImdP3l_F_Vm79=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1AKaYluONMVksBxfzeB-fzo9igo6mriDy=w1461-h848-iv1"
+                    ],
+                    "renderImg": []
+                }
+                ,
+                {
+                    "tags": [
+                        "colleague",
+                        "VMO",
+                        "Sale",
+                        "Quynh"
+                    ],
+                    "imgs": [
+                        "https://lh3.google.com/u/0/d/1Z0w0ssW-V6FTtTPp6aL0WarCdt9ssdnE=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1GcBtu3Nh78bHA1HQNoXEctmVFOIpfWQO=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1-Zb4sI3i3GJ56BFoIQZPchSFVs49mZgg=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1l6f_V_7W0caSfSQNsuI0aB8qU93YrYY7=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1Q8wB0xIR696-lV4FIth1cbjnOLFBIPco=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1I9cRrK2Hqsl6wBnuQaIAkypASOIngp8r=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1PH50clvceHnyrLMRrN0Z9ymDlmNUWxis=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/14AAMlFsx2xx-NiRNYnCLTbtR592-ogoy=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/12TG_ORrzczFzcY324vc1ENKZ-oiouoXn=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1xqTXCvn5w4SVBJu_iL6N61P9IF4-8wiB=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1smX0cQJUAo9Usu7vIU3ZsWgqXqmxNMyU=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1EGANx7rf-zo1gfD-aZ8RCdPQ5tAZ2qY1=w2000-h3804-iv1",
+                        "https://lh3.google.com/u/0/d/1BpEU_KgiTcStMKmht-8U9Al_NJnb_jrZ=w2000-h3804-iv1",
+                        "https://lh3.google.com/u/0/d/1Zfw_fHUWS_JNTV1eMLScGCqU1tQDWucg=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1W_ORerNMN6IjzmUUtwr50Tc5S6Atj35I=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1vNEyK91-VT7VOYw_JUXZeZ1NnqQxaex7=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1XXl5IqUapQWIc-gDvEwl192lvtTR5YF8=w706-h848-iv1",
+                        "https://lh3.google.com/u/0/d/1yw3ACpCbw1npTB-r4LifucKtBNMOm6lj=w706-h848-iv1"
                     ],
                     "renderImg": []
                 }
