@@ -1743,8 +1743,21 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
+        const filterParam = [...this.playerInfo.hashs, ...this.playerInfo.tags];
+        var relationGalleries = [];
+        this.players.forEach(item => {
+            var isView = false;
+            var tags = [...item.hashs, ...item.tags];
+            tags.forEach(tag => {
+                if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
+            });
 
+            if (isView)
+                relationGalleries.push(item);
+        });
 
+        this.players = relationGalleries;
+        
         this._renderPage();
         this._initAnomationAfterRender();
     }
