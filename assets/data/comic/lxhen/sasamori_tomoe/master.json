@@ -131,7 +131,7 @@
         {
             "id": "gaming_harem",
             "name": "Gaming Harem",
-            "thumbs": "https://lxmanga.net/storage/images/covers/1612290004336.jpg",
+            "thumbs": "https://i2.hentaifox.com/004/2778519/thumb.jpg",
             "imgs": [],
             "renderImg": [],
             "renderGroupImgs": [
@@ -155,6 +155,13 @@
                     "subfix": ".jpg",
                     "start": "3",
                     "end": "61"
+                },
+                {
+                    "id": "c4",
+                    "prefix": "https://storage.lxmanga.com/s3.lxmanga/images/data/28a80797-bc8a-4dfb-8452-25e66da3d230/9bd65e46-6659-4214-9bc2-3affb42ddbe2/",
+                    "subfix": ".jpg",
+                    "start": "3",
+                    "end": "65"
                 }
             ]
         },

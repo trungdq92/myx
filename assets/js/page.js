@@ -190,15 +190,12 @@ const PageBase = class PageBase {
                     }
                 })
 
-                console.log(dataFilters)
-
-
                 if (urlParams.has('filters'))
                     urlParams.set('filters', dataFilters.toString());
                 else
                     urlParams.append('filters', dataFilters.toString());
 
-                location.href = url + '?' + urlParams;
+                location.replace(url + '?' + urlParams);
             })
         })
 
@@ -1757,7 +1754,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
         });
 
         this.players = relationGalleries;
-        
+
         this._renderPage();
         this._initAnomationAfterRender();
     }
