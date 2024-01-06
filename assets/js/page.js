@@ -1537,16 +1537,17 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
             });
 
             item.videos.forEach(info => {
+                var isViewlvl2 = false;
                 info.hashs.forEach(hash => {
-                    if (filterParam.indexOf(hash) > -1 || filterParam.length === 0) isView = true;
+                    if (filterParam.indexOf(hash) > -1 || filterParam.length === 0) isViewlvl2 = true;
                 });
-            });
-
-            if (isView)
-                item.videos.forEach(info => {
+                if (isView || isViewlvl2) {
                     info.tags = item.tags;
                     links.push(info);
-                });
+                }
+            });
+
+
         });
 
         //timeline
@@ -1601,7 +1602,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 <div class="${_page.galleryShowCol} portfolio-item filter_name ${filters} videos py-0 mb-1 rounded-4 ${background}">
                                     <div class="row ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators ms-1">
-                                            <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
+                                            <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                                         </div>
                                         <div class="${sizeChange} p-0">
                                             <div class="video-wrapper">
@@ -1625,7 +1626,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                 <div class="${_page.galleryShowCol} portfolio-item ${filters} filter_name p-1">
                                     <div class="video-portfolio-wrap ${wrapperGallery} position-relative">
                                         <div class="data-block-indicators">
-                                            <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
+                                            <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                                         </div>
                                         <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
                                             <a class="text-white" href="${url}">${item.name}</a>
@@ -1857,7 +1858,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                             <div class="row gallery">
                                 <div class="${isMobile ? 'col-4' : 'col-2'} position-relative p-0">
                                     <div class="data-block-indicators ms-1" title="${item.short}">
-                                        <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
+                                        <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                                     </div>
                                     <div class="video-wrapper">
                                         <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
@@ -1888,7 +1889,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                 }
                 html += `<div class="position-relative ${_page.galleryShowCol} portfolio-item video-relation filter_name p-1" >
                             <div class="data-block-indicators">
-                                <a class="text-white" href='${url}'> ▶️ ${item.short}</a>
+                                <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                             </div>
                             <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
                                 <a class="text-white" href='${url}'>${item.name}</a>
