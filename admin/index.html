@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>MYX</title>
+
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="theme-dark">
+    <div class="container py-5" id="container-area">
+
+    </div>
+
+    <script type="text/javascript" src="../assets/vendor/jquery/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script type="text/javascript" src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script type="text/javascript" src="../assets/vendor/filter/list.min.js"></script>
+    <script type="text/javascript" src="../assets/js/constant.js"></script>
+    <script type="text/javascript" src="../assets/js/page.js"></script>
+    <script type="text/javascript">
+        init();
+
+        async function init() {
+            var rootUrl = CommomFunction._domainPath()
+            var dataPath = `${rootUrl}/assets/data/gallery/stable_diffusion/majicmix_realistic/master.json`;
+            var dataGallery = await CommomFunction._loadJsonAsync(dataPath);
+            console.log(dataGallery);
+            var imgs = [];
+
+            var html = ''
+            dataGallery.viewer.forEach(item => {
+                var imgHtml = ''
+                item.hashtags.forEach(hash => {
+                    hash.imgs.forEach(img => {
+                        imgHtml += `<div class="col-xl-2 col-lg-3 col-md-4 position-relative p-1">
+                                        <div class="data-block-indicators data-block-indicator-bottom">
+                                            <button class="btn btn-danger btn-sm m-auto" onclick="removeImg(this)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <img class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" src='${img}' lazy-load="true"/>
+                                    </div>`;
+                    });
+                });
+
+                html += `<div class="row py-5" id='content_${dataGallery.id}_${item.id}'>
+                            <div class="col-12" data-bs-toggle="collapse" href="#collapse_${dataGallery.id}_${item.id}">
+                                <h2 class="h2 fw-bold pb-0 mb-0">
+                                    ${item.name}
+                                </h2>
+                                <p>
+                                    ID: ${item.id}
+                                    <br/>
+                                    Short: ${item.short}
+                                </p>
+                            </div>
+                            <div class="col-md-8 py-2">
+                                <div class="input-group">
+                                    <input class="form-control" name="addimgpath"/>
+                                    <button class="btn btn-primary" type="button" onclick="addImgs(this)" data-content-id="content_${dataGallery.id}_${item.id}">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12 collapse" id="collapse_${dataGallery.id}_${item.id}">
+                                <div class="card card-body py-1">
+                                    <div class="row">
+                                        ${imgHtml}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>`;
+            });
+
+            $('#container-area').html(html);
+
+        }
+
+        function removeImg(e) {
+            var img = $(e).closest('div.position-relative');
+            img.remove();
+        }
+
+        function addImgs(e) {
+            var input = $(e).closest('div.input-group').find('input');
+            if (input.val() === '') return;
+            var newImg = `<div class="col-xl-2 col-lg-3 col-md-4 position-relative p-1">
+                            <div class="data-block-indicators data-block-indicator-bottom">
+                                <button class="btn btn-danger btn-sm m-auto" onclick="removeImg(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <img class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" src='${input.val()}' lazy-load="true"/>
+                        </div>`;
+            var contentId = $(e).attr('data-content-id')
+            var imgList = $('#' + contentId);
+            imgList.find('div.row').prepend(newImg);
+            input.val('');
+        }
+    </script>
+</body>
+
+</html>
