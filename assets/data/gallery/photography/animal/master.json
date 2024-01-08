@@ -8,8 +8,8 @@
             "short": "dog",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
-                        "photography",
                         "dog"
                     ],
                     "imgs": [
@@ -19,8 +19,8 @@
                     ]
                 },
                 {
+                    "id": "2",
                     "tags": [
-                        "photography",
                         "cat"
                     ],
                     "imgs": [
@@ -36,8 +36,8 @@
             "short": "dog",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
-                        "photography",
                         "cat"
                     ],
                     "imgs": [

@@ -5,14 +5,12 @@
         {
             "id": "girl",
             "name": "girl",
-            "short":" for girl pic nfsw or many",
+            "short": " for girl pic nfsw or many",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
-                        "sd",
-                        "deliberate",
-                        "girl",
-                        "normal"
+                        "girl"
                     ],
                     "imgs": [
                         "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/7d9b407b-4bfb-48f8-7edd-e04e9af92200/width=512/269955.jpeg",
@@ -29,10 +27,8 @@
                     ]
                 },
                 {
+                    "id": "2",
                     "tags": [
-                        "sd",
-                        "deliberate",
-                        "girl",
                         "nude"
                     ],
                     "imgs": [
@@ -53,15 +49,12 @@
                     ]
                 },
                 {
+                    "id": "3",
                     "tags": [
-                        "sd",
-                        "deliberate",
-                        "girl",
                         "nsfw"
                     ],
                     "imgs": [
-                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/627678fd-5967-4ea8-8c98-52aca67e9017/width=450/2.jpeg",
-                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/627678fd-5967-4ea8-8c98-52aca67e9017/width=768,anim=true/2.jpeg"
+                        "https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/627678fd-5967-4ea8-8c98-52aca67e9017/width=450/2.jpeg"
                     ]
                 }
             ]

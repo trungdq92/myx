@@ -18,31 +18,50 @@
 </head>
 
 <body class="theme-dark">
-    <div class="container py-5" id="container-area">
-
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6">
+                <input class="form-control" id="pathFile" placeholder="Path File">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" onclick="go()">
+                    Go
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" onclick="exportJson()">
+                    Export
+                </button>
+            </div>
+        </div>
+        <div id="container-area"></div>
     </div>
 
     <script type="text/javascript" src="../assets/vendor/jquery/jquery-3.6.4.min.js"></script>
     <script type="text/javascript" src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script type="text/javascript" src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-    <script type="text/javascript" src="../assets/vendor/filter/list.min.js"></script>
     <script type="text/javascript" src="../assets/js/constant.js"></script>
     <script type="text/javascript" src="../assets/js/page.js"></script>
     <script type="text/javascript">
+        let galleries = [];
         init();
 
         async function init() {
-            var rootUrl = CommomFunction._domainPath()
-            var dataPath = `${rootUrl}/assets/data/gallery/stable_diffusion/majicmix_realistic/master.json`;
-            var dataGallery = await CommomFunction._loadJsonAsync(dataPath);
-            console.log(dataGallery);
-            var imgs = [];
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('path') ?? '';
+            if (filterParam === '') return;
+            $('#pathFile').val(filterParam);
 
+            var rootUrl = CommomFunction._domainPath()
+            var dataPath = `${rootUrl}/assets/data/${filterParam}/master.json`; //gallery/stable_diffusion/deliberate
+            var dataGallery = await CommomFunction._loadJsonAsync(dataPath);
+
+            this.galleries = dataGallery;
             var html = ''
             dataGallery.viewer.forEach(item => {
-                var imgHtml = ''
+                var hashHtml = '';
                 item.hashtags.forEach(hash => {
+                    var imgHtml = ''
                     hash.imgs.forEach(img => {
                         imgHtml += `<div class="col-xl-2 col-lg-3 col-md-4 position-relative p-1">
                                         <div class="data-block-indicators data-block-indicator-bottom">
@@ -53,34 +72,46 @@
                                         <img class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" src='${img}' lazy-load="true"/>
                                     </div>`;
                     });
+
+                    hashHtml += `<div class="row my-3">
+                                    <div class="col-12" data-bs-toggle="collapse" href="#collapse_${dataGallery.id}_${item.id}_${hash.id}">
+                                        <div class="text-capitalize fs-5 fw-bold pb-0 mb-0">
+                                            ${hash.tags.toString().replaceAll(',', ' ')}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 py-2">
+                                        <div class="input-group">
+                                            <input class="form-control" name="addimgpath"/>
+                                            <button class="btn btn-primary" type="button" 
+                                                onclick="addImgs(this)"
+                                                data-viewer-id="${item.id}"
+                                                data-hash-id="${hash.id}"
+                                                data-content-id="content_${dataGallery.id}_${item.id}_${hash.id}">
+                                                <i class="bi bi-plus-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 collapse" id="collapse_${dataGallery.id}_${item.id}_${hash.id}">
+                                        <div class="card card-body py-1">
+                                            <div class="row" id="content_${dataGallery.id}_${item.id}_${hash.id}">
+                                                ${imgHtml}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
                 });
 
                 html += `<div class="row py-5" id='content_${dataGallery.id}_${item.id}'>
-                            <div class="col-12" data-bs-toggle="collapse" href="#collapse_${dataGallery.id}_${item.id}">
+                            <div class="col-12">
                                 <h2 class="h2 fw-bold pb-0 mb-0">
                                     ${item.name}
                                 </h2>
-                                <p>
-                                    ID: ${item.id}
-                                    <br/>
-                                    Short: ${item.short}
+                                <p class="text-capitalize">
+                                    ${item.short}
                                 </p>
                             </div>
-                            <div class="col-md-8 py-2">
-                                <div class="input-group">
-                                    <input class="form-control" name="addimgpath"/>
-                                    <button class="btn btn-primary" type="button" onclick="addImgs(this)" data-content-id="content_${dataGallery.id}_${item.id}">
-                                        <i class="bi bi-plus-circle"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-12 collapse" id="collapse_${dataGallery.id}_${item.id}">
-                                <div class="card card-body py-1">
-                                    <div class="row">
-                                        ${imgHtml}
-                                    </div>
-                                </div>
-                                
+                            <div class="col-12">
+                                ${hashHtml}
                             </div>
                         </div>`;
             });
@@ -96,19 +127,52 @@
 
         function addImgs(e) {
             var input = $(e).closest('div.input-group').find('input');
-            if (input.val() === '') return;
+            let newPath = input.val();
+            if (newPath === '') return;
+
             var newImg = `<div class="col-xl-2 col-lg-3 col-md-4 position-relative p-1">
                             <div class="data-block-indicators data-block-indicator-bottom">
                                 <button class="btn btn-danger btn-sm m-auto" onclick="removeImg(this)">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
-                            <img class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" src='${input.val()}' lazy-load="true"/>
+                            <img class="img-fluid thumbs thumbs-cover bg-transparent border-0 rounded-4" src='${newPath}' lazy-load="true"/>
                         </div>`;
             var contentId = $(e).attr('data-content-id')
             var imgList = $('#' + contentId);
-            imgList.find('div.row').prepend(newImg);
+            imgList.prepend(newImg);
             input.val('');
+
+            // add for data json
+            var viewerId = $(e).attr('data-viewer-id');
+            var hashId = $(e).attr('data-hash-id');
+            let viewer = this.galleries.viewer.find(x => x.id === viewerId);
+            let hashtag = viewer.hashtags.find(x => x.id === hashId);
+            hashtag.imgs.push(newPath);
+        }
+
+        function exportJson() {
+            const link = document.createElement("a");
+            const content = JSON.stringify(this.galleries);
+            const file = new Blob([content], { type: 'application/json' });
+            link.href = URL.createObjectURL(file);
+            link.download = "master.json";
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function go() {
+            var pathFile = $('#pathFile').val();
+            if (pathFile === '') return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const filterParam = urlParams.get('path') ?? '';
+            if (urlParams.has('path'))
+                urlParams.set('path', pathFile);
+            else
+                urlParams.append('path', pathFile);
+
+            location.replace(location.pathname + '?' + urlParams);
         }
     </script>
 </body>

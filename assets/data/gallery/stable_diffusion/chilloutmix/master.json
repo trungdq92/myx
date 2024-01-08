@@ -5,12 +5,11 @@
         {
             "id": "girl",
             "name": "girl",
-            "short":" for girl pic nfsw or many",
+            "short": " for girl pic nfsw or many",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
-                        "sd",
-                        "chillout_mix",
                         "girl"
                     ],
                     "imgs": [
@@ -122,13 +121,11 @@
         {
             "id": "s_girl",
             "name": "s girl",
-            "short":" for girl pic pure",
+            "short": " for girl pic pure",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
-                        "sd",
-                        "chillout_mix",
-                        "girl",
                         "nude"
                     ],
                     "imgs": [
@@ -285,11 +282,8 @@
                     ]
                 },
                 {
+                    "id":"2",
                     "tags": [
-                        "sd",
-                        "chillout_mix",
-                        "girl",
-                        "models",
                         "nsfw"
                     ],
                     "imgs": [

@@ -8,6 +8,7 @@
             "short": "this for colleague ",
             "hashtags": [
                 {
+                    "id": "1",
                     "tags": [
                         "colleague",
                         "Admin",
@@ -23,6 +24,7 @@
                     "renderImg": []
                 },
                 {
+                    "id": "2",
                     "tags": [
                         "colleague",
                         "Tester",
@@ -35,6 +37,7 @@
                     "renderImg": []
                 },
                 {
+                    "id": "3",
                     "tags": [
                         "friend",
                         "university",
@@ -48,6 +51,7 @@
                     "renderImg": []
                 },
                 {
+                    "id": "4",
                     "tags": [
                         "colleague",
                         "VMO",
@@ -81,6 +85,7 @@
                     "renderImg": []
                 },
                 {
+                    "id": "5",
                     "tags": [
                         "colleague",
                         "Luvina",
@@ -99,6 +104,7 @@
                     "renderImg": []
                 },
                 {
+                    "id": "6",
                     "tags": [
                         "colleague",
                         "VMO",
@@ -119,6 +125,7 @@
                 }
                 ,
                 {
+                    "id": "7",
                     "tags": [
                         "colleague",
                         "VMO",
