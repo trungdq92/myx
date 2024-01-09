@@ -152,8 +152,6 @@ const PageBase = class PageBase {
     }
 
     _initAnomationAfterRender() {
-        Constants.IsotopeLoading = false;
-        Constants.ListFitersLoading = false;
         DomEventFuntion._backToTop();
         DomEventFuntion._showSideMenu();
         return;
@@ -201,31 +199,6 @@ const PageBase = class PageBase {
 
     }
 
-    async _loadIsotopeImg() {
-        var _page = this;
-        var loadImg = setInterval(function () {
-            console.log("img loading")
-            var images = document.querySelectorAll('img');
-            if (images.length == 0) {
-                clearInterval(loadImg);
-                return false;
-            }
-
-            InitGalleryFuntion._initIsotope();
-            _page.isLoading = true;
-            var load = images[images.length - 1].complete;
-            if (load) {
-                console.log("img loaded")
-                clearInterval(loadImg);
-                _page.isLoading = false;
-                if (document.getElementById('loader')) document.getElementById('loader').classList.remove('show');
-            }
-        }, this.throttleTimer / 5)
-
-        DomEventFuntion._backToTop();
-        DomEventFuntion._showSideMenu();
-    };
-
     _paggingHandler = (callback, time) => {
 
         var _page = this;
@@ -237,36 +210,6 @@ const PageBase = class PageBase {
             _page.scrolling = false;
         }, time);
     };
-
-    _scrollHandler() {
-        // if (this.isLoading) return false;
-        if (!this.lGalleryFilters)
-            return false;
-
-        setTimeout(() => {
-            InitGalleryFuntion._initIsotope();
-        }, this.throttleTimer / 5)
-
-        var currentItems = this.page * this.itemsPerPage;
-        console.log(currentItems + "/" + this.lGalleryFilters.items.length)
-        if (currentItems >= this.lGalleryFilters.items.length)
-            return false;
-        else
-            document.getElementById('loader').classList.add('show');
-
-
-        var _page = this;
-        this._paggingHandler(() => {
-            var endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
-            if (endOfPage) {
-                _page.page++;
-                _page.lGalleryFilters.show(0, _page.page * _page.itemsPerPage);
-                _page.glightBox.reload();
-                _page._loadIsotopeImg();
-
-            }
-        }, this.throttleTimer);
-    }
 
     _showMoreGallery(e) {
         if (!e.target) return;
@@ -628,7 +571,6 @@ const ContentPage = class ContentPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        Constants.ListFitersLoading = false;
         this._initGallery();
     }
 
@@ -949,8 +891,6 @@ const GalleryViewerPage = class GalleryViewerPage extends PageBase {
         super._initAnomationAfterRender();
 
         this._initGallery();
-        // await this._loadIsotopeImg();
-        // document.body.onscroll = () => { this._scrollHandler() };
     }
 
     _renderContent() {
@@ -1285,7 +1225,6 @@ const ComicChapterPage = class ComicChapterPage extends PageBase {
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
         this._initGallery();
-        // document.body.onscroll = () => { this._scrollHandler() };
 
     }
 
@@ -1629,7 +1568,7 @@ const VideoDetailPage = class VideoDetailPage extends DetailPage {
                                             <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                                         </div>
                                         <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
-                                            <a class="text-white" href="${url}">${item.name}</a>
+                                            <a class="text-white w-100 text-start" href="${url}">${item.name}</a>
                                         </div>
                                         <div class="video-wrapper">
                                             <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
@@ -1762,7 +1701,6 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
 
     _initAnomationAfterRender() {
         super._initAnomationAfterRender();
-        Constants.ListFitersLoading = false;
         this._initGallery();
     }
 
@@ -1892,7 +1830,7 @@ const VideoPlayerPage = class VideoPlayerPage extends PageBase {
                                 <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
                             </div>
                             <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
-                                <a class="text-white" href='${url}'>${item.name}</a>
+                                <a class="text-white w-100 text-start" href='${url}'>${item.name}</a>
                             </div>
                             <div class="video-portfolio-wrap ${wrapperGallery}">
                                 <div class="video-wrapper">

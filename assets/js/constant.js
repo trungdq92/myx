@@ -3,8 +3,6 @@ const Constants = class Constants {
     static pages = 'pages'
     static pageContent = 'content'
     static pageContentDetail = 'detail'
-    static IsotopeLoading = false;
-    static ListFitersLoading = false;
     static BackGroundColor = ["bg-color-second", "bg-transparent"];
     static ThemeKey = 'ThemeStyle';
     static ThemeStyle = {
@@ -125,87 +123,6 @@ const InitGalleryFuntion = class InitGalleryFuntion {
         });
 
         return g;
-    }
-
-    static _initIsotope(clazzContainer, clazzItem) {
-        if (!Constants.IsotopeLoading)
-            return false;
-
-        var pageNane = Page._getPage();
-        var viewType = localStorage.getItem(Constants.galleryCache.gridViewType + pageNane);
-        if (viewType == '1')
-            return false;
-
-        if (typeof (Isotope) === 'undefined') {
-            console.log('Isotope undefined');
-            return false;
-        }
-
-        var clzz = 'portfolio-container';
-        if (clazzContainer)
-            clzz = clazzContainer;
-
-        var selector = 'portfolio-item';
-        if (clazzItem)
-            selector = clazzItem;
-
-        var options = {
-            itemSelector: '.' + selector
-        }
-
-        new Isotope('.' + clzz, options);
-    }
-
-    static _initListFilters(id, options) {
-        if (!Constants.ListFitersLoading)
-            return false;
-
-        if (typeof (List) === 'undefined') {
-            console.log('List undefined');
-            return false;
-        }
-
-        if (!options) options = [];
-        var elem = document.getElementsByClassName('list');
-        if (elem.length < 1 || elem[0].innerHTML == '')
-            return false;
-
-        return new List(id, options);
-    }
-
-    static _filterGallery(featureList, filterNames) {
-        if (filterNames.length == 0) {
-            featureList.filter();
-            return false;
-        }
-
-        featureList.filter(function (item) {
-            var result = false;
-            for (var i = 0; i < filterNames.length; i++) {
-                if (item.elm.classList.contains(filterNames[i])) {
-                    result = true;
-                    break;
-                }
-            }
-            return result;
-        });
-    }
-
-    static _eventfilterGallery(element, lGalleryFilters, glightBox) {
-        element.classList.toggle("active");
-        var dataFilters = [];
-
-        document.getElementById('portfolio-flters').querySelectorAll('.active').forEach(elm => {
-            var dataFilter = elm.getAttribute('data-filter');
-            if (!dataFilters.includes(dataFilter)) {
-                dataFilters.push(dataFilter);
-            }
-        })
-
-        this._filterGallery(lGalleryFilters, dataFilters);
-
-        glightBox.reload();
-        this._initIsotope();
     }
 }
 

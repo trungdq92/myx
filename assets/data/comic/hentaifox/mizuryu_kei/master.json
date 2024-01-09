@@ -1,0 +1,88 @@
+{
+    "id": "mizuryu_kei",
+    "parentid": "hentaifox",
+    "chapters": [
+        {
+            "id": "c1",
+            "name": "My Friend With Zero Chasity | PART 1-7",
+            "thumbs": "https://i2.hentaifox.com/004/2679664/cover.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://i.hentaifox.com/004/2679664/",
+                ".jpg",
+                "1",
+                "247"
+            ]
+        },
+        {
+            "id": "c2",
+            "name": "Teisou Kannen ZERO",
+            "thumbs": "https://i.hentaifox.com/004/2659236/cover.jpg",
+            "imgs": [],
+            "renderImg": [
+                "https://i.hentaifox.com/001/770772/",
+                ".jpg",
+                "1",
+                "277"
+            ]
+        },
+        {
+            "id": "c3",
+            "name": "Welcome to MizuryuLand",
+            "thumbs": "https://i2.hentaifox.com/004/2408949/cover.jpg",
+            "imgs": [],
+            "renderImg": [],
+            "renderGroupImgs": [
+                {
+                    "id": "p1",
+                    "prefix": "https://i.hentaifox.com/004/2408949/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "46"
+                },
+                {
+                    "id": "p1_5",
+                    "prefix": "https://i.hentaifox.com/004/2410205/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "33"
+                },
+                {
+                    "id": "p2",
+                    "prefix": "https://i.hentaifox.com/004/2408951/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "38"
+                },
+                {
+                    "id": "p3",
+                    "prefix": "https://i.hentaifox.com/004/2410211/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "43"
+                },
+                {
+                    "id": "p3_5",
+                    "prefix": "https://i.hentaifox.com/004/2410214/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "42"
+                },
+                {
+                    "id": "p4",
+                    "prefix": "https://i.hentaifox.com/004/2410218/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "38"
+                },
+                {
+                    "id": "p5",
+                    "prefix": "https://i.hentaifox.com/004/2410223/",
+                    "subfix": ".jpg",
+                    "start": "1",
+                    "end": "38"
+                }
+            ]
+        }
+    ]
+}
