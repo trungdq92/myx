@@ -56,6 +56,36 @@
                     "renderImg": []
                 }
             ]
+        },
+        {
+            "id": "duong_mich",
+            "name": "Dương Mịch",
+            "short": " this for DM",
+            "hashtags": [
+                {
+                    "id": "1",
+                    "tags": [
+                        "original"
+                    ],
+                    "imgs": [
+                        "https://images2.thanhnien.vn/Uploaded/chungntk/2022_09_12/fcy6uexagae5cnp-9661.jpg",
+                        "https://kenh14cdn.com/thumb_w/660/203336854389633024/2022/7/23/duong-mich10-1658589561345730757811.jpg",
+                        "https://vnn-imgs-f.vgcloud.vn/2021/03/17/08/duong-mich-19.jpg",
+                        "https://i.ex-cdn.com/thoidaiplus.suckhoedoisong.vn/files/content/2023/02/11/sao-chau-a-tung-anh-don-nam-moi-duong-mich-cung-chiu-that-the-truoc-nhan-vat-dac-biet-1-1613233004-99-width660height440jpg.jpg"
+                    ],
+                    "renderImg": []
+                },
+                {
+                    "id": "2",
+                    "tags": [
+                        "mod"
+                    ],
+                    "imgs": [
+                        "https://images2.thanhnien.vn/Uploaded/chungntk/2022_09_12/fcy6uexagae5cnp-9661.jpg"
+                    ],
+                    "renderImg": []
+                }
+            ]
         }
     ]
 }
