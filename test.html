@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>MYX</title>
+
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="assets/vendor/jquery/jquery-3.6.4.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="theme-dark">
+    <div class="container___content" id="container-area"></div>
+</body>
+<script>
+    var data = {
+        "pageIndex": 0,
+        "pageSize": 10,
+    }
+    var access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJqdGkiOiJlNzNmYTU4Yi01ZGM1LTRjZjItYjc4Ni1iZjA3NTNjMjg5ZDkiLCJleHAiOjE3Mzk5NjM0MDQsImlzcyI6IkpXVEF1dGhlbnRpY2F0aW9uU2VydmVyIiwiYXVkIjoiSldUU2VydmljZVBvc3RtYW5DbGllbnQifQ.ECXCppCahxDjEfQ_w3_-CjSlQsAQXkyoa0ro4qbwIJw";
+    $.ajax({
+        type: 'post',
+        url: 'https://trungdq92.bsite.net/PGallery/filter',
+        headers: {
+            'Access-Control-Allow-Origin':"*",
+            "Cache-Control": "no-cache",
+            "Authorization": "Bearer " + access_token,
+        },
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: "application/json",
+        success: function (data) {
+            data.data.forEach(item=>{
+                $("#container-area").append(`<img src='${item.script}' class="img-thumbnail"/>`);
+            })
+           
+        }
+    });
+</script>
+
+</html>
