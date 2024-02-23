@@ -39,11 +39,31 @@ function unlockScreen() {
         preload.remove();
 }
 
+function _initGLightbox(id) {
+    var g = GLightbox({
+        selector: id,
+        touchNavigation: true,
+        keyboardNavigation: true,
+        loop: true,
+    });
+
+    g.on('open', function () {
+        g.reload();
+    });
+
+    return g;
+}
+
+function getUrlParameter(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param)
+}
+
 
 
 
 const Constants = class Constants {
-    static apiHost = "https://trungdq92.bsite.net/"
+    static apiHost = "https://localhost:7162/"
     static rootUrl = "/myx/"
     static authUrl = this.rootUrl + "auth/"
     static accessToken = "access_token"

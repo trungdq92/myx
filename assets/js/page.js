@@ -88,6 +88,7 @@ const Page = class Page {
     constructor(pageId) {
         this.pageId = pageId
         if (this.pageId === 'gallery') return new GalleryPage();
+        if (this.pageId === 'gallery_post') return new GalleryPostPage();
     }
 }
 
@@ -1677,259 +1678,259 @@ const PageBase = class PageBase {
 //     }
 // }
 
-const VideoPlayerPage = class VideoPlayerPage extends PageBase {
-    constructor() {
-        super();
-        this.gridColShow = 'd-none';
-        this.playerId = CommomFunction._getUrlParameter('vs');
-        this.players = [];
-        this.playerInfo = {};
-        this.galleryColRelationThumbs = '';
-        this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
-        if (!this.gridViewType) {
-            this.gridViewType = '2';
-        }
+// const VideoPlayerPage = class VideoPlayerPage extends PageBase {
+//     constructor() {
+//         super();
+//         this.gridColShow = 'd-none';
+//         this.playerId = CommomFunction._getUrlParameter('vs');
+//         this.players = [];
+//         this.playerInfo = {};
+//         this.galleryColRelationThumbs = '';
+//         this.gridViewType = localStorage.getItem(Constants.galleryCache.gridViewType + '_player_video');
+//         if (!this.gridViewType) {
+//             this.gridViewType = '2';
+//         }
 
-        this.gridPlayerType = localStorage.getItem(Constants.galleryCache.gridPlayerType + '_player_video');
-        if (!this.gridPlayerType) {
-            this.gridPlayerType = '1';
-        }
-        this._init();
-    }
+//         this.gridPlayerType = localStorage.getItem(Constants.galleryCache.gridPlayerType + '_player_video');
+//         if (!this.gridPlayerType) {
+//             this.gridPlayerType = '1';
+//         }
+//         this._init();
+//     }
 
-    async _init() {
-        await super._init();
+//     async _init() {
+//         await super._init();
 
-        var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
-        var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
-        var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
-        if (!this.playerId || !dataGroup || !dataContent || !dataDetail) {
-            history.back();
-        }
+//         var dataGroup = await CommomFunction._loadJsonAsync(this.loadGroupPath);
+//         var dataContent = await CommomFunction._loadJsonAsync(this.loadContentPath);
+//         var dataDetail = await CommomFunction._loadJsonAsync(this.loadDetailPath);
+//         if (!this.playerId || !dataGroup || !dataContent || !dataDetail) {
+//             history.back();
+//         }
 
-        this.groups = dataGroup;
-        this.contents = dataContent;
-        this.details = dataDetail;
+//         this.groups = dataGroup;
+//         this.contents = dataContent;
+//         this.details = dataDetail;
 
-        var _page = this;
-        this.details.hashtags.forEach(item => {
-            item.videos.forEach(info => {
-                info.tags = item.tags;
-                _page.players.push(info);
-            });
-        });
+//         var _page = this;
+//         this.details.hashtags.forEach(item => {
+//             item.videos.forEach(info => {
+//                 info.tags = item.tags;
+//                 _page.players.push(info);
+//             });
+//         });
 
-        this.playerInfo = this.players.find(x => x.id == this.playerId);
-        this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
-        this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
+//         this.playerInfo = this.players.find(x => x.id == this.playerId);
+//         this.contentInfo = this.groups.children.find(x => x.id == this.contentId);
+//         this.detailInfo = this.contents.children.find(x => x.id == this.detailId);
 
-        const filterParam = [...this.playerInfo.hashs, ...this.playerInfo.tags];
-        var relationGalleries = [];
-        this.players.forEach(item => {
-            var isView = false;
-            var tags = [...item.hashs, ...item.tags];
-            tags.forEach(tag => {
-                if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
-            });
+//         const filterParam = [...this.playerInfo.hashs, ...this.playerInfo.tags];
+//         var relationGalleries = [];
+//         this.players.forEach(item => {
+//             var isView = false;
+//             var tags = [...item.hashs, ...item.tags];
+//             tags.forEach(tag => {
+//                 if (filterParam.indexOf(tag) > -1 || filterParam.length === 0) isView = true;
+//             });
 
-            if (isView)
-                relationGalleries.push(item);
-        });
+//             if (isView)
+//                 relationGalleries.push(item);
+//         });
 
-        this.players = relationGalleries;
+//         this.players = relationGalleries;
 
-        this._renderPage();
-        this._initAnomationAfterRender();
-    }
+//         this._renderPage();
+//         this._initAnomationAfterRender();
+//     }
 
-    _initAnomationAfterRender() {
-        super._initAnomationAfterRender();
-        this._initGallery();
-    }
+//     _initAnomationAfterRender() {
+//         super._initAnomationAfterRender();
+//         this._initGallery();
+//     }
 
-    _renderContent() {
-        super._renderContent();
-        var detailName = this.detailInfo.name;
-        var contentName = this.contentInfo.name;
-        var detailInfo = this._renderContentDetails();
+//     _renderContent() {
+//         super._renderContent();
+//         var detailName = this.detailInfo.name;
+//         var contentName = this.contentInfo.name;
+//         var detailInfo = this._renderContentDetails();
 
-        var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid';
+//         var sizeContainerChange = (this.gridPlayerType && parseInt(this.gridPlayerType) > 1) ? 'container' : 'container-fluid';
 
-        return `
-                <div class="${sizeContainerChange}">
-                    <div class="row">
-                        <div class="${this.galleryShowCol}">
-                            <div class="row portfolio-container">
-                                <div class="col-12 player-content px-0">
-                                    ${this._renderVideoObject(this.playerInfo)}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+//         return `
+//                 <div class="${sizeContainerChange}">
+//                     <div class="row">
+//                         <div class="${this.galleryShowCol}">
+//                             <div class="row portfolio-container">
+//                                 <div class="col-12 player-content px-0">
+//                                     ${this._renderVideoObject(this.playerInfo)}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                 </div>
 
-                <div class="container">
-                    <div class='row'>
-                        <div class='col m-auto'>
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
-                                    <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
-                                </ol>
-                            </nav>
-                        </div>
+//                 <div class="container">
+//                     <div class='row'>
+//                         <div class='col m-auto'>
+//                             <nav aria-label="breadcrumb">
+//                                 <ol class="breadcrumb mb-0">
+//                                     <li class="breadcrumb-item"><a href="${this.rootUrl}"><i class="bi bi-house-door-fill"></i></a></li>
+//                                     <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}">${this.groups.name}</i></a></li>
+//                                     <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}">${contentName}</i></a></li>
+//                                     <li class="breadcrumb-item text-capitalize"><a href="${this.rootUrl}/pages/${this.groups.id}/content/${this.contentId}/detail/${this.detailId}">${detailName}</i></a></li>
+//                                 </ol>
+//                             </nav>
+//                         </div>
                         
-                        ${this._renderGalleryShowColumn()}
-                    </div>
+//                         ${this._renderGalleryShowColumn()}
+//                     </div>
                     
                     
-                    <hr/>
-                </div>
+//                     <hr/>
+//                 </div>
 
-                <div class="container">
-                    ${detailInfo}
-                    <div id="video-relation">${this._renderRelationVideo()}</div>
-                    <div class="my-3">
-                        <button id="showmore" class="btn btn-sm btn-primary rounded-5">
-                            Show More
-                            <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>`;
-    }
+//                 <div class="container">
+//                     ${detailInfo}
+//                     <div id="video-relation">${this._renderRelationVideo()}</div>
+//                     <div class="my-3">
+//                         <button id="showmore" class="btn btn-sm btn-primary rounded-5">
+//                             Show More
+//                             <i class="bi bi-arrow-right"></i>
+//                         </button>
+//                     </div>
+//                 </div>`;
+//     }
 
-    _renderContentDetails() {
-        return `<div class="row">
-                    <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
-                    <div class="col-12 fst-italic text-capitalize">
-                        ${this.playerInfo.short}
-                    </div>
-                    <div class="col-12 fw-bold py-2">
-                        ${this.playerInfo.hashs.join(" ")}
-                    </div>
-                    <div class="col-12 py-5">
-                        ${this.playerInfo.contents.join(" ")}
-                    </div>
-                </div>`;
-    }
+//     _renderContentDetails() {
+//         return `<div class="row">
+//                     <h2 class="text-start h2 text-capitalize">${this.playerInfo.name}</h2>
+//                     <div class="col-12 fst-italic text-capitalize">
+//                         ${this.playerInfo.short}
+//                     </div>
+//                     <div class="col-12 fw-bold py-2">
+//                         ${this.playerInfo.hashs.join(" ")}
+//                     </div>
+//                     <div class="col-12 py-5">
+//                         ${this.playerInfo.contents.join(" ")}
+//                     </div>
+//                 </div>`;
+//     }
 
-    _renderRelationVideo() {
-        var html = '';
-        var _page = this;
-        _page.galleryFilter.items = this.players;
-        var paging = this.players.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
-        paging.forEach(item => {
-            if (item.id == _page.playerId) {
-                return;
-            }
+//     _renderRelationVideo() {
+//         var html = '';
+//         var _page = this;
+//         _page.galleryFilter.items = this.players;
+//         var paging = this.players.slice((_page.page - 1) * _page.itemsPerPage, _page.page * _page.itemsPerPage);
+//         paging.forEach(item => {
+//             if (item.id == _page.playerId) {
+//                 return;
+//             }
 
-            var glightBoxDataType = 'external';
-            if (item.scpType == Constants.videoScpType.video) {
-                glightBoxDataType = 'video';
-            }
+//             var glightBoxDataType = 'external';
+//             if (item.scpType == Constants.videoScpType.video) {
+//                 glightBoxDataType = 'video';
+//             }
 
-            var isMobile = CommomFunction._isMobile();
-            var background = Constants.BackGroundColor[0];
+//             var isMobile = CommomFunction._isMobile();
+//             var background = Constants.BackGroundColor[0];
 
-            var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
-            if (this.gridViewType == '1') {
-                html += `<div class="portfolio-item filter_name py-0 mb-1 rounded-4 ${background}">
-                            <div class="row gallery">
-                                <div class="${isMobile ? 'col-4' : 'col-2'} position-relative p-0">
-                                    <div class="data-block-indicators ms-1" title="${item.short}">
-                                        <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
-                                    </div>
-                                    <div class="video-wrapper">
-                                        <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                            <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col m-auto px-0">
-                                    <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
-                                        <a class="text-capitalize h2 fs-5" href="${url}">${item.name}</a>
-                                    </div>
-                                    <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
-                                        ${item.short}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
-            } else {
-                var wrapperGallery = 'gallery';
-                switch (this.gridViewType) {
-                    case '2':
-                        _page.galleryShowCol = isMobile ? "col-6" : "col-xl-4 col-lg-6";
-                        wrapperGallery = isMobile ? 'gallery' : '';
-                        break;
-                    default:
-                        _page.galleryShowCol = isMobile ? "col-6" : "col-xl-2 col-lg-3 col-md-6";
-                        break;
-                }
-                html += `<div class="position-relative ${_page.galleryShowCol} portfolio-item video-relation filter_name p-1" >
-                            <div class="data-block-indicators">
-                                <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
-                            </div>
-                            <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
-                                <a class="text-white w-100 text-start" href='${url}'>${item.name}</a>
-                            </div>
-                            <div class="video-portfolio-wrap ${wrapperGallery}">
-                                <div class="video-wrapper">
-                                    <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
-                                        <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
-                                    </a>       
-                                </div>
-                            </div>
-                        </div> `;
-            }
-        })
+//             var url = `${_page.rootUrl}/pages/${_page.groups.id}/content/${_page.contentId}/detail/${_page.detailId}/player/?vs=${item.id}`;
+//             if (this.gridViewType == '1') {
+//                 html += `<div class="portfolio-item filter_name py-0 mb-1 rounded-4 ${background}">
+//                             <div class="row gallery">
+//                                 <div class="${isMobile ? 'col-4' : 'col-2'} position-relative p-0">
+//                                     <div class="data-block-indicators ms-1" title="${item.short}">
+//                                         <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
+//                                     </div>
+//                                     <div class="video-wrapper">
+//                                         <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+//                                             <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+//                                         </a>
+//                                     </div>
+//                                 </div>
+//                                 <div class="col m-auto px-0">
+//                                     <div class="lh-sm m-2 pb-0 text-start truncate-overflow">
+//                                         <a class="text-capitalize h2 fs-5" href="${url}">${item.name}</a>
+//                                     </div>
+//                                     <div class="text-capitalize fs-6 lh-sm m-2 truncate-overflow text-start">
+//                                         ${item.short}
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </div>`;
+//             } else {
+//                 var wrapperGallery = 'gallery';
+//                 switch (this.gridViewType) {
+//                     case '2':
+//                         _page.galleryShowCol = isMobile ? "col-6" : "col-xl-4 col-lg-6";
+//                         wrapperGallery = isMobile ? 'gallery' : '';
+//                         break;
+//                     default:
+//                         _page.galleryShowCol = isMobile ? "col-6" : "col-xl-2 col-lg-3 col-md-6";
+//                         break;
+//                 }
+//                 html += `<div class="position-relative ${_page.galleryShowCol} portfolio-item video-relation filter_name p-1" >
+//                             <div class="data-block-indicators">
+//                                 <a class="text-white" href='${url}'> ▶️ ${item.due}</a>
+//                             </div>
+//                             <div class="data-block-indicators data-block-indicator-bottom" title="${item.name}">
+//                                 <a class="text-white w-100 text-start" href='${url}'>${item.name}</a>
+//                             </div>
+//                             <div class="video-portfolio-wrap ${wrapperGallery}">
+//                                 <div class="video-wrapper">
+//                                     <a href="${item.scpt}" class="portfolio-lightbox" data-zoomable="true" data-draggable="true" data-type="${glightBoxDataType}">
+//                                         <img src="${item.thumbs}" class="img-fluid thumbs thumbs-cover" alt="" onerror="this.src='${_page.rootUrl}/assets/img/default-image.png'" loading="lazy"/>
+//                                     </a>       
+//                                 </div>
+//                             </div>
+//                         </div> `;
+//             }
+//         })
 
-        var contentDetails = document.getElementById('relation-videos-area');
-        if (contentDetails) {
-            contentDetails.innerHTML += html;
-        }
+//         var contentDetails = document.getElementById('relation-videos-area');
+//         if (contentDetails) {
+//             contentDetails.innerHTML += html;
+//         }
 
-        return `${this._renderGalleryShowColumnRelation()}
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
-                    </div>
-                </div>
-                <div class="container"><div class="row portfolio" id="relation-videos-area">${html}</div></div>`;
-    }
+//         return `${this._renderGalleryShowColumnRelation()}
+//                 <div class="row">
+//                     <div class="col-md-12">
+//                         <h3 class="h3 fs-3 py-0">Relations<hr /></h3>
+//                     </div>
+//                 </div>
+//                 <div class="container"><div class="row portfolio" id="relation-videos-area">${html}</div></div>`;
+//     }
 
-    _renderGalleryShowColumn() {
-        var viewType = this.gridPlayerType;
-        this.galleryShowCol = 'col-md-12';
+//     _renderGalleryShowColumn() {
+//         var viewType = this.gridPlayerType;
+//         this.galleryShowCol = 'col-md-12';
 
-        return ` <div class="col-auto">
-                    <div class="row justify-content-center chapter-grid-view-style">
-                        <div class="col-lg-12 text-end">
-                            <div class="my-1 fs-4">
-                                <a href="javascript:DomEventFuntion._changePlayerType(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? '' : 'd-none'}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
-                            <a href="javascript:DomEventFuntion._changePlayerType(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType != 1 ? '' : 'd-none'}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
-                            </div>
-                        </div>
-                    </div >
-                </div > `;
-    }
+//         return ` <div class="col-auto">
+//                     <div class="row justify-content-center chapter-grid-view-style">
+//                         <div class="col-lg-12 text-end">
+//                             <div class="my-1 fs-4">
+//                                 <a href="javascript:DomEventFuntion._changePlayerType(2,'_player_video');" class="p-2 mx-1 grid-style ${viewType == 1 ? '' : 'd-none'}" data-type="2"><i class="bi bi-fullscreen-exit navbar-toggler"></i></i></a>
+//                             <a href="javascript:DomEventFuntion._changePlayerType(1,'_player_video');" class="p-2 mx-1 grid-style ${viewType != 1 ? '' : 'd-none'}" data-type="1"><i class="bi bi-fullscreen navbar-toggler"></i></a>
+//                             </div>
+//                         </div>
+//                     </div >
+//                 </div > `;
+//     }
 
-    _renderGalleryShowColumnRelation() {
-        return super._renderGalleryShowColumn();
-    }
+//     _renderGalleryShowColumnRelation() {
+//         return super._renderGalleryShowColumn();
+//     }
 
-    _showMoreGallery(e) {
-        if (!e.target) return;
-        var _page = this;
-        _page.page++;
-        this._renderRelationVideo();
-        _page.glightBox.reload();
+//     _showMoreGallery(e) {
+//         if (!e.target) return;
+//         var _page = this;
+//         _page.page++;
+//         this._renderRelationVideo();
+//         _page.glightBox.reload();
 
-        var currentItems = _page.page * _page.itemsPerPage;
-        if (currentItems >= _page.galleryFilter.items.length) {
-            e.target.remove();
-        }
-    }
-}
+//         var currentItems = _page.page * _page.itemsPerPage;
+//         if (currentItems >= _page.galleryFilter.items.length) {
+//             e.target.remove();
+//         }
+//     }
+// }

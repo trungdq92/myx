@@ -12,10 +12,10 @@
                       <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
                       <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+                      <link href="${rootUrl}/assets/vendor/aos/aos.css" rel="stylesheet">
                       <link href="${rootUrl}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
                       <link href="${rootUrl}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
                       <link href="${rootUrl}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-                      <link href="${rootUrl}/assets/vendor/aos/aos.css" rel="stylesheet">
 
                       <link href="${rootUrl}/assets/css/style.css" rel="stylesheet">
                       <link href="${rootUrl}/assets/css/site.css" rel="stylesheet">
@@ -33,13 +33,14 @@
     var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
     scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
     scriptTag = loadScript(rootUrl + '/assets/vendor/aos/aos.js');
+    scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
     scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
     scriptTag = loadScript(rootUrl + '/assets/js/main.js');
     scriptTag = loadScript(rootUrl + '/assets/js/page.js');
     scriptTag = loadScript(rootUrl + '/assets/js/gallery.js');
 
     scriptTag.addEventListener('load', () => {
-        new Page("gallery");
+        new Page("gallery_post");
     })
 
     function loadScript(path) {

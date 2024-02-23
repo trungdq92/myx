@@ -122,6 +122,10 @@ textarea:not(.disabled) {
     column-count: 5;
 }
 
+.card-columns-gap-auto {
+    column-count: 5;
+}
+
 .card-columns .card {
     display: inline-block;
     width: 100%;
@@ -322,6 +326,12 @@ textarea:not(.disabled) {
     height: calc(80vh + 20px);
 }
 
+@media screen and (max-width: 1024px) {
+    .card-columns-gap-auto {
+        column-count: 3;
+    }
+}
+
 @media screen and (max-width: 768px) {
     #video-player-area .container-fluid .video-wrapper {
         padding-bottom: calc(var(--aspect-ratio, .5625) * 100%);
@@ -333,7 +343,12 @@ textarea:not(.disabled) {
         left: 5%;
         right: 5%;
     }
+
+    .card-columns-gap-auto {
+        column-count: 2;
+    }
 }
+
 
 /* comic */
 
@@ -392,4 +407,12 @@ textarea:not(.disabled) {
     position: fixed;
     top: 20px;
     left: 20px;
+}
+
+.icon-next i {
+    font-size: larger;
+}
+
+button>* {
+    pointer-events: none;
 }
