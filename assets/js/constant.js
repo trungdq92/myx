@@ -1,4 +1,52 @@
+async function ajaxAsync(url, method, data) {
+    var access_token = localStorage.getItem(Constants.accessToken);
+    lockScreen();
+    return $.ajax({
+        url: Constants.apiHost + url,
+        method: method,
+        headers: {
+            'Access-Control-Allow-Origin': "*",
+            "Cache-Control": "no-cache",
+            "Authorization": "Bearer " + access_token,
+        },
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+        error: (jqXHR, textStatus, errorThrown) => {
+            if (jqXHR.status == 401) {
+                location.href = Constants.authUrl + "?returnUrl=" + url;
+            }
+        },
+        complete: () => {
+            unlockScreen();
+        }
+    });
+}
+
+
+function lockScreen() {
+    var preload = document.getElementById('preloader');
+    if (preload) return;
+
+    preload = document.createElement('div');
+    preload.id = "preloader";
+    document.body.append(preload);
+}
+
+function unlockScreen() {
+    var preload = document.getElementById('preloader');
+    if (preload)
+        preload.remove();
+}
+
+
+
+
 const Constants = class Constants {
+    static apiHost = "https://trungdq92.bsite.net/"
+    static rootUrl = "/myx/"
+    static authUrl = this.rootUrl + "auth/"
+    static accessToken = "access_token"
     static pjName = 'myx';
     static pages = 'pages'
     static pageContent = 'content'
@@ -27,7 +75,7 @@ const Constants = class Constants {
     constructor() { }
 }
 
-const CommomFunction = class CommomFunction {
+const CommonFunction = class CommonFunction {
     constructor() { }
     static _domainPath() {
         return `${location.protocol}//${location.hostname}${location.port == '' ? '' : ':' + location.port}/${Constants.pjName}`;
