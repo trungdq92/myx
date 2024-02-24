@@ -7,7 +7,7 @@
                         <meta charset="utf-8">
                         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-                        <title>Gallery - MYX</title>
+                        <title>Video - MyX</title>
 
                         <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
                         <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -37,10 +37,10 @@
     scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
     scriptTag = loadScript(rootUrl + '/assets/js/main.js');
     scriptTag = loadScript(rootUrl + '/assets/js/page.js');
-    scriptTag = loadScript(rootUrl + '/assets/js/gallery.js');
+    scriptTag = loadScript(rootUrl + '/assets/js/video.js');
 
     scriptTag.addEventListener('load', () => {
-        new Page("gallery_post");
+        new Page("video_viewer");
     })
 
     function loadScript(path) {

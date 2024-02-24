@@ -1,10 +1,10 @@
-﻿class GalleryPage extends PostPage {
+﻿class ComicPage extends PostPage {
     constructor() {
         super();
     }
 }
 
-class GalleryPostPage extends GalleryPage {
+class ComicPostPage extends ComicPage {
     constructor() {
         super();
     }
@@ -61,12 +61,12 @@ class GalleryPostPage extends GalleryPage {
             Sorts: this._sortBy,
             PageSize: this._pageSize
         }
-        var result = await ajaxAsync('PGallery/filter', 'post', searchData);
+        var result = await ajaxAsync('PComic/filter', 'post', searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
-        $('#total-count-result').html(`${result.totalCount} <i class="bi bi-image-fill"></i>`)
+        $('#total-count-result').html(`${result.totalCount} <i class="bi bi-journal-richtext"></i>`)
         var sort = this._sortBy.split('=')[1]
         var order = this._sortBy.split('=')[0]
 
