@@ -357,16 +357,11 @@ textarea:not(.disabled) {
 
 /* comic */
 
-.comic-book-card .card-title {
-    height: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 .comic-book-card img {
     aspect-ratio: 6 / 9;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
+    max-height: 30vh;
 }
 
 .data-table {
@@ -408,7 +403,7 @@ textarea:not(.disabled) {
 }
 
 .btn-moveable {
-    z-index: 990;
+    z-index: 1039;
     position: fixed;
     top: 10px;
     left: 10px;

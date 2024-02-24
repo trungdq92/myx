@@ -14,6 +14,29 @@ class GalleryPostPage extends GalleryPage {
         $('.btnAddFilter').click((e) => this._addFilter(e.target));
     }
 
+    _renderTitlePage() {
+        return `<div class="title-page sticky-top">
+                    <div class="container">
+                        <div class="row">
+                            <h5 class="h1 text-capitalize fw-bold">${this._component}</h5>
+                        </div>
+                        <div class="row text-mute" style="font-size:smaller">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item text-capitalize" aria-current="page">
+                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/gallery/">
+                                            Gallery
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">${getUrlParameter('id').replace('_', ' ')}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>`
+    }
+
     async _renderDetails() {
         var filter = [];
         var filterOr = [];
@@ -98,7 +121,7 @@ class GalleryPostPage extends GalleryPage {
         filter.push({
             Operation: 'eq',
             QueryType: 'boolean',
-            QueryKey: `(ComponentIds.Contains("gallery"))`,
+            QueryKey: `(ComponentIds.Contains("gallery")  || ComponentIds == "" )`,
             QueryValue: true,
         })
         var searchData = {

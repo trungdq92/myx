@@ -67,7 +67,7 @@ function getUrlParameter(param) {
 
 
 const Constants = class Constants {
-    static apiHost = "https://localhost:7162/"
+    static apiHost = "https://trungdq92.bsite.net/"
     static rootUrl = "/myx/"
     static authUrl = this.rootUrl + "auth/"
     static accessToken = "access_token"

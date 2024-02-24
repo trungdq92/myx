@@ -32,6 +32,29 @@ class VideoPostPage extends VideoPage {
         return html;
     }
 
+    _renderTitlePage() {
+        return `<div class="title-page sticky-top">
+                    <div class="container">
+                        <div class="row">
+                            <h5 class="h1 text-capitalize fw-bold">${this._component}</h5>
+                        </div>
+                        <div class="row text-mute" style="font-size:smaller">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item text-capitalize" aria-current="page">
+                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/video/">
+                                            Video
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">${getUrlParameter('id').replace('_', ' ')}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>`
+    }
+
     async _renderDetails() {
         var filter = [];
         var filterOr = [];
@@ -124,7 +147,7 @@ class VideoPostPage extends VideoPage {
         filter.push({
             Operation: 'eq',
             QueryType: 'boolean',
-            QueryKey: `(ComponentIds.Contains("gallery"))`,
+            QueryKey: `(ComponentIds.Contains("video") || ComponentIds == "" )`,
             QueryValue: true,
         })
         var searchData = {
@@ -219,6 +242,33 @@ class VideoViewerPage extends PageBase {
         return html;
     }
 
+    _renderTitlePage() {
+        return `<div class="title-page_ sticky-top">
+                    <div class="container_">
+                        <div class="row text-mute" style="font-size:smaller">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item text-capitalize" aria-current="page">
+                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/video/">
+                                            Video
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item text-capitalize" aria-current="page">
+                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/video/post/?id=${this._detail.postId}">
+                                            ${this._detail.postId.replace("_", " ")}
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">
+                                        ${this._detail.name.length > 10 ? this._detail.name.slice(0, 10) + "..." : this._detail.name}
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>`
+    }
+
     async _renderDetails() {
         var filter = [];
         filter.push({
@@ -258,9 +308,10 @@ class VideoViewerPage extends PageBase {
             <div class="container">
                 <div class="row">
                     <div class="col-12 my-2">
-                        <h2 class="text-capitalize">
+                        <h2 class="text-capitalize fw-bold">
                             ${detail.name}
                         </h2>
+                        ${this._renderTitlePage()}
                     </div>
                     <div class="text-capitalize text-truncate py-2">
                         <span class="text-mute text-truncate" style="font-size: smaller;">
