@@ -64,8 +64,6 @@ function getUrlParameter(param) {
 }
 
 
-
-
 const Constants = class Constants {
     static apiHost = "https://trungdq92.bsite.net/"
     static rootUrl = "/myx/"
