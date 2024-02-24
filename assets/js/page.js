@@ -33,7 +33,7 @@ function mouseup(event) {
     setTimeout(() => {
         timerHold = false;
     }, 100)
-
+    if(btn) btn.style.position = "fixed";
     btn = null;
 }
 
@@ -103,7 +103,7 @@ const PageBase = class PageBase {
     }
 
     _renderMenu() {
-        var html = `<button class="btn btn-success btn_moveable border-0 shadow rounded-circle m-2" type="button" onclick='openOffcanvasMenu()'>
+        var html = `<button class="btn btn-success btn-moveable border-0 shadow rounded-circle m-2" type="button" onclick='openOffcanvasMenu()'>
                         ☰
                     </button>
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
@@ -114,13 +114,13 @@ const PageBase = class PageBase {
                         <div class="offcanvas-body">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item active"> 
-                                    <a class="" href="${rootUrl}/pages/gallery" style="color:unset;">Gallery</a>
+                                    <a class="w-100 d-flex" href="${rootUrl}/pages/gallery" style="color:unset;">Gallery</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a class="" href="${rootUrl}/pages/video" style="color:unset;">Video</a>
+                                    <a class="w-100 d-flex" href="${rootUrl}/pages/video" style="color:unset;">Video</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a class="" href="${rootUrl}/pages/comic" style="color:unset;">Comic</a>
+                                    <a class="w-100 d-flex" href="${rootUrl}/pages/comic" style="color:unset;">Comic</a>
                                 </li>
                             </ul>
                         </div>

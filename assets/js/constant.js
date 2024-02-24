@@ -1,26 +1,30 @@
 async function ajaxAsync(url, method, data) {
     var access_token = localStorage.getItem(Constants.accessToken);
     lockScreen();
-    return $.ajax({
-        url: Constants.apiHost + url,
-        method: method,
-        headers: {
-            'Access-Control-Allow-Origin': "*",
-            "Cache-Control": "no-cache",
-            "Authorization": "Bearer " + access_token,
-        },
-        data: JSON.stringify(data),
-        dataType: 'json',
-        contentType: "application/json; charset=utf-8",
-        error: (jqXHR, textStatus, errorThrown) => {
-            if (jqXHR.status == 401) {
-                location.href = Constants.authUrl + "?returnUrl=" + url;
+    try {
+        return $.ajax({
+            url: Constants.apiHost + url,
+            method: method,
+            headers: {
+                'Access-Control-Allow-Origin': "*",
+                "Cache-Control": "no-cache",
+                "Authorization": "Bearer " + access_token,
+            },
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            error: (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status == 401) {
+                    location.href = Constants.authUrl + "?returnUrl=" + url;
+                }
+            },
+            complete: () => {
+                unlockScreen();
             }
-        },
-        complete: () => {
-            unlockScreen();
-        }
-    });
+        });
+    } catch {
+        return null
+    }
 }
 
 

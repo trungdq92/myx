@@ -14,7 +14,7 @@
     --bg-video-color-primary-3: rgba(255, 255, 255, 0.4);
     --bg-video-color-primary-4: rgba(255, 255, 255, 0);
 
-    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+    --box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
     --li-color: #0563bb;
     --input-bg: var(--bg-color-second);
 }
@@ -34,7 +34,7 @@
     --bg-video-color-primary-4: rgba(33, 37, 41, 0);
 
     --color-section-title-h2: #e0e6eb;
-    --box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.25);
+    --box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.25);
     --input-bg: var(--bg-color-second);
 }
 
@@ -344,6 +344,7 @@ textarea:not(.disabled) {
         right: 5%;
     }
 
+    .card-columns-gap-3,
     .card-columns-gap-auto {
         column-count: 2;
     }
@@ -402,7 +403,7 @@ textarea:not(.disabled) {
     color: unset;
 }
 
-.btn_moveable {
+.btn-moveable {
     z-index: 990;
     position: fixed;
     top: 20px;
