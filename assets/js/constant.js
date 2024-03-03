@@ -63,6 +63,70 @@ function getUrlParameter(param) {
     return urlParams.get(param)
 }
 
+async function readData(path, filter) {
+    var response = await fetch(path);
+    const csvData = await response.text();
+    for (var row in csvData) csvData[row].split(',');
+    var result = Papa.parse(csvData, {
+        header: true
+    });
+
+    var data = result.data;
+    filter.filter.forEach(item => {
+        data = data.filter(x => x[item.QueryKey].includes(item.QueryValue));
+    });
+    data = data.slice(filter.pageIndex * filter.pageSize, filter.pageSize * (filter.pageIndex + 1))
+    data = orderProcess(data, filter.sorts);
+
+    return new BaseSearchResponse(data.length, filter.pageSize, filter.pageIndex, data);
+}
+
+function orderProcess(data, sorts) {
+    var sort = sorts.split('=')[1]
+    var order = sorts.split('=')[0]
+    switch (order) {
+        case 'id':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.id.localeCompare(b.id));
+            else
+                data = data.sort((b, a) => a.id.localeCompare(b.id));
+    }
+
+    return data;
+}
+
+function csvToArr(stringVal, splitter) {
+    if (!splitter) splitter = ','
+    const [keys, ...rest] = stringVal
+        .trim()
+        .split("\n")
+        .map((item) => item.split(splitter));
+
+    const formedArr = rest.map((item) => {
+        const object = {};
+        keys.forEach((key, index) => (object[key.trim()] = item.at(index).trim()));
+        return object;
+    });
+    return formedArr;
+}
+class BaseSearchResponse {
+    constructor(totalCount, pageSize, pageIndex, data) {
+        this.totalCount = totalCount
+        this.pageSize = pageSize || 10
+        this.pageIndex = pageIndex || 0
+        this.totalPage = parseInt(this.totalCount / this.pageSize) + ((this.totalCount % this.pageSize) > 0 ? 1 : 0);
+        this.data = data || {}
+    }
+}
+class BaseCriteria {
+    constructor(pageSize, pageIndex, filter, sorts) {
+        this.pageSize = pageSize || 10
+        this.pageIndex = pageIndex || 0
+        this.filter = filter || {}
+        this.sorts = sorts || "id=desc";
+    }
+}
+
 
 const Constants = class Constants {
     static apiHost = "https://trungdq92.bsite.net/"

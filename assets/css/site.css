@@ -402,12 +402,17 @@ textarea:not(.disabled) {
     color: unset;
 }
 
-.btn-moveable {
+.btn-menu {
     z-index: 1039;
     position: fixed;
     top: 10px;
-    left: 10px;
+    right: 10px;
+    padding: 10px;
 }
+.btn-menu i{
+   font-size: 20px;
+}
+
 
 .icon-next i {
     font-size: larger;

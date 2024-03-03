@@ -113,6 +113,7 @@ const Page = class Page {
         if (this.pageId === 'comic_post') return new ComicPostPage();
         if (this.pageId === 'comic_chapter') return new ComicChapterPage();
         if (this.pageId === 'comic_viewer') return new ComicViewerPage();
+        return new PostPage();
     }
 }
 
@@ -127,8 +128,8 @@ const PageBase = class PageBase {
     }
 
     _renderMenu() {
-        var html = `<button class="btn btn-success btn-moveable border-0 shadow rounded-circle m-2" type="button" onclick='openOffcanvasMenu()'>
-                        ☰
+        var html = `<button class="btn btn-primary btn-menu btn__moveable border-0 shadow rounded-circle m-2" type="button" onclick='openOffcanvasMenu()'>
+                        <i class="bi bi-list"></i>
                     </button>
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
                         <div class="offcanvas-header">
@@ -245,26 +246,28 @@ class PostPage extends PageBase {
 
     async _renderDetails() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "Component.Id",
-            QueryValue: this._component,
-        })
+        if (getUrlParameter('com'))
+            filter.push({
+                Operation: 'eq',
+                QueryType: 'text',
+                QueryKey: "componentId",
+                QueryValue: getUrlParameter('com'),
+            })
 
         var sortBy = $("#sortby");
         if (sortBy) this._sortBy = sortBy.val();
 
-        var searchData = {
-            Filter: JSON.stringify({ and: filter }),
-            PageIndex: this._pageIndex,
-            Sorts: this._sortBy,
-            PageSize: this._pageSize
+        // var searchData = {
+        //     Filter: JSON.stringify({ and: filter }),
+        //     PageIndex: this._pageIndex,
+        //     Sorts: this._sortBy,
+        //     PageSize: this._pageSize
 
-        }
+        // }
 
-        var result = await ajaxAsync('Post/filter', 'post', searchData);
-
+        // var result = await ajaxAsync('Post/filter', 'post', searchData);
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, filter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/_master.csv`, searchData);
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
         $('#total-count-result').html(`${result.totalCount} <i class="bi bi-credit-card-2-front-fill"></i>`)
@@ -277,17 +280,19 @@ class PostPage extends PageBase {
             $('#sort-by-result').html(`${order} <i class="bi bi-sort-up"></i>`)
 
         var details = '';
-        result.data.forEach(item => {
+        var data = result.data;
+        data.forEach(item => {
             var category = '';
-            item.pCategories.forEach(cat => {
-                if (category === '')
-                    category += `${cat.category.name}`
-                else
-                    category += ` <span>・</span> ${cat.name}`
+            item.categoryIds.split(',').forEach(cat => {
+                var prefix = '';
+                if (category !== '')
+                    prefix = '<span>・</span>'
+
+                category += ` ${prefix} ${cat.replace('_', ' ')}`
             });
 
             details +=
-                `<div class="card my-1 border-0 shadow">
+                `<div class="card my-2 border-0 shadow">
                     <a href="${item.thumbnail}" class="portfolio-lightbox" data-type="image">
                         <img src="${item.thumbnail}" class="img-fluid card-img-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
                     </a>
@@ -295,7 +300,7 @@ class PostPage extends PageBase {
                         <h5 class="card-title text-capitalize">
                             ${item.name}
                         </h5>
-                        <h6 class="card-subtitle mb-2 text-muted text-capitalize" style="font-size: smaller;">
+                        <h6 class="card-subtitle mb-2 text-muted text-capitalize text-truncate" style="font-size: smaller;">
                             <span class="text-truncate ">
                             ${category}
                             </span>
@@ -329,11 +334,13 @@ class PostPage extends PageBase {
                             <div class="row my-2">
                                 <div class="col-12">
                                     <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-filter"></i></span>
-                                        <select type="text" id="sortby" class="form-select text-capitalize">
-                                            <option value="id=asc">id asc</option>
-                                            <option value="id=desc">id dec</option>
-                                        </select>
+                                        <div class="form-floating">
+                                            <select type="text" id="sortby" class="form-select text-capitalize" aria-label="Floating label select example">
+                                                <option value="id=asc">id asc</option>
+                                                <option value="id=desc">id dec</option>
+                                            </select>
+                                            <label for="sortby">SortBy</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
