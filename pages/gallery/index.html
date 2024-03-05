@@ -1,13 +1,19 @@
-<script type="text/javascript">
-    var rootUrl = location.protocol + '//' + location.hostname + '/myx';
-    var fullHtml = `<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+<body>
+    <div class="container___content" id="container-area"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+    <script type="text/javascript">
+        var rootUrl = location.protocol + '//' + location.hostname + '/myx';
+        var fullHtml = `<!DOCTYPE html>
                   <html lang="en" data-bs-theme="dark">
 
                   <head>
                         <meta charset="utf-8">
                         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-                        <title>Gallery - MyX</title>
+                        <title>Comic - MyX</title>
 
                         <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
                         <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -22,35 +28,42 @@
                   </head>
 
                   <body>
-                      <div class="container___content" id="container-area"></div> 
-                      <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+                        <section class="home">
+                            <div class="container___content" id="container-area"></div> 
+                        </section>
+                         <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
                   </body>
 
                   </html>`;
 
-    document.write(fullHtml)
+        document.write(fullHtml)
 
-    var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
-    scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
-    scriptTag = loadScript(rootUrl + '/assets/vendor/aos/aos.js');
-    scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
-    scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
-    scriptTag = loadScript(rootUrl + '/assets/js/main.js');
-    scriptTag = loadScript(rootUrl + '/assets/js/page.js');
-    scriptTag = loadScript(rootUrl + '/assets/js/gallery.js');
+        var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/aos/aos.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/papaparse/papaparse.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/main.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/page.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/comic.js');
 
-    scriptTag.addEventListener('load', () => {
-        new Page("gallery");
-    })
+        scriptTag.addEventListener('load', () => {
+            new Page();
+        })
 
-    function loadScript(path) {
-        var scriptTag = document.createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.async = false;
-        scriptTag.defer = false;
-        scriptTag.src = path;
-        document.body.append(scriptTag);
-        return scriptTag;
-    };
+        function loadScript(path) {
+            var scriptTag = document.createElement('script');
+            scriptTag.type = 'text/javascript';
+            scriptTag.async = false;
+            scriptTag.defer = false;
+            scriptTag.src = path;
+            document.body.append(scriptTag);
+            return scriptTag;
+        };
 
-</script>
+    </script>
+
+</body>
+
+</html>

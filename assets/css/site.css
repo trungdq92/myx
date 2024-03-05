@@ -100,8 +100,8 @@ textarea:not(.disabled) {
 .card-columns {
     -webkit-column-count: 5;
     column-count: 5;
-    -webkit-column-gap: 0.5rem;
-    column-gap: 0.5rem;
+    -webkit-column-gap: 1rem;
+    column-gap: 1rem;
     orphans: 1;
     widows: 1;
 }
@@ -409,8 +409,9 @@ textarea:not(.disabled) {
     right: 10px;
     padding: 10px;
 }
-.btn-menu i{
-   font-size: 20px;
+
+.btn-menu i {
+    font-size: 20px;
 }
 
 
@@ -420,4 +421,9 @@ textarea:not(.disabled) {
 
 button>* {
     pointer-events: none;
+}
+
+fieldset,
+legend {
+    all: revert;
 }

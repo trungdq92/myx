@@ -1,0 +1,26 @@
+Id,Name,ParentId
+stable_diffusion,Stable Diffusion,
+chilloutmix,Chilloutmix,stable_diffusion
+majicmix_realistic,MajicMIX realistic,stable_diffusion
+perfect_world,Perfect World,stable_diffusion
+deliberate,deliberate,stable_diffusion
+beautiful_realistic_asians,Beautiful Realistic Asians,stable_diffusion
+relationship,Relationship,stable_diffusion
+star,Star,stable_diffusion
+photography,Photography,
+animal,animal,photography
+region,Region,
+china,china,region
+japan,japan,region
+korean,korean,region
+thailan,thailan,region
+vietnam,vietnam,region
+russian,russian,region
+germany,germany,region
+eu_union,European Union,region
+store,store,
+ggdrive,Google Drive,store
+meganz,Mega NZ,store
+site,Site,
+hentaifox,HentaiFox,site
+hentailx,HentaiLX,site

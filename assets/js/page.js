@@ -169,6 +169,7 @@ class PostPage extends PageBase {
 
     async _init() {
         await super._init()
+        var _page = this;
         $('#container-area').append(await this._renderContent());
 
         this._galleryGLightBox = _initGLightbox('.portfolio-lightbox');
@@ -178,6 +179,11 @@ class PostPage extends PageBase {
             this._changeViewPageStyle(type)
         });
         $('#btnFilter').click((e) => this._filter());
+        $(".btnSort").click((e) => {
+            var sort = $(e.currentTarget).attr('data-sort');
+            _page._sortBy = sort;
+            _page._filter();
+        });
         await this._filter();
     }
 
@@ -229,10 +235,22 @@ class PostPage extends PageBase {
     _renderGridControl() {
         var html = `<div class="grid-view-style">
                         <div class="row justify-content-center my-3">
-                            <div class="col fst-italic text-muted">
-                                <span id="total-count-result"></span>
-                                <span>・</span>
-                                <span id="sort-by-result" class="text-capitalize"></span>
+                            <div class="col fst-italic text-muted" id="filter-result-cal">
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 text-muted">
+                                        <span id="total-count-result">${this._totalCount}</span> <span class="px-1"><i class="bi bi-collection-fill"></i></span>
+                                    </span>
+                                    <input type="hidden" id="sortby" value="${this._sortBy}"/>
+                                    <div class="btn-group">
+                                        <button id="btn-choose-sort" type="button" class="btn btn-outline-secondary dropdown-toggle border-0 text-capitalize " data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                            ${this._renderSort()}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id asc</a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc"  href="#">id desc</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col text-end">
                                 <a class="btn btnFilter btn-outline-primary border-0 rounded shadow" data-bs-toggle="modal" data-bs-target="#filterModal" ><i class="bi bi-funnel-fill"></i></a>
@@ -244,40 +262,33 @@ class PostPage extends PageBase {
         return html;
     }
 
+    _renderSort() {
+        var sort = this._sortBy.split('=')[1]
+        var order = this._sortBy.split('=')[0]
+        var sortByHtml = ''
+        if (sort === 'asc')
+            sortByHtml = `${order} <i class="bi bi-sort-up-alt"></i> `
+        else
+            sortByHtml = `${order} <i class="bi bi-sort-up"></i>`
+
+        $('#total-count-result').html(this._totalCount)
+        $('#btn-choose-sort').html(sortByHtml)
+        $('#sortby').val(this._sortBy)
+        return sortByHtml;
+    }
+
     async _renderDetails() {
         var filter = [];
-        if (getUrlParameter('com'))
-            filter.push({
-                Operation: 'eq',
-                QueryType: 'text',
-                QueryKey: "componentId",
-                QueryValue: getUrlParameter('com'),
-            })
+        var componentId = getUrlParameter('com') || this._component;
+        if (componentId) {
+            filter.push((x) => x.componentId.includes(componentId))
+        }
 
-        var sortBy = $("#sortby");
-        if (sortBy) this._sortBy = sortBy.val();
-
-        // var searchData = {
-        //     Filter: JSON.stringify({ and: filter }),
-        //     PageIndex: this._pageIndex,
-        //     Sorts: this._sortBy,
-        //     PageSize: this._pageSize
-
-        // }
-
-        // var result = await ajaxAsync('Post/filter', 'post', searchData);
-        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, filter, this._sortBy);
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, { and: filter }, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/_master.csv`, searchData);
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
-        $('#total-count-result').html(`${result.totalCount} <i class="bi bi-credit-card-2-front-fill"></i>`)
-        var sort = this._sortBy.split('=')[1]
-        var order = this._sortBy.split('=')[0]
-
-        if (sort === 'asc')
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up-alt"></i> `)
-        else
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up"></i>`)
+        this._renderSort();
 
         var details = '';
         var data = result.data;
@@ -327,22 +338,12 @@ class PostPage extends PageBase {
                 <div class="modal-dialog mt-5">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h5 class="modal-title">Filter</h5>
+                            <h5 class="modal-title">Filter</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row my-2">
-                                <div class="col-12">
-                                    <div class="input-group">
-                                        <div class="form-floating">
-                                            <select type="text" id="sortby" class="form-select text-capitalize" aria-label="Floating label select example">
-                                                <option value="id=asc">id asc</option>
-                                                <option value="id=desc">id dec</option>
-                                            </select>
-                                            <label for="sortby">SortBy</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="modal-footer border-0">
@@ -399,12 +400,13 @@ class PostPage extends PageBase {
     _addFilter(e) {
         var selection = $(e).closest('div.input-group').find('select');
         var code = selection.val();
+        var dataPrefix = selection.attr('data-prefix');
         var name = selection.find(":selected").text();
         if (code === '') return true;
 
-        var btnHtml = `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-code='${code}' type="button" onclick="this.remove()">${name} <i class="bi bi-x-lg"></i></button>`;
+        var btnHtml = `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="${dataPrefix}" data-code='${code}' type="button" onclick="this.remove()">${name} <i class="bi bi-x-lg"></i></button>`;
         var isExist = false;
-        var container = $(e).closest('div.filter-section').find('div.filter-result-area');
+        var container = $(e).closest('div.modal-dialog').find('div.filter-result-area');
         container.find('button').each((i, elm) => {
             var btnCode = $(elm).attr('data-code');
             if (btnCode === code) isExist = true;

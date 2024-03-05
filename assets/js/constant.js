@@ -63,7 +63,23 @@ function getUrlParameter(param) {
     return urlParams.get(param)
 }
 
-async function readData(path, filter) {
+function matches(item) {
+    const expected = item[this.value];
+    const actual = item[this.property];
+    switch (this.comparator) {
+        case '===': return actual === expected;
+        case '>': return actual > expected;
+        case '<': return actual < expected;
+        case 'includes': return actual.includes(expected);
+        case 'after': return new Date(actual) > expected;
+    }
+}
+
+function compare(property, comparator, value) {
+    return { property, comparator, value };
+}
+
+async function readData(path, criteria) {
     var response = await fetch(path);
     const csvData = await response.text();
     for (var row in csvData) csvData[row].split(',');
@@ -72,13 +88,27 @@ async function readData(path, filter) {
     });
 
     var data = result.data;
-    filter.filter.forEach(item => {
-        data = data.filter(x => x[item.QueryKey].includes(item.QueryValue));
-    });
-    data = data.slice(filter.pageIndex * filter.pageSize, filter.pageSize * (filter.pageIndex + 1))
-    data = orderProcess(data, filter.sorts);
+    if (Object.hasOwn(criteria.filter, 'and')) {
+        criteria.filter.and.forEach(item => {
+            if (Object.hasOwn(item, 'or')) {
+                if (item.or.length > 0)
+                    data = data.filter(x => item.or.some(f => f(x)));
+            } else if (Object.hasOwn(item, 'and')) {
+                if (item.and.length > 0)
+                    data = data.filter(x => item.and.every(f => f(x)));
+            } else {
+                data = data.filter(x => item(x));
+            }
+        });
+    } if (Object.hasOwn(criteria.filter, 'or')) {
+        if (criteria.filter.or.length > 0)
+            data = data.filter(x => criteria.filter.or.some(f => f(x)));
+    }
+    var totalCount = data.length;
+    data = orderProcess(data, criteria.sorts);
+    data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
 
-    return new BaseSearchResponse(data.length, filter.pageSize, filter.pageIndex, data);
+    return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
 }
 
 function orderProcess(data, sorts) {
