@@ -115,7 +115,7 @@ class VideoPostPage extends VideoPage {
         filter.push(x => x.componentIds.includes("video") || x.componentIds === "");
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
-        var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hashtag.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
         var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchDataPost);
