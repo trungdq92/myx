@@ -76,7 +76,7 @@ class VideoPostPage extends VideoPage {
         }
 
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
@@ -118,7 +118,7 @@ class VideoPostPage extends VideoPage {
         var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchDataPost);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchDataPost);
         this._maxData = resultDataPost.data;
         this._maxData.forEach(item => {
             item.hashTags.split(",").forEach(t => {
@@ -235,7 +235,7 @@ class VideoViewerPage extends PageBase {
         filter.push(x => x.id == this._id);
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         var detail = result.data[0];
         this._detail = detail;
         var videoHtml = ''
@@ -297,7 +297,7 @@ class VideoViewerPage extends PageBase {
 
         var searchFilter = { and: [{ or: filterOR }, { and: filterAnd }] }
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         var details = '';
         result.data.forEach(item => {
             details +=

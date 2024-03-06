@@ -58,7 +58,7 @@ class ComicPostPage extends ComicPage {
         }
 
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
@@ -97,7 +97,7 @@ class ComicPostPage extends ComicPage {
         var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/_master.csv`, searchDataPost);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchDataPost);
         this._maxData = resultDataPost.data;
         this._maxData.forEach(item => {
             item.hashTags.split(",").forEach(t => {
