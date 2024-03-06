@@ -90,7 +90,7 @@ class GalleryPostPage extends GalleryPage {
         filter.push(x => x.componentIds.includes("gallery") || x.componentIds === "");
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
-        var tags = await readData(`${this.rootUrl}/assets/data/master/hashtag.csv`, searchData);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
         var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/master.csv`, searchDataPost);

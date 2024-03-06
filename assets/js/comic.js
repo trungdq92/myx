@@ -26,7 +26,7 @@ class ComicPostPage extends ComicPage {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic/">
                                             Comic
@@ -80,7 +80,7 @@ class ComicPostPage extends ComicPage {
                                     <div class="card-text">
                                         ${item.description.slice(0, 50)}
                                     </div>
-                                    <a href="${this.rootUrl}/pages/comic/chapter/?id=${item.id}" class="card-link">Read</a>
+                                    <a href="${this.rootUrl}/pages/comic/chapter/?id=${item.id}&pid=${this._postId}" class="card-link">Read</a>
                                 </div>
                             </div>
                         </div>`
@@ -90,11 +90,10 @@ class ComicPostPage extends ComicPage {
 
     async _renderFilter() {
         var filter = [];
-
         filter.push(x => x.componentIds.includes("comic") || x.componentIds === "");
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
-        var tags = await readData(`${this.rootUrl}/assets/data/master/hashtag.csv`, searchData);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
         var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchDataPost);
@@ -140,11 +139,16 @@ class ComicPostPage extends ComicPage {
 class ComicChapterPage extends ComicPage {
     constructor() {
         super();
-        this._pageSize = 5;
+        this._maxData = []
+        this._id = getUrlParameter('id');
+        this._postId = getUrlParameter('pid');
         this._detail = {}
     }
 
     async _init() {
+
+        this._id = getUrlParameter('id');
+        this._postId = getUrlParameter('pid');
         $('#container-area').append(this._renderMenu());
         $('#container-area').append(await this._renderContent());
         $('#show-more').click(() => { this.loadMore() });
@@ -161,19 +165,10 @@ class ComicChapterPage extends ComicPage {
 
     async _renderGallery() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "id",
-            QueryValue: getUrlParameter('id'),
-        });
-
-        var searchData = {
-            Filter: JSON.stringify({ and: filter }),
-            PageIndex: this._pageIndex,
-            PageSize: this._pageSize
-        }
-        var result = await ajaxAsync('PComic/filter', 'post', searchData);
+        filter.push(x => x.id == this._id);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
         this._detail = result.data[0];
         var html =
             `${this._renderTitlePage()}
@@ -263,19 +258,10 @@ class ComicChapterPage extends ComicPage {
 
     async _renderDetails() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "id",
-            QueryValue: getUrlParameter('id'),
-        });
-
-        var searchData = {
-            Filter: JSON.stringify({ and: filter }),
-            PageIndex: this._pageIndex,
-            PageSize: this._pageSize
-        }
-        var result = await ajaxAsync('PComicChap/filter', 'post', searchData);
+        filter.push(x => x.id == this._id);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/chapter.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
@@ -296,7 +282,7 @@ class ComicChapterPage extends ComicPage {
                                                     <br />
                                                     ${item.totalView} Views <span>・</span> ${item.totalPage} Pages
                                             </h6>
-                                            <a href="${this.rootUrl}/pages/comic/viewer/?id=${item.id}" class="card-link">Read</a>
+                                            <a href="${this.rootUrl}/pages/comic/viewer/?id=${item.id}&pid=${this._postId}&cid=${item.pComicId}" class="card-link">Read</a>
                                         </div>
                                     </div>
                                 </div>
@@ -311,11 +297,17 @@ class ComicChapterPage extends ComicPage {
 class ComicViewerPage extends ComicPage {
     constructor() {
         super();
-        this._pageIndex = 0
-        this._pageSize = 10
+        this._id = getUrlParameter('id');
+        this._postId = getUrlParameter('pid');
+        this._pComicId = getUrlParameter('cid');
+        this._detail = {}
+        this._comic = {}
     }
 
     async _init() {
+        this._id = getUrlParameter('id');
+        this._postId = getUrlParameter('pid');
+        this._pComicId = getUrlParameter('cid');
         $('#container-area').append(this._renderMenu());
         $('#container-area').append(await this._renderContent());
         $('#show-more').click(() => { this.loadMore() });
@@ -332,20 +324,13 @@ class ComicViewerPage extends ComicPage {
 
     async _renderGallery() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "id",
-            QueryValue: getUrlParameter('id'),
-        });
-
-        var searchData = {
-            Filter: JSON.stringify({ and: filter }),
-        }
-        var result = await ajaxAsync('PComicChap/filter', 'post', searchData);
+        filter.push(x => x.id == this._id && x.pComicId == this._pComicId);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/chapter.csv`, searchData);
         this._detail = result.data[0];
         var html =
-            `${this._renderTitlePage()}
+            `${await this._renderTitlePage()}
             <section id="portfolio" class="portfolio section-bg py-3" data-aos="fade-up">
                 <h4 class="text-center text-mute text-capitalize">${this._detail.name}</h4>
                 <hr/>
@@ -363,11 +348,17 @@ class ComicViewerPage extends ComicPage {
         return html;
     }
 
-    _renderTitlePage() {
+    async _renderTitlePage() {
+        var filter = [];
+        filter.push(x => x.id == this._pComicId);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
+        this._comic = result.data[0];
         return `<div class="title-page sticky-top">
                     <div class="container_">
                         <div class="row">
-                            <h5 class="h1 text-capitalize fw-bold">${this._detail.pComic.name}</h5>
+                            <h5 class="h1 text-capitalize fw-bold">${this._comic.name}</h5>
                         </div>
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
@@ -377,13 +368,13 @@ class ComicViewerPage extends ComicPage {
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic">Comic</a>
                                     </li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
-                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic/post/?id=${this._detail.pComic.postId}">
-                                            ${this._detail.pComic.postId.replace('_', ' ')}
+                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic/post/?id=${this._postId}">
+                                            ${this._postId.replace('_', ' ')}
                                         </a>
                                     </li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
-                                        <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic/chapter/?id=${this._detail.pComic.id}">
-                                            ${this._detail.pComic.name.length > 10 ? this._detail.pComic.name.slice(0, 10) + "..." : this._detail.pComic.name}
+                                        <a class="text-capitalize text-decoration-none text-truncate" href="${this.rootUrl}/pages/comic/chapter/?id=${this._comic.id}&pid=${this._postId}">
+                                            ${this._comic.name}
                                         </a>
                                     </li>
                                     <li class="breadcrumb-item text-capitalize active" aria-current="page">${this._detail.name}</li>
@@ -396,27 +387,25 @@ class ComicViewerPage extends ComicPage {
 
     async _renderDetails() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "PComicChapId",
-            QueryValue: getUrlParameter('id'),
-        });
-
-        var searchData = {
-            Filter: JSON.stringify({ and: filter }),
-            PageIndex: this._pageIndex,
-            PageSize: this._pageSize
-        }
-        var result = await ajaxAsync('PComicSource/filter-img', 'post', searchData);
+        filter.push(x => x.pComicChapId == this._id);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/source.csv`, searchData);
+        var imgs = []
+        result.data.forEach(item => {
+            for (var i = parseInt(item.start); i <= parseInt(item.end); i++) {
+                imgs.push(`${item.prefix}${i}.${item.suffix}`)
+            }
+        })
         var details = '';
-
-        this._totalCount = result.totalCount;
-        this._totalPage = result.totalPage;
+        imgs = imgs.slice(this._pageIndex * this._pageSize, this._pageSize * (this._pageIndex + 1))
+        var imgResult = new BaseSearchResponse(imgs.length, this._pageSize, this._pageIndex, imgs);
+        this._totalCount = imgResult.totalCount;
+        this._totalPage = result.imgResult;
         $('#total-count-result').html(`${result.totalCount} <i class="bi bi-image-fill"></i>`)
 
-        result.data.forEach(item => {
-            details += `<img src="${item.path}" class="img-fluid my-1" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />`
+        imgs.forEach(item => {
+            details += `<img src="${item}" class="img-fluid my-1" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />`
         })
         return details;
     }
