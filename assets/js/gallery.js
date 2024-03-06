@@ -7,6 +7,8 @@
 class GalleryPostPage extends GalleryPage {
     constructor() {
         super();
+        this._maxData = []
+        this._postId = getUrlParameter('id');
     }
 
     async _init() {
@@ -41,11 +43,11 @@ class GalleryPostPage extends GalleryPage {
         var filter = [];
         var filterOr = [];
         var searchFilter = null;
-        var postId = getUrlParameter('id');
+        
 
         $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            if([...elm.classList].includes('active'))
+            if ([...elm.classList].includes('active'))
                 filterOr.push(x => x.hashTags.includes(code))
         });
 
@@ -57,7 +59,7 @@ class GalleryPostPage extends GalleryPage {
 
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         // var result = await ajaxAsync('PGallery/filter', 'post', searchData);
-        var result = await readData(`${this.rootUrl}/assets/data/post/gallery/${postId}/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/_master.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
@@ -87,11 +89,23 @@ class GalleryPostPage extends GalleryPage {
 
         filter.push(x => x.componentIds.includes("gallery") || x.componentIds === "");
         var searchFilter = { and: filter }
-        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
-        var tags = await readData(`${this.rootUrl}/assets/data/master/HashTag.csv`, searchData);
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
+        var hashTags = [];
+        var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/_master.csv`, searchDataPost);
+        this._maxData = resultDataPost.data;
+        this._maxData.forEach(item => {
+            item.hashTags.split(",").forEach(t => {
+                if (!hashTags.includes(t)) {
+                    hashTags.push(t)
+                }
+            })
+        })
         var tagHtml = '';
         tags.data.forEach(item => {
-            tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
+            if (hashTags.includes(item.id))
+                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
@@ -99,7 +113,7 @@ class GalleryPostPage extends GalleryPage {
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <fieldset class="reset" id="tag-filter-section">
-                                        <legend class="fs-3 fw-bold text-muted">Tag</legend>
+                                        <legend class="fs-3 fw-bold text-muted"> Tags </legend>
                                         <div class="row my-2 filter-section">
                                             <div class="col-12">
                                                 ${tagHtml}

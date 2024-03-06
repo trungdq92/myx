@@ -159,6 +159,7 @@ class BaseCriteria {
 
 
 const Constants = class Constants {
+    static maxPageSize = 9999;
     static apiHost = "https://trungdq92.bsite.net/"
     static rootUrl = "/myx/"
     static authUrl = this.rootUrl + "auth/"

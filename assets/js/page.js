@@ -201,13 +201,13 @@ class PostPage extends PageBase {
         return `<div class="title-page sticky-top">
                     <div class="container">
                         <div class="row">
-                            <h5 class="h1 text-capitalize fw-bold">${this._component}</h5>
+                            <h5 class="h1 text-capitalize fw-bold">${this._component || Constants.pjName}</h5>
                         </div>
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
-                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">${this._component}</li>
+                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">${this._component || Constants.pjName}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -323,7 +323,7 @@ class PostPage extends PageBase {
                         <p class="card-text">
                             ${item.description.slice(0, 100)}
                         </p>
-                        <a class="btn btn-primary border-0 rounded-circle shadow p-2 icon-next" href="${this.rootUrl}/pages/${this._component}/post/?id=${item.id}">
+                        <a class="btn btn-primary border-0 rounded-circle shadow p-2 icon-next" href="${this.rootUrl}/pages/${item.componentId}/post/?id=${item.id}">
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
