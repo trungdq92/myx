@@ -7,6 +7,9 @@
 class VideoPostPage extends VideoPage {
     constructor() {
         super();
+
+        this._maxData = []
+        this._postId = getUrlParameter('id');
     }
 
     async _init() {
@@ -59,69 +62,33 @@ class VideoPostPage extends VideoPage {
         var filter = [];
         var filterOr = [];
         var searchFilter = null;
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "postId",
-            QueryValue: getUrlParameter('id'),
-        });
 
-        var tagCodes = [];
-        $('#tags-filter-area').find('button').each((i, elm) => {
+        $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            tagCodes.push(code);
+            if ([...elm.classList].includes('active'))
+                filterOr.push(x => x.hashTags.includes(code))
         });
-
-        var queryKeyTags = '';
-        tagCodes.forEach(item => {
-            if (queryKeyTags === '')
-                queryKeyTags += `HashTags.Contains("${item}")`
-
-            queryKeyTags += `|| HashTags.Contains("${item}")`
-        })
-        if (queryKeyTags !== '')
-            filterOr.push({
-                Operation: 'eq',
-                QueryType: 'boolean',
-                QueryKey: `(${queryKeyTags})`,
-                QueryValue: true,
-            })
 
         if (filterOr.length > 0) {
             searchFilter = { and: [{ or: filterOr }, { and: filter }] }
         } else {
-            searchFilter = { and: filter }
+            searchFilter = { or: filterOr }
         }
 
-        var sortBy = $("#sortby");
-        if (sortBy) this._sortBy = sortBy.val();
-
-        var searchData = {
-            Filter: JSON.stringify(searchFilter),
-            PageIndex: this._pageIndex,
-            Sorts: this._sortBy,
-            PageSize: this._pageSize
-        }
-        var result = await ajaxAsync('PVideo/filter', 'post', searchData);
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
-        $('#total-count-result').html(`${result.totalCount} <i class="bi bi-camera-video-fill"></i>`)
-        var sort = this._sortBy.split('=')[1]
-        var order = this._sortBy.split('=')[0]
-
-        if (sort === 'asc')
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up-alt"></i> `)
-        else
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up"></i>`)
+        this._renderSort()
 
         result.data.forEach(item => {
             details +=
                 `<div class="col-md-4 col-6 my-3 video-item">
                     <div class="card border-0">
                         <div class="video-wrapper position-relative">
-                            <a href="${this.rootUrl}/pages/video/viewer/?id=${item.id}">
+                            <a href="${this.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${this._postId}">
                                 <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover rounded-3" alt="" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" loading="lazy" />
                             </a>
                         </div>
@@ -130,7 +97,7 @@ class VideoPostPage extends VideoPage {
                                 <i class="bi bi-play-fill"></i> ${item.totalDue} min
                             </div>
                             <h5 class="card-title text-capitalize text-truncate">
-                                <a class="color-unset" href="${this.rootUrl}/pages/video/viewer/?id=${item.id}">${item.name}</a>
+                                <a class="color-unset" href="${this.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${this._postId}">${item.name}</a>
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size:smaller">
                                 ${item.totalView} Views <span>・</span>  ${item.createdAt.slice(0, 16).replace('T', ' ')}
@@ -144,57 +111,44 @@ class VideoPostPage extends VideoPage {
 
     async _renderFilter() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'boolean',
-            QueryKey: `(ComponentIds.Contains("video") || ComponentIds == "" )`,
-            QueryValue: true,
+
+        filter.push(x => x.componentIds.includes("video") || x.componentIds === "");
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
+        var hashTags = [];
+        var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchDataPost);
+        this._maxData = resultDataPost.data;
+        this._maxData.forEach(item => {
+            item.hashTags.split(",").forEach(t => {
+                if (!hashTags.includes(t)) {
+                    hashTags.push(t)
+                }
+            })
         })
-        var searchData = {
-            Filter: filter.length > 0 ? JSON.stringify({ and: filter }) : null,
-        }
-        var tags = await ajaxAsync('HashTag/filter', 'post', searchData);
         var tagHtml = '';
         tags.data.forEach(item => {
-            tagHtml += `<option value="${item.id}">${item.name}</option>`
+            if (hashTags.includes(item.id))
+                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
-                        <div class="modal-dialog mt-5">
+                        <div class="modal-dialog modal-fullscreen">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title">Filter</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
                                 <div class="modal-body">
-                                    <div class="row my-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-filter"></i></span>
-                                            <select type="text" id="sortby" class="form-select text-capitalize">
-                                                <option value="id=asc">id asc</option>
-                                                <option value="id=desc">id dec</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row my-2 filter-section">
-                                        <div class="col-12">
-                                            <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                                                <select type="text" class="form-select text-capitalize">
-                                                    <option value="">___</option>
-                                                    ${tagHtml}
-                                                </select>
-                                                <button class="btn btn-outline-info btnAddFilter" type="button">
-                                                    <i class="bi bi-plus-lg"></i>
-                                                </button>
+                                    <fieldset class="reset" id="tag-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Tags </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="col-12">
+                                                ${tagHtml}
                                             </div>
                                         </div>
-                                        <div class="col-12 my-2 filter-result-area" id="tags-filter-area">
-                                        </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                                 <div class="modal-footer border-0">
                                     <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-outline-secondary border-0 shadow" data-bs-dismiss="modal">Close <i class="bi bi-x-lg"></i></button>
                                         <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
                                     </div>
                                 </div>
@@ -216,6 +170,8 @@ class VideoPostPage extends VideoPage {
 class VideoViewerPage extends PageBase {
     constructor() {
         super();
+        this._postId = getUrlParameter('pid');
+        this._id = getUrlParameter('id');
         this._init();
     }
 
@@ -225,9 +181,11 @@ class VideoViewerPage extends PageBase {
     }
 
     async _renderContent() {
+        var detail = await this._renderDetails();
         var html =
-            `<div class="container-fluid">
-                ${await this._renderDetails()}
+            `${this._renderTitlePage()}
+            <div class="container-fluid">
+                ${detail}
             </div>
             <div class="container py-3">
                 <div class="card">
@@ -243,8 +201,11 @@ class VideoViewerPage extends PageBase {
     }
 
     _renderTitlePage() {
-        return `<div class="title-page_ sticky-top">
-                    <div class="container_">
+        return `<div class="title-page sticky-top">
+                    <div class="container">
+                        <div class="row">
+                            <h5 class="h1 text-capitalize fw-bold">${this._component || Constants.pjName}</h5>
+                        </div>
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -259,8 +220,8 @@ class VideoViewerPage extends PageBase {
                                             ${this._detail.postId.replace("_", " ")}
                                         </a>
                                     </li>
-                                    <li class="breadcrumb-item text-capitalize active" aria-current="page">
-                                        ${this._detail.name.length > 10 ? this._detail.name.slice(0, 10) + "..." : this._detail.name}
+                                    <li class="breadcrumb-item text-capitalize active text-truncate" aria-current="page">
+                                        ${this._detail.name}
                                     </li>
                                 </ol>
                             </nav>
@@ -271,17 +232,10 @@ class VideoViewerPage extends PageBase {
 
     async _renderDetails() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "id",
-            QueryValue: getUrlParameter('id'),
-        });
-        var searchData = {
-            Filter: JSON.stringify({ and: filter })
-        }
-
-        var result = await await ajaxAsync('PVideo/filter', 'post', searchData);
+        filter.push(x => x.id == this._id);
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
         var detail = result.data[0];
         this._detail = detail;
         var videoHtml = ''
@@ -311,7 +265,6 @@ class VideoViewerPage extends PageBase {
                         <h2 class="text-capitalize fw-bold">
                             ${detail.name}
                         </h2>
-                        ${this._renderTitlePage()}
                     </div>
                     <div class="text-capitalize text-truncate py-2">
                         <span class="text-mute text-truncate" style="font-size: smaller;">
@@ -320,7 +273,7 @@ class VideoViewerPage extends PageBase {
                             #${detail.hashTags.replace(",", " #")}
                         </div>
                     </div>
-                    <div class="col-12 py-5">
+                    <div class="col-12 py-3">
                         ${detail.description}
                     </div>
                 </div>
@@ -333,51 +286,18 @@ class VideoViewerPage extends PageBase {
         var filterAnd = [];
 
         var tagCodes = this._detail.hashTags.split(',');
-        var queryKeyTags = '';
         tagCodes.forEach(item => {
-            if (queryKeyTags === '')
-                queryKeyTags += `HashTags.Contains("${item}")`
-
-            queryKeyTags += `|| HashTags.Contains("${item}")`
+            filterOR.push(x => x.hashTags.includes(item));
         })
 
-        filterOR.push({
-            Operation: 'eq',
-            QueryType: 'boolean',
-            QueryKey: `(${queryKeyTags})`,
-            QueryValue: true,
+        filterAnd.push(x => x.id !== this._id);
+        this._detail.categoryIds.split(',').forEach(item => {
+            filterAnd.push(x => x.categoryIds.split(",").includes(item));
         })
 
-        filterAnd.push({
-            Operation: 'neq',
-            QueryType: 'text',
-            QueryKey: `id`,
-            QueryValue: getUrlParameter('id'),
-        })
-
-        this._detail.post.pCategories.forEach(item => {
-            filterAnd.push({
-                Operation: 'eq',
-                QueryType: 'boolean',
-                QueryKey: `( Post.PCategories.Any(x=>x.CategoryId == "${item.categoryId}"))`,
-                QueryValue: true,
-            })
-        })
-
-        filterAnd.push({
-            Operation: 'neq',
-            QueryType: 'text',
-            QueryKey: `id`,
-            QueryValue: getUrlParameter('id'),
-        })
-
-        var searchData = {
-            Filter: JSON.stringify({ and: [{ or: filterOR }, { and: filterAnd }] }),
-            Sorts: "id=desc",
-            PageSize: 20
-        }
-
-        var result = await ajaxAsync('PVideo/filter', 'post', searchData);
+        var searchFilter = { and: [{ or: filterOR }, { and: filterAnd }] }
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/_master.csv`, searchData);
         var details = '';
         result.data.forEach(item => {
             details +=
