@@ -8,6 +8,8 @@ class ComicPostPage extends ComicPage {
     constructor() {
         super();
         this._cardColumnsGap = 'card-columns-gap-auto'
+        this._maxData = []
+        this._postId = getUrlParameter('id');
     }
 
     async _init() {
@@ -42,63 +44,26 @@ class ComicPostPage extends ComicPage {
         var filter = [];
         var filterOr = [];
         var searchFilter = null;
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'text',
-            QueryKey: "postId",
-            QueryValue: getUrlParameter('id'),
-        });
 
-        var tagCodes = [];
-        $('#tags-filter-area').find('button').each((i, elm) => {
+        $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            tagCodes.push(code);
+            if ([...elm.classList].includes('active'))
+                filterOr.push(x => x.hashTags.includes(code))
         });
-
-        var queryKeyTags = '';
-        tagCodes.forEach(item => {
-            if (queryKeyTags === '')
-                queryKeyTags += `HashTags.Contains("${item}")`
-            else
-                queryKeyTags += ` || HashTags.Contains("${item}")`
-        })
-        if (queryKeyTags !== '')
-            filterOr.push({
-                Operation: 'eq',
-                QueryType: 'boolean',
-                QueryKey: `(${queryKeyTags})`,
-                QueryValue: true,
-            })
 
         if (filterOr.length > 0) {
             searchFilter = { and: [{ or: filterOr }, { and: filter }] }
         } else {
-            searchFilter = { and: filter }
+            searchFilter = { or: filterOr }
         }
 
-        var sortBy = $("#sortby");
-        if (sortBy) this._sortBy = sortBy.val();
-
-        var searchData = {
-            Filter: JSON.stringify(searchFilter),
-            PageIndex: this._pageIndex,
-            Sorts: this._sortBy,
-            PageSize: this._pageSize
-        }
-        var result = await ajaxAsync('PComic/filter', 'post', searchData);
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/_master.csv`, searchData);
         var details = '';
 
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
-        $('#total-count-result').html(`${result.totalCount} <i class="bi bi-journal-richtext"></i>`)
-        var sort = this._sortBy.split('=')[1]
-        var order = this._sortBy.split('=')[0]
-
-        if (sort === 'asc')
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up-alt"></i> `)
-        else
-            $('#sort-by-result').html(`${order} <i class="bi bi-sort-up"></i>`)
-
+        this._renderSort()
         result.data.forEach(item => {
             details += `<div class="comic-book-card p-1">
                             <div class="card border-0 my-1 shadow">
@@ -125,57 +90,43 @@ class ComicPostPage extends ComicPage {
 
     async _renderFilter() {
         var filter = [];
-        filter.push({
-            Operation: 'eq',
-            QueryType: 'boolean',
-            QueryKey: `(ComponentIds.Contains("comic") || ComponentIds == "" )`,
-            QueryValue: true,
+
+        filter.push(x => x.componentIds.includes("comic") || x.componentIds === "");
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hashTag.csv`, searchData);
+        var hashTags = [];
+        var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/_master.csv`, searchDataPost);
+        this._maxData = resultDataPost.data;
+        this._maxData.forEach(item => {
+            item.hashTags.split(",").forEach(t => {
+                if (!hashTags.includes(t)) {
+                    hashTags.push(t)
+                }
+            })
         })
-        var searchData = {
-            Filter: filter.length > 0 ? JSON.stringify({ and: filter }) : null,
-        }
-        var tags = await ajaxAsync('HashTag/filter', 'post', searchData);
         var tagHtml = '';
         tags.data.forEach(item => {
-            tagHtml += `<option value="${item.id}">${item.name}</option>`
+            if (hashTags.includes(item.id))
+                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
         })
-
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
-                        <div class="modal-dialog mt-5">
+                        <div class="modal-dialog modal-fullscreen">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title">Filter</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
                                 <div class="modal-body">
-                                    <div class="row my-2">
-                                        <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-filter"></i></span>
-                                            <select type="text" id="sortby" class="form-select text-capitalize">
-                                                <option value="id=asc">id asc</option>
-                                                <option value="id=desc">id dec</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row my-2 filter-section">
-                                        <div class="col-12">
-                                            <div class="input-group">
-                                            <span class="input-group-text"><i class="bi bi-hash"></i></span>
-                                                <select type="text" class="form-select text-capitalize">
-                                                    <option value="">___</option>
-                                                    ${tagHtml}
-                                                </select>
-                                                <button class="btn btn-outline-info btnAddFilter" type="button">
-                                                    <i class="bi bi-plus-lg"></i>
-                                                </button>
+                                    <fieldset class="reset" id="tag-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Tags </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="col-12">
+                                                ${tagHtml}
                                             </div>
                                         </div>
-                                        <div class="col-12 my-2 filter-result-area" id="tags-filter-area">
-                                        </div>
-                                    </div>
+                                    </fieldset>
                                 </div>
                                 <div class="modal-footer border-0">
                                     <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-outline-secondary border-0 shadow" data-bs-dismiss="modal">Close <i class="bi bi-x-lg"></i></button>
                                         <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
                                     </div>
                                 </div>

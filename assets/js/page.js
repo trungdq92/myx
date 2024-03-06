@@ -323,9 +323,7 @@ class PostPage extends PageBase {
                         <p class="card-text">
                             ${item.description.slice(0, 100)}
                         </p>
-                        <a class="btn btn-primary border-0 rounded-circle shadow p-2 icon-next" href="${this.rootUrl}/pages/${item.componentId}/post/?id=${item.id}">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
+                        <a class="card-link text-capitalize" href="${this.rootUrl}/pages/${item.componentId}/post/?id=${item.id}">Read</a>
                     </div>
                 </div>`
         })
