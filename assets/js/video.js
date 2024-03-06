@@ -58,9 +58,14 @@ class VideoPostPage extends VideoPage {
     }
 
     async _renderDetails() {
-        var filter = [];
+        var filterAnd = [];
         var filterOr = [];
         var searchFilter = null;
+
+
+        var filterName = $('#filter-name').val();
+        if (filterName !== '')
+            filterAnd.push((x) => x.name.includes(filterName))
 
         $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
@@ -68,10 +73,22 @@ class VideoPostPage extends VideoPage {
                 filterOr.push(x => x.hashTags.includes(code))
         });
 
+        $('#actor-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('active'))
+                filterOr.push(x => x.actorId.includes(code))
+        });
+
+        $('#director-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('active'))
+                filterOr.push(x => x.directorId.includes(code))
+        });
+
         if (filterOr.length > 0) {
-            searchFilter = { and: [{ or: filterOr }, { and: filter }] }
+            searchFilter = { and: [{ or: filterOr }, { and: filterAnd }] }
         } else {
-            searchFilter = { or: filterOr }
+            searchFilter = { and: filterAnd }
         }
 
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
@@ -115,21 +132,49 @@ class VideoPostPage extends VideoPage {
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
         var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
-        var hashTags = [];
-        var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchDataPost);
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         this._maxData = resultDataPost.data;
+
+        var hashTags = [];
+        var actors = [];
+        var directors = [];
         this._maxData.forEach(item => {
             item.hashTags.split(",").forEach(t => {
                 if (!hashTags.includes(t)) {
                     hashTags.push(t)
                 }
             })
+            item.actorId.split(",").forEach(t => {
+                if (!actors.includes(t)) {
+                    actors.push(t)
+                }
+            })
+
+            if (!directors.includes(item.directorId)) {
+                directors.push(item.directorId)
+            }
         })
         var tagHtml = '';
         tags.data.forEach(item => {
             if (hashTags.includes(item.id))
-                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
+                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+        })
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, "name=asc");
+        var actorResult = await readData(`${this.rootUrl}/assets/data/master/actor/master.csv`, searchData);
+        var actorHtml = '';
+        actorResult.data.forEach(item => {
+            if (actors.includes(item.id))
+                actorHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+        })
+
+        var directorResult = await readData(`${this.rootUrl}/assets/data/master/director/master.csv`, searchData);
+        var directorHtml = '';
+        directorResult.data.forEach(item => {
+            if (directors.includes(item.id))
+                directorHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
@@ -141,6 +186,37 @@ class VideoPostPage extends VideoPage {
                                         <div class="row my-2 filter-section">
                                             <div class="col-12">
                                                 ${tagHtml}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="reset" id="actor-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Actors </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="row my-2 filter-section">
+                                                <div class="col-12">
+                                                    ${actorHtml}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="reset" id="director-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Directors </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="row my-2 filter-section">
+                                                <div class="col-12">
+                                                    ${directorHtml}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="reset" id="other-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Other </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="col-auto">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="filter-name">
+                                                    <label for="filter-name">Name</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </fieldset>

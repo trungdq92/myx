@@ -120,6 +120,50 @@ function orderProcess(data, sorts) {
                 data = data.sort((a, b) => a.id.localeCompare(b.id));
             else
                 data = data.sort((b, a) => a.id.localeCompare(b.id));
+            break;
+        case 'name':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.name.localeCompare(b.name));
+            else
+                data = data.sort((b, a) => a.name.localeCompare(b.name));
+            break;
+        case 'category':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.categoryIds.localeCompare(b.categoryIds));
+            else
+                data = data.sort((b, a) => a.categoryIds.localeCompare(b.categoryIds));
+            break;
+        case 'createdAt':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+            else
+                data = data.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+            break;
+
+        case 'totalDue':
+            if (sort == 'asc')
+                data = data.sort((a, b) => parseInt(a.totalDue) - parseInt(b.totalDue));
+            else
+                data = data.sort((b, a) => parseInt(a.totalDue) - parseInt(b.totalDue));
+            break;
+        case 'actor':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.actorId.localeCompare(b.actorId));
+            else
+                data = data.sort((b, a) => a.actorId.localeCompare(b.actorId));
+            break;
+        case 'director':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.directorId.localeCompare(b.directorId));
+            else
+                data = data.sort((b, a) => a.directorId.localeCompare(b.directorId));
+            break;
+        case 'artist':
+            if (sort == 'asc')
+                data = data.sort((a, b) => a.artistId.localeCompare(b.artistId));
+            else
+                data = data.sort((b, a) => a.artistId.localeCompare(b.artistId));
+            break;
     }
 
     return data;

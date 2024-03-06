@@ -235,7 +235,7 @@ class PostPage extends PageBase {
     _renderGridControl() {
         var html = `<div class="grid-view-style">
                         <div class="row justify-content-center my-3">
-                            <div class="col fst-italic text-muted" id="filter-result-cal">
+                            <div class="col-auto fst-italic text-muted" id="filter-result-cal">
                                 <div class="input-group">
                                     <span class="input-group-text border-0 text-muted">
                                         <span id="total-count-result">${this._totalCount}</span> <span class="px-1"><i class="bi bi-collection-fill"></i></span>
@@ -246,8 +246,12 @@ class PostPage extends PageBase {
                                             ${this._renderSort()}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-lg-end">
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id asc</a></li>
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc"  href="#">id desc</a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc"  href="#">id <i class="bi bi-sort-up"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=asc" href="#">name <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=desc"  href="#">name <i class="bi bi-sort-up"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=asc" href="#">created <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=desc"  href="#">created <i class="bi bi-sort-up"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -267,7 +271,7 @@ class PostPage extends PageBase {
         var order = this._sortBy.split('=')[0]
         var sortByHtml = ''
         if (sort === 'asc')
-            sortByHtml = `${order} <i class="bi bi-sort-up-alt"></i> `
+            sortByHtml = `${order} <i class="bi bi-sort-down"></i>`
         else
             sortByHtml = `${order} <i class="bi bi-sort-up"></i>`
 
@@ -278,13 +282,31 @@ class PostPage extends PageBase {
     }
 
     async _renderDetails() {
-        var filter = [];
+        var filterAnd = [];
+        var filterOr = [];
+        var searchFilter = {}
         var componentId = getUrlParameter('com') || this._component;
         if (componentId) {
-            filter.push((x) => x.componentId.includes(componentId))
+            filterAnd.push((x) => x.componentId.includes(componentId))
         }
 
-        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, { and: filter }, this._sortBy);
+        var filterName = $('#filter-name').val();
+        if (filterName !== '')
+            filterAnd.push((x) => x.name.includes(filterName))
+
+        $('#category-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('active'))
+                filterOr.push(x => x.categoryIds.includes(code))
+        });
+
+        if (filterOr.length > 0) {
+            searchFilter = { and: [{ or: filterOr }, { and: filterAnd }] }
+        } else {
+            searchFilter = { and: filterAnd }
+        }
+
+        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/master.csv`, searchData);
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
@@ -331,27 +353,57 @@ class PostPage extends PageBase {
     }
 
     async _renderFilter() {
-        var html =
-            `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
-                <div class="modal-dialog mt-5">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Filter</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row my-2">
-                                
+        var filter = [];
+        filter.push(x => x.componentIds.includes(this._component) || x.componentIds === "");
+        var searchFilter = { and: filter }
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
+        var tagHtml = '';
+        tags.data.forEach(item => {
+            tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+        })
+
+        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, {}, this._sortBy);
+        var categories = await readData(`${this.rootUrl}/assets/data/master/category/master.csv`, searchData);
+        var categoryHtml = '';
+        categories.data.forEach(item => {
+            if (item.parentId === '')
+                categoryHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="category_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+        })
+
+        var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <fieldset class="reset" id="category-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Categories </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="col-12">
+                                                ${categoryHtml}
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="reset" id="other-filter-section">
+                                        <legend class="fs-3 fw-bold text-muted"> Other </legend>
+                                        <div class="row my-2 filter-section">
+                                            <div class="col-auto">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="filter-name">
+                                                    <label for="filter-name">Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer border-0">
+                                    <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-outline-secondary border-0 shadow" data-bs-dismiss="modal">Close <i class="bi bi-x-lg"></i></button>
+                                        <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="modal-footer border-0">
-                            <div class="col-12 text-end">
-                                <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>`
+                    </div>`
         return html;
     }
 
@@ -391,7 +443,8 @@ class PostPage extends PageBase {
         if (this._galleryGLightBox !== null) this._galleryGLightBox.reload();
         this._hiddenLoadMoreBtn();
 
-        if ($('#filterModal')) $('#filterModal').modal('hide');
+        var modal = $('#filterModal');
+        if (modal && modal !== undefined) modal.modal('hide');
         return true;
     }
 

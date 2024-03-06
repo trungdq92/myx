@@ -1,50 +1,72 @@
-<script type="text/javascript">
-  var rootUrl = location.protocol + '//' + location.hostname + '/myx';
-  var fullHtml = `<!DOCTYPE html>
-                  <html lang="en">
+<html lang="en" data-bs-theme="dark">
+
+<head>
+<body>
+    <div class="container___content" id="container-area"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
+    <script type="text/javascript">
+        var rootUrl = location.protocol + '//' + location.hostname + '/myx';
+        var fullHtml = `<!DOCTYPE html>
+                  <html lang="en" data-bs-theme="dark">
 
                   <head>
-                      <meta charset="utf-8">
-                      <meta content="width=device-width, initial-scale=1.0" name="viewport">
+                        <meta charset="utf-8">
+                        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-                      <title>MYX</title>
+                        <title>Comic - MyX</title>
+                        <!-- Google Fonts -->
+                        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-                      <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
-                      <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-                      <link href="${rootUrl}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-                      <link href="${rootUrl}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-                      <link href="${rootUrl}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
+                        <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-                      <link href="${rootUrl}/assets/css/style.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/vendor/aos/aos.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+                        <link href="${rootUrl}/assets/css/style.css" rel="stylesheet">
+                        <link href="${rootUrl}/assets/css/site.css" rel="stylesheet">
                   </head>
 
-                  <body class="theme-dark">
-                      <div class="container___content" id="container-area"></div> 
+                  <body>
+                        <section class="home">
+                            <div class="container___content" id="container-area"></div> 
+                        </section>
+                         <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
                   </body>
 
                   </html>`;
 
-  document.write(fullHtml)
+        document.write(fullHtml)
 
-  var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
-  scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
-  scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
-  scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
-  scriptTag = loadScript(rootUrl + '/assets/js/page.js');
+        var scriptTag = loadScript(rootUrl + '/assets/vendor/jquery/jquery-3.6.4.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/aos/aos.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/glightbox/js/glightbox.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/vendor/papaparse/papaparse.min.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/main.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/page.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/comic.js');
 
-  scriptTag.addEventListener('load', () => {
-      new Page();
-  })
+        scriptTag.addEventListener('load', () => {
+            new Page();
+        })
 
-  function loadScript(path) {
-      var scriptTag = document.createElement('script');
-      scriptTag.type = 'text/javascript';
-      scriptTag.async = false;
-      scriptTag.defer = false;
-      scriptTag.src = path;
-      document.body.append(scriptTag);
-      return scriptTag;
-  };
+        function loadScript(path) {
+            var scriptTag = document.createElement('script');
+            scriptTag.type = 'text/javascript';
+            scriptTag.async = false;
+            scriptTag.defer = false;
+            scriptTag.src = path;
+            document.body.append(scriptTag);
+            return scriptTag;
+        };
 
-</script>
+    </script>
+
+</body>
+
+</html>

@@ -39,11 +39,41 @@ class GalleryPostPage extends GalleryPage {
                 </div>`
     }
 
+    _renderGridControl() {
+        var html = `<div class="grid-view-style">
+                        <div class="row justify-content-center my-3">
+                            <div class="col-auto fst-italic text-muted" id="filter-result-cal">
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 text-muted">
+                                        <span id="total-count-result">${this._totalCount}</span> <span class="px-1"><i class="bi bi-collection-fill"></i></span>
+                                    </span>
+                                    <input type="hidden" id="sortby" value="${this._sortBy}"/>
+                                    <div class="btn-group">
+                                        <button id="btn-choose-sort" type="button" class="btn btn-outline-secondary dropdown-toggle border-0 text-capitalize " data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                            ${this._renderSort()}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc" href="#">id <i class="bi bi-sort-up"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col text-end">
+                                <a class="btn btnFilter btn-outline-primary border-0 rounded shadow" data-bs-toggle="modal" data-bs-target="#filterModal" ><i class="bi bi-funnel-fill"></i></a>
+                                <a class="btn btn-change-grid btn-outline-primary border-0 rounded shadow" data-type="1"><i class="bi bi-view-list"></i></a>
+                                <a class="btn btn-change-grid btn-outline-primary border-0 rounded shadow" data-type="5"><i class="bi bi-grid-1x2-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>`;
+        return html;
+    }
+
     async _renderDetails() {
         var filter = [];
         var filterOr = [];
         var searchFilter = null;
-        
+
 
         $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
@@ -89,7 +119,7 @@ class GalleryPostPage extends GalleryPage {
 
         filter.push(x => x.componentIds.includes("gallery") || x.componentIds === "");
         var searchFilter = { and: filter }
-        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var searchData = new BaseCriteria(Constants.maxPageSize, 0, searchFilter, "name=asc");
         var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
@@ -105,7 +135,7 @@ class GalleryPostPage extends GalleryPage {
         var tagHtml = '';
         tags.data.forEach(item => {
             if (hashTags.includes(item.id))
-                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name} <i class="bi bi-x-lg"></i></button>`
+                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
