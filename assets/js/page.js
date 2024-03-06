@@ -285,7 +285,7 @@ class PostPage extends PageBase {
         }
 
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, { and: filter }, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/_master.csv`, searchData);
+        var result = await readData(`${this.rootUrl}/assets/data/post/_master.txt`, searchData);
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
         this._renderSort();
