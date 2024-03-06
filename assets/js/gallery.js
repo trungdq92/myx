@@ -52,7 +52,7 @@ class GalleryPostPage extends GalleryPage {
                                         <button id="btn-choose-sort" type="button" class="btn btn-outline-secondary dropdown-toggle border-0 text-capitalize " data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                                             ${this._renderSort()}
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                                        <ul class="dropdown-menu dropdown-menu-lg-start">
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id <i class="bi bi-sort-down"></i></a></li>
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc" href="#">id <i class="bi bi-sort-up"></i></a></li>
                                         </ul>
