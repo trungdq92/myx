@@ -1,4 +1,4 @@
-Id,Name,ParentId
+id,name,parentId
 stable_diffusion,Stable Diffusion,
 chilloutmix,Chilloutmix,stable_diffusion
 majicmix_realistic,MajicMIX realistic,stable_diffusion

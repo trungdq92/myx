@@ -93,7 +93,7 @@ class ComicPostPage extends ComicPage {
         filter.push(x => x.componentIds.includes("comic") || x.componentIds === "");
         var searchFilter = { and: filter }
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
-        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag.csv`, searchData);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
         var hashTags = [];
         var searchDataPost = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
         var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchDataPost);
@@ -389,7 +389,7 @@ class ComicViewerPage extends ComicPage {
         var filter = [];
         filter.push(x => x.pComicChapId == this._id);
         var searchFilter = { and: filter }
-        var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
+        var searchData = new BaseCriteria(Constants.maxPageSize, 0, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/source.csv`, searchData);
         var imgs = []
         result.data.forEach(item => {
@@ -397,13 +397,15 @@ class ComicViewerPage extends ComicPage {
                 imgs.push(`${item.prefix}${i}.${item.suffix}`)
             }
         })
-        var details = '';
+
+        var countImgs = imgs.length;
         imgs = imgs.slice(this._pageIndex * this._pageSize, this._pageSize * (this._pageIndex + 1))
-        var imgResult = new BaseSearchResponse(imgs.length, this._pageSize, this._pageIndex, imgs);
+        var imgResult = new BaseSearchResponse(countImgs, this._pageSize, this._pageIndex, imgs);
+        this._totalPage = imgResult.totalPage;
         this._totalCount = imgResult.totalCount;
-        this._totalPage = result.imgResult;
         $('#total-count-result').html(`${result.totalCount} <i class="bi bi-image-fill"></i>`)
 
+        var details = '';
         imgs.forEach(item => {
             details += `<img src="${item}" class="img-fluid my-1" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />`
         })
