@@ -43,7 +43,7 @@ class VideoPostPage extends VideoPage {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/video/">
                                             Video
@@ -284,7 +284,7 @@ class VideoViewerPage extends PageBase {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/video/">
                                             Video

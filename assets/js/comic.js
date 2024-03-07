@@ -21,8 +21,8 @@ class ComicPostPage extends ComicPage {
         var html =
             `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
                 ${this._renderGridControl()}
-                <div class="row my-3">
-                    <div id="details-items-area" class="masonry"  data-aos="fade-up" data-aos-delay="100">
+                <div class="my-3">
+                    <div id="details-items-area" class="row"  data-aos="fade-up" data-aos-delay="100">
                     </div>
                     <div class="my-5 text-center">
                         <button id="show-more" class="btn btn-outline-primary border-0 rounded shadow">
@@ -93,9 +93,9 @@ class ComicPostPage extends ComicPage {
         this._totalPage = result.totalPage;
         this._renderSort()
         result.data.forEach(item => {
-            details += `<div class="comic-book-card p-1">
+            details += `<div class="comic-book-card p-1 col-md-auto col-6">
                             <div class="card border-0 my-1 shadow">
-                                <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover h-auto w-auto rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
+                                <img src="${item.thumbnail}" class="img-fluid h-auto w-auto rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">${item.name}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size: smaller;">
@@ -200,9 +200,10 @@ class ComicPostPage extends ComicPage {
     }
 
     _changeViewPageStyle(viewType) {
-        var elm = $('#details-items-area')
-        elm.removeClass('col-12 masonry');
-        elm.addClass(viewType === '1' ? 'col-12' : `masonry`);
+        $('.comic-book-card').each((i, elm) => {
+            $(elm).removeClass('col-12 col-md-auto col-6');
+            $(elm).addClass(viewType === '1' ? 'col-12' : `col-md-auto col-6`);
+        });
         return;
     }
 }
@@ -293,7 +294,7 @@ class ComicChapterPage extends ComicPage {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic/">
                                             Comic
@@ -434,7 +435,7 @@ class ComicViewerPage extends ComicPage {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize" aria-current="page">
                                         <a class="text-capitalize text-decoration-none" href="${this.rootUrl}/pages/comic">Comic</a>
                                     </li>

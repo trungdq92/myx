@@ -133,7 +133,7 @@ const PageBase = class PageBase {
                     </button>
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title">MyX</h5>
+                            <h5 class="offcanvas-title text-capitalize">${Constants.pjName}</h5>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
@@ -206,7 +206,7 @@ class PostPage extends PageBase {
                         <div class="row text-mute" style="font-size:smaller">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/myx" class="active"><i class="bi bi-house-fill"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="/${Constants.pjName}" class="active"><i class="bi bi-house-fill"></i></a></li>
                                     <li class="breadcrumb-item text-capitalize active" aria-current="page">${this._component || Constants.pjName}</li>
                                 </ol>
                             </nav>
