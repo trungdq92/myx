@@ -17,6 +17,23 @@ class ComicPostPage extends ComicPage {
         $('.btnAddFilter').click((e) => this._addFilter(e.target));
     }
 
+    async _renderGallery() {
+        var html =
+            `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
+                ${this._renderGridControl()}
+                <div class="row my-3">
+                    <div id="details-items-area" class="masonry"  data-aos="fade-up" data-aos-delay="100">
+                    </div>
+                    <div class="my-5 text-center">
+                        <button id="show-more" class="btn btn-outline-primary border-0 rounded shadow">
+                            More <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>`
+        return html;
+    }
+
     _renderTitlePage() {
         return `<div class="title-page sticky-top">
                     <div class="container">
@@ -78,7 +95,7 @@ class ComicPostPage extends ComicPage {
         result.data.forEach(item => {
             details += `<div class="comic-book-card p-1">
                             <div class="card border-0 my-1 shadow">
-                                <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover h-auto rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
+                                <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover h-auto w-auto rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">${item.name}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size: smaller;">
@@ -180,6 +197,13 @@ class ComicPostPage extends ComicPage {
                         </div>
                     </div>`
         return html;
+    }
+
+    _changeViewPageStyle(viewType) {
+        var elm = $('#details-items-area')
+        elm.removeClass('col-12 masonry');
+        elm.addClass(viewType === '1' ? 'col-12' : `masonry`);
+        return;
     }
 }
 

@@ -126,6 +126,7 @@ class GalleryPostPage extends GalleryPage {
         var resultDataPost = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/master.csv`, searchDataPost);
         this._maxData = resultDataPost.data;
         this._maxData.forEach(item => {
+            if (!item.hashTags) return;
             item.hashTags.split(",").forEach(t => {
                 if (!hashTags.includes(t)) {
                     hashTags.push(t)

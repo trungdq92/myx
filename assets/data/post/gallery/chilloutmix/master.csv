@@ -1,4 +1,4 @@
-id,mame,postId,totalView,hashTags,script,thumbnail,description,categoryIds
+id,name,postId,totalView,hashTags,script,thumbnail,description,categoryIds
 chilloutmix_1,,chilloutmix,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/cc2b7657-080f-4adc-529d-011cbf69ba00/width=1200/00009-3389180500-_lora_chillou___.jpeg,,,"stable_diffusion,chilloutmix"
 chilloutmix_2,,chilloutmix,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5ccae71c-cb26-4cf7-8ad0-29955ea8b4a7/width=512/00003-600741374.jpeg,,,"stable_diffusion,chilloutmix"
 chilloutmix_3,,chilloutmix,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/17d54603-6f0b-4c3a-ebd9-ed9c3bfa7c00/width=944/00023-4074077466.jpeg,,,"stable_diffusion,chilloutmix"

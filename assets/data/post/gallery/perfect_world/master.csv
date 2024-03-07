@@ -1,4 +1,4 @@
-id,mame,postId,totalView,hashTags,script,thumbnail,description,categoryIds
+id,name,postId,totalView,hashTags,script,thumbnail,description,categoryIds
 perfect_world_1,,perfect_world,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/04bf69aa-af74-4f29-3a81-fa11c613f000/width=512/320360.jpeg,,,"stable_diffusion,perfect_world"
 perfect_world_2,,perfect_world,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c12ca7b3-47c1-4938-ac27-510fae27a4c4/width=512/00019-2804545316.jpeg,,,"stable_diffusion,perfect_world"
 perfect_world_3,,perfect_world,0,beautiful,https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c7885ce8-1a95-4a1f-5f38-50b68a772800/width=1088/00126-2398748607.jpeg,,,"stable_diffusion,perfect_world"
