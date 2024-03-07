@@ -1,80 +1,4 @@
-﻿var coorA;
-var coorB;
-var btn = null;
-var lastMouseX;
-var lastMouseY;
-var timerHold = false;
-var timer = 0;
-
-function mousedown(event) {
-    if (event.target.className.indexOf("btn-moveable") > -1) {
-        btn = event.target;
-    }
-
-    if (btn == null) return;
-    btn = event.target;
-    if (btn.style.top === "" || btn.style.left === "") {
-        btn.style.position = "absolute";
-        btn.style.top = btn.offsetTop + "px";
-        btn.style.left = btn.offsetLeft + "px";
-    }
-    coorA = btn.offsetTop;
-    coorB = btn.offsetLeft;
-    setTimeout(() => {
-        timer = setInterval(() => {
-            timerHold = true;
-        }, 20)
-    }, 100)
-
-}
-
-function mouseup(event) {
-    clearInterval(timer);
-    setTimeout(() => {
-        timerHold = false;
-    }, 100)
-    if (btn) btn.style.position = "fixed";
-    btn = null;
-}
-
-function openOffcanvasMenu() {
-    var offcanvasMenu = $('#offcanvasMenu');
-    if (!offcanvasMenu) return;
-    if (!timerHold) {
-        offcanvasMenu.offcanvas('show')
-    }
-}
-
-function mousemove(event) {
-    var myLocation = event;
-    var clientX = myLocation.clientX;
-    var clientY = myLocation.clientY;
-    var diff = 50;
-
-    clientX = clientX < 0 ? 0 : clientX;
-    clientY = clientY < 0 ? 0 : clientY;
-
-    // clientY = clientY > window.outerHeight - diff ? window.outerHeight - diff : clientY;
-    // clientX = clientX > window.outerWidth - diff ? window.outerWidth - diff : clientX;
-
-    if (btn !== null) {
-        var top = parseInt(btn.style.top) + (clientY - lastMouseY);
-        var left = parseInt(btn.style.left) + (clientX - lastMouseX);
-
-        top = top < 0 ? 0 : top;
-        left = left < 0 ? 0 : left;
-
-        // top = top > window.outerHeight - diff ? window.outerHeight - diff : top;
-        // left = left > window.outerWidth - diff ? window.outerWidth - diff : left;
-
-        btn.style.top = top + "px";
-        btn.style.left = left + "px";
-    }
-    lastMouseX = clientX;
-    lastMouseY = clientY;
-}
-
-var lastScrollTop = 0;
+﻿var lastScrollTop = 0;
 var showStickTop = 0;
 $(window).scroll(function (e) {
     var $el = $('.title-page');
@@ -92,14 +16,6 @@ $(window).scroll(function (e) {
     }
     lastScrollTop = st;
 });
-
-document.getElementsByTagName("body")[0].addEventListener("mousedown", event => mousedown(event));
-document.getElementsByTagName("body")[0].addEventListener("mousemove", event => mousemove(event));
-document.getElementsByTagName("body")[0].addEventListener("mouseup", event => mouseup(event));
-
-document.getElementsByTagName("body")[0].addEventListener("touchstart", event => mousedown(event));
-document.getElementsByTagName("body")[0].addEventListener("touchmove", event => mousemove(event.changedTouches[0]));
-document.getElementsByTagName("body")[0].addEventListener("touchend", event => mouseup(event));
 
 const Page = class Page {
     constructor(pageId) {
@@ -128,7 +44,7 @@ const PageBase = class PageBase {
     }
 
     _renderMenu() {
-        var html = `<button class="btn btn-primary btn-menu btn__moveable border-0 shadow rounded-circle m-2" type="button" onclick='openOffcanvasMenu()'>
+        var html = `<button class="btn btn-primary btn-menu btn__moveable border-0 shadow rounded-circle m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
                         <i class="bi bi-list"></i>
                     </button>
                     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
@@ -360,7 +276,7 @@ class PostPage extends PageBase {
         var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
         var tagHtml = '';
         tags.data.forEach(item => {
-            tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+            tagHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, {}, this._sortBy);
@@ -368,7 +284,7 @@ class PostPage extends PageBase {
         var categoryHtml = '';
         categories.data.forEach(item => {
             if (item.parentId === '')
-                categoryHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="category_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+                categoryHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="category_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">

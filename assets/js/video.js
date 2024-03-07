@@ -159,7 +159,7 @@ class VideoPostPage extends VideoPage {
         var tagHtml = '';
         tags.data.forEach(item => {
             if (hashTags.includes(item.id))
-                tagHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+                tagHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
         searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, "name=asc");
@@ -167,14 +167,14 @@ class VideoPostPage extends VideoPage {
         var actorHtml = '';
         actorResult.data.forEach(item => {
             if (actors.includes(item.id))
-                actorHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+                actorHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
         var directorResult = await readData(`${this.rootUrl}/assets/data/master/director/master.csv`, searchData);
         var directorHtml = '';
         directorResult.data.forEach(item => {
             if (directors.includes(item.id))
-                directorHtml += `<button class="btn btn-outline-info border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('active')">${item.name}</button>`
+                directorHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
         var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
