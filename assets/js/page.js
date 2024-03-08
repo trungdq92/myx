@@ -29,6 +29,7 @@ const Page = class Page {
         if (this.pageId === 'comic_post') return new ComicPostPage();
         if (this.pageId === 'comic_chapter') return new ComicChapterPage();
         if (this.pageId === 'comic_viewer') return new ComicViewerPage();
+        if (this.pageId === 'advance') return new AdvancePage();
         return new PostPage();
     }
 }
@@ -47,7 +48,7 @@ const PageBase = class PageBase {
         var html = `<button class="btn btn-primary btn-menu btn__moveable border-0 shadow rounded-circle m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
                         <i class="bi bi-list"></i>
                     </button>
-                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu">
+                    <div class="offcanvas offcanvas-start w-100" tabindex="-1" id="offcanvasMenu">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title text-capitalize">${Constants.pjName}</h5>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>

@@ -1,6 +1,7 @@
 <html lang="en" data-bs-theme="dark">
 
 <head>
+
 <body>
     <div class="container___content" id="container-area"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center active"><i class="bi bi-arrow-up-short"></i></a>
@@ -14,6 +15,9 @@
                         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
                         <title>Comic - MyX</title>
+                        <!-- Google Fonts -->
+                        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
 
                         <link href="${rootUrl}/assets/img/favicon.png" rel="icon">
                         <link href="${rootUrl}assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -46,9 +50,10 @@
         scriptTag = loadScript(rootUrl + '/assets/js/constant.js');
         scriptTag = loadScript(rootUrl + '/assets/js/main.js');
         scriptTag = loadScript(rootUrl + '/assets/js/page.js');
+        scriptTag = loadScript(rootUrl + '/assets/js/advance.js');
 
         scriptTag.addEventListener('load', () => {
-            new Page("comic");
+            new Page("advance");
         })
 
         function loadScript(path) {

@@ -432,3 +432,10 @@ legend {
     color: var(--bs-body-bg) !important;
     background-color: var(--bs-body-color) !important;
 }
+
+.masonry {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: masonry;
+}

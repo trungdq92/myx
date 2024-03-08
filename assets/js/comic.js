@@ -95,9 +95,9 @@ class ComicPostPage extends ComicPage {
         result.data.forEach(item => {
             details += `<div class="comic-book-card p-1 col-md-auto col-6">
                             <div class="card border-0 my-1 shadow">
-                                <img src="${item.thumbnail}" class="img-fluid h-auto w-auto rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
+                                <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
                                 <div class="card-body">
-                                    <h5 class="card-title text-truncate">${item.name}</h5>
+                                    <h5 class="card-title text-truncate" style="max-width:150px">${item.name}</h5>
                                     <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size: smaller;">
                                             ${item.artistId.replace("_", " ")}
                                             <br />

@@ -135,9 +135,9 @@ function orderProcess(data, sorts) {
             break;
         case 'createdAt':
             if (sort == 'asc')
-                data = data.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+                data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
             else
-                data = data.sort((b, a) => a.createdAt.localeCompare(b.createdAt));
+                data = data.sort((b, a) => new Date(a.createdAt) - new Date(b.createdAt));
             break;
 
         case 'totalDue':
