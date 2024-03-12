@@ -93,25 +93,18 @@ class ComicPostPage extends ComicPage {
         this._totalPage = result.totalPage;
         this._renderSort()
         result.data.forEach(item => {
-            details += `<div class="comic-book-card p-1 col-md-auto col-6">
-                            <div class="card border-0 my-1 shadow">
-                                <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
-                                <div class="card-body">
-                                    <h5 class="card-title text-truncate" style="max-width:150px">${item.name}</h5>
-                                    <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size: smaller;">
-                                            ${item.artistId.replace("_", " ")}
-                                            <br />
-                                            ${item.createdAt.slice(0, 10)}
-                                            <br />
-                                            ${item.totalView} Views <span>・</span> ${item.totalChap} Chaps
-                                    </h6>
-                                    <div class="card-text">
-                                        ${item.description.slice(0, 50)}
-                                    </div>
-                                    <a href="${this.rootUrl}/pages/comic/chapter/?id=${item.id}&pid=${this._postId}" class="card-link">Read</a>
-                                </div>
-                            </div>
-                        </div>`
+            details += renderComicBookHtml({
+                id: item.id,
+                name: item.name,
+                postId: item.postId,
+                thumbnail: item.thumbnail,
+                artistId: item.artistId,
+                totalChap: item.totalChap,
+                totalView: item.totalView,
+                description: item.description,
+                createdAt: item.createdAt,
+                rootUrl: this.rootUrl
+            })
         })
         return details;
     }

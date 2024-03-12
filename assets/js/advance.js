@@ -57,9 +57,7 @@ class AdvancePage extends PageBase {
         }
         var galleryHtml = ''
         resultGallery.splice(0, 7).forEach(item => {
-            galleryHtml += `<div class="card border-0">
-                                <img class="img-fluid" src="${item.script}" />
-                            </div>`
+            galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
 
         var resultVideo = []
@@ -71,9 +69,16 @@ class AdvancePage extends PageBase {
         }
         var videoHtml = ''
         resultVideo.splice(0, 7).forEach(item => {
-            videoHtml += `<div class="card border-0">
-                                <img class="img-fluid" src="${item.thumbnail}" />
-                            </div>`
+            videoHtml += renderVideoHtml({
+                id: item.id,
+                name: item.name,
+                postId: item.postId,
+                thumbnail: item.thumbnail,
+                totalDue: item.totalDue,
+                totalView: item.totalView,
+                createdAt: item.createdAt,
+                rootUrl: this.rootUrl
+            })
         })
 
         var resultComic = [];
@@ -86,9 +91,18 @@ class AdvancePage extends PageBase {
 
         var comicHtml = ''
         resultComic.splice(0, 7).forEach(item => {
-            comicHtml += `<div class="card border-0">
-                                <img class="img-fluid" src="${item.thumbnail}" />
-                            </div>`
+            comicHtml += renderComicBookHtml({
+                id: item.id,
+                name: item.name,
+                postId: item.postId,
+                thumbnail: item.thumbnail,
+                artistId: item.artistId,
+                totalChap: item.totalChap,
+                totalView: item.totalView,
+                description: item.description,
+                createdAt: item.createdAt,
+                rootUrl: this.rootUrl
+            })
         })
 
         var html =
@@ -99,11 +113,11 @@ class AdvancePage extends PageBase {
                             <div class="card-body">
                                 <h5 class="card-title">Gallery</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${resultGallery.length} imgs</h6>
-                                <div class="masonry">
+                                <div class="card-columns card-columns-gap-auto">
                                     ${galleryHtml}
                                 </div>
                                 <div class="row w-100">
-                                    <a href="#" class="card-link text-end">More</a>
+                                    <a href="${this.rootUrl}/pages/gallery/" class="card-link text-end">More</a>
                                 </div>
                             </div>
                         </div>
@@ -114,11 +128,11 @@ class AdvancePage extends PageBase {
                             <div class="card-body">
                                 <h5 class="card-title">Videos</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${resultVideo.length} videos</h6>
-                                <div class="masonry">
+                                <div class="row" data-aos="fade-up" data-aos-delay="100">
                                     ${videoHtml}
                                 </div>
                                 <div class="row w-100">
-                                    <a href="#" class="card-link text-end">More</a>
+                                    <a href="${this.rootUrl}/pages/video/" class="card-link text-end">More</a>
                                 </div>
                             </div>
                         </div>
@@ -129,11 +143,11 @@ class AdvancePage extends PageBase {
                             <div class="card-body">
                                 <h5 class="card-title">Comics</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">${resultComic.length} comics</h6>
-                                <div class="masonry">
+                                <div class="row">
                                     ${comicHtml}
                                 </div>
                                 <div class="row w-100">
-                                    <a href="#" class="card-link text-end">More</a>
+                                    <a href="${this.rootUrl}/pages/comic/" class="card-link text-end">More</a>
                                 </div>
                             </div>
                         </div>

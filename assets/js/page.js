@@ -17,6 +17,67 @@ $(window).scroll(function (e) {
     lastScrollTop = st;
 });
 
+function renderGalleryImgHtml(item) {
+    return `<div class="card card-pin border-0 bg-transparent mb-1">
+                <div class="portfolio-wrap bg-transparent rounded-2 shadow-sm  d-flex justify-content-center">
+                    <img src="${item.script}" class="img-fluid" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
+                    <div class="portfolio-info">
+                        <div class="portfolio-links">
+                            <a href="${item.script}" class="portfolio-lightbox" data-type="image"><i class="bi bi-plus-lg"></i></a>
+                            <a href="#">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+}
+
+function renderVideoHtml(item) {
+    return `<div class="col-md-4 col-6 my-3 video-item">
+                <div class="card border-0">
+                    <div class="video-wrapper position-relative">
+                        <a href="${item.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${item.postId}">
+                            <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover rounded-3" alt="" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" loading="lazy" />
+                        </a>
+                    </div>
+                    <div class="card-body px-0">
+                        <div class="data-block-indicators">
+                            <i class="bi bi-play-fill"></i> ${item.totalDue} min
+                        </div>
+                        <h5 class="card-title text-capitalize text-truncate">
+                            <a class="color-unset" href="${this.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${item.postId}">${item.name}</a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size:smaller">
+                            ${item.totalView} Views <span>・</span>  ${item.createdAt.slice(0, 16).replace('T', ' ')}
+                        </h6>
+                    </div>
+                </div>
+            </div>`
+}
+
+function renderComicBookHtml(item) {
+    return `<div class="comic-book-card p-1 col-md-auto col-6">
+                <div class="card border-0 my-1 shadow">
+                    <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate" style="max-width:150px">${item.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size: smaller;">
+                                ${item.artistId.replace("_", " ")}
+                                <br />
+                                ${item.createdAt.slice(0, 10)}
+                                <br />
+                                ${item.totalView} Views <span>・</span> ${item.totalChap} Chaps
+                        </h6>
+                        <div class="card-text">
+                            ${item.description.slice(0, 50)}
+                        </div>
+                        <a href="${item.rootUrl}/pages/comic/chapter/?id=${item.id}&pid=${item.postId}" class="card-link">Read</a>
+                    </div>
+                </div>
+            </div>`
+}
+
 const Page = class Page {
     constructor(pageId) {
         this.pageId = pageId
@@ -63,6 +124,9 @@ const PageBase = class PageBase {
                                 </li>
                                 <li class="list-group-item ${this._component == 'comic' ? "active" : ""}">
                                     <a class="w-100 d-flex" href="${rootUrl}/pages/comic" style="color:unset;">Comic</a>
+                                </li>
+                                <li class="list-group-item ${this._component == 'advance' ? "active" : ""}">
+                                    <a class="w-100 d-flex" href="${rootUrl}/pages/advance" style="color:unset;">Advance</a>
                                 </li>
                             </ul>
                         </div>

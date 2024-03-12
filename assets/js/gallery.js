@@ -97,19 +97,7 @@ class GalleryPostPage extends GalleryPage {
         this._renderSort()
 
         result.data.forEach(item => {
-            details += `<div class="card card-pin border-0 bg-transparent mb-1">
-                            <div class="portfolio-wrap bg-transparent rounded-2 shadow-sm  d-flex justify-content-center">
-                                <img src="${item.script}" class="img-fluid" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
-                                <div class="portfolio-info">
-                                    <div class="portfolio-links">
-                                        <a href="${item.script}" class="portfolio-lightbox" data-type="image"><i class="bi bi-plus-lg"></i></a>
-                                        <a href="#">
-                                            <i class="bi bi-link-45deg"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`
+            details += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
         return details;
     }

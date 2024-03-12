@@ -100,27 +100,16 @@ class VideoPostPage extends VideoPage {
         this._renderSort()
 
         result.data.forEach(item => {
-            details +=
-                `<div class="col-md-4 col-6 my-3 video-item">
-                    <div class="card border-0">
-                        <div class="video-wrapper position-relative">
-                            <a href="${this.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${this._postId}">
-                                <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover rounded-3" alt="" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" loading="lazy" />
-                            </a>
-                        </div>
-                        <div class="card-body px-0">
-                            <div class="data-block-indicators">
-                                <i class="bi bi-play-fill"></i> ${item.totalDue} min
-                            </div>
-                            <h5 class="card-title text-capitalize text-truncate">
-                                <a class="color-unset" href="${this.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${this._postId}">${item.name}</a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size:smaller">
-                                ${item.totalView} Views <span>・</span>  ${item.createdAt.slice(0, 16).replace('T', ' ')}
-                            </h6>
-                        </div>
-                    </div>
-                </div>`
+            details += renderVideoHtml({
+                id: item.id,
+                name: item.name,
+                postId: item.postId,
+                thumbnail: item.thumbnail,
+                totalDue: item.totalDue,
+                totalView: item.totalView,
+                createdAt: item.createdAt,
+                rootUrl: this.rootUrl
+            })
         })
         return details;
     }
@@ -375,27 +364,16 @@ class VideoViewerPage extends PageBase {
         var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         var details = '';
         result.data.forEach(item => {
-            details +=
-                `<div class="col-md-4 col-6 my-3 video-item">
-                    <div class="card border-0">
-                        <div class="video-wrapper position-relative">
-                            <a href="${this.rootUrl}/pages/video/viewer/?id=${item.id}">
-                                <img src="${item.thumbnail}" class="img-fluid thumbs thumbs-cover rounded-3" alt="" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" loading="lazy" />
-                            </a>
-                        </div>
-                        <div class="card-body px-0">
-                            <div class="data-block-indicators">
-                                <i class="bi bi-play-fill"></i> ${item.totalDue} min
-                            </div>
-                            <h5 class="card-title text-capitalize text-truncate">
-                                <a class="color-unset" href="${this.rootUrl}/pages/video/viewer/?id=${item.id}">${item.name}</a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted text-truncate" style="font-size:smaller">
-                                ${item.totalView} Views <span>・</span>  ${item.createdAt.slice(0, 16).replace('T', ' ')}
-                            </h6>
-                        </div>
-                    </div>
-                </div>`
+            details += renderVideoHtml({
+                id: item.id,
+                name: item.name,
+                postId: item.postId,
+                thumbnail: item.thumbnail,
+                totalDue: item.totalDue,
+                totalView: item.totalView,
+                createdAt: item.createdAt,
+                rootUrl: this.rootUrl
+            })
         })
         return details;
     }
