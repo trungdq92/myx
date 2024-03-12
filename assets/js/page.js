@@ -33,8 +33,15 @@ function renderGalleryImgHtml(item) {
             </div>`
 }
 
-function renderVideoHtml(item) {
-    return `<div class="col-md-4 col-6 my-3 video-item">
+function renderVideoHtml(item, index, total) {
+    var col = 'col-md-3 col-6'
+    if (index == 0 && total && total > 1) {
+        col = 'col-md-6 col-12'
+    }
+    if (index == 1 && total && total > 2) {
+        col = 'col-md-6 col-6'
+    }
+    return `<div class="${col} my-3 video-item">
                 <div class="card border-0">
                     <div class="video-wrapper position-relative">
                         <a href="${item.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${item.postId}">
@@ -201,7 +208,7 @@ class PostPage extends PageBase {
             `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
                 ${this._renderGridControl()}
                 <div class="row my-3">
-                    <div id="details-items-area" class="card-columns ${this._cardColumnsGap}"  data-aos="fade-up" data-aos-delay="100">
+                    <div id="details-items-area" data-aos="fade-up" data-aos-delay="100">
                     </div>
                     <div class="my-5 text-center">
                         <button id="show-more" class="btn btn-outline-primary border-0 rounded shadow">
@@ -330,7 +337,9 @@ class PostPage extends PageBase {
                     </div>
                 </div>`
         })
-        return details;
+        return `<div class="card-columns ${this._cardColumnsGap}">
+                    ${details}
+                </div>`;
     }
 
     async _renderFilter() {

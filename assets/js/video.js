@@ -99,7 +99,7 @@ class VideoPostPage extends VideoPage {
         this._totalPage = result.totalPage;
         this._renderSort()
 
-        result.data.forEach(item => {
+        result.data.forEach((item, index) => {
             details += renderVideoHtml({
                 id: item.id,
                 name: item.name,
@@ -109,7 +109,7 @@ class VideoPostPage extends VideoPage {
                 totalView: item.totalView,
                 createdAt: item.createdAt,
                 rootUrl: this.rootUrl
-            })
+            }, index, result.data.length)
         })
         return details;
     }

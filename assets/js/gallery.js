@@ -99,7 +99,9 @@ class GalleryPostPage extends GalleryPage {
         result.data.forEach(item => {
             details += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
-        return details;
+        return `<div class="card-columns ${this._cardColumnsGap}">
+                    ${details}
+                </div>`;;
     }
 
     async _renderFilter() {
