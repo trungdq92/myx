@@ -8,6 +8,7 @@ class VideoPostPage extends VideoPage {
     constructor() {
         super();
         this._maxData = []
+        this._cardColumnsGap = 'col-md-3 col-6'
         this._postId = getUrlParameter('id');
     }
 
@@ -108,7 +109,8 @@ class VideoPostPage extends VideoPage {
                 totalDue: item.totalDue,
                 totalView: item.totalView,
                 createdAt: item.createdAt,
-                rootUrl: this.rootUrl
+                rootUrl: this.rootUrl,
+                cardColumnsGap: this._cardColumnsGap
             }, index, result.data.length)
         })
         return details;
@@ -223,9 +225,10 @@ class VideoPostPage extends VideoPage {
     }
 
     _changeViewPageStyle(viewType) {
+        this._cardColumnsGap = viewType === '1' ? 'col-12' : `col-md-3 col-6`;
         $('.video-item').each((i, elm) => {
-            $(elm).removeClass('col-12 col-md-4 col-6');
-            $(elm).addClass(viewType === '1' ? 'col-12' : `col-md-4 col-6`);
+            $(elm).removeClass('col-12 col-md-3 col-6');
+            $(elm).addClass(viewType === '1' ? 'col-12' : `col-md-3 col-6`);
         });
         return;
     }
@@ -372,7 +375,8 @@ class VideoViewerPage extends PageBase {
                 totalDue: item.totalDue,
                 totalView: item.totalView,
                 createdAt: item.createdAt,
-                rootUrl: this.rootUrl
+                rootUrl: this.rootUrl,
+                cardColumnsGap: this._cardColumnsGap
             })
         })
         return details;

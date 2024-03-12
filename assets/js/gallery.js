@@ -7,6 +7,7 @@
 class GalleryPostPage extends GalleryPage {
     constructor() {
         super();
+        this._cardColumnsGap = 'card-columns-gap-auto';
         this._maxData = []
         this._postId = getUrlParameter('id');
     }
@@ -53,8 +54,8 @@ class GalleryPostPage extends GalleryPage {
                                             ${this._renderSort()}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-lg-start">
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id <i class="bi bi-sort-down"></i></a></li>
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc" href="#">id <i class="bi bi-sort-up"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=asc" href="#">createdAt <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=desc" href="#">createdAt <i class="bi bi-sort-up"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -97,7 +98,7 @@ class GalleryPostPage extends GalleryPage {
         this._renderSort()
 
         result.data.forEach(item => {
-            details += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
+            details += renderGalleryImgHtml({ id: item.id, script: item.script, rootUrl: this.rootUrl })
         })
         return `<div class="card-columns ${this._cardColumnsGap}">
                     ${details}
@@ -152,5 +153,18 @@ class GalleryPostPage extends GalleryPage {
                         </div>
                     </div>`
         return html;
+    }
+
+    _changeViewPageStyle(type) {
+        this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-auto';
+        if (type === '1') {
+            $('.card-columns').removeClass('card-columns-gap-auto')
+            $('.card-columns').addClass('card-columns-gap-1')
+            return;
+        }
+
+        $('.card-columns').addClass('card-columns-gap-auto')
+        $('.card-columns').removeClass('card-columns-gap-1')
+        return;
     }
 }

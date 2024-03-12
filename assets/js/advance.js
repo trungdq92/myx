@@ -8,6 +8,7 @@ class AdvancePage extends PageBase {
         this._totalPage = 0;
         this._pageSize = 9;
         this._sortBy = 'createdAt=desc';
+        this._cardColumnsGap = ''
         this._init();
     }
 
@@ -68,7 +69,7 @@ class AdvancePage extends PageBase {
             resultVideo = resultVideo.concat(result.data);
         }
         var videoHtml = ''
-        resultVideo.splice(0, 7).forEach(item => {
+        resultVideo.splice(0, 7).forEach((item,index) => {
             videoHtml += renderVideoHtml({
                 id: item.id,
                 name: item.name,
@@ -77,8 +78,9 @@ class AdvancePage extends PageBase {
                 totalDue: item.totalDue,
                 totalView: item.totalView,
                 createdAt: item.createdAt,
-                rootUrl: this.rootUrl
-            })
+                rootUrl: this.rootUrl,
+                cardColumnsGap: 'col-md-3 col-6'
+            }, index, resultVideo.length)
         })
 
         var resultComic = [];
@@ -101,7 +103,8 @@ class AdvancePage extends PageBase {
                 totalView: item.totalView,
                 description: item.description,
                 createdAt: item.createdAt,
-                rootUrl: this.rootUrl
+                rootUrl: this.rootUrl,
+                cardColumnsGap: 'col-md-auto col-6'
             })
         })
 

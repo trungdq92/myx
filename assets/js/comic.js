@@ -7,7 +7,7 @@
 class ComicPostPage extends ComicPage {
     constructor() {
         super();
-        this._cardColumnsGap = 'card-columns-gap-auto'
+        this._cardColumnsGap = 'col-md-auto col-6'
         this._maxData = []
         this._postId = getUrlParameter('id');
     }
@@ -103,7 +103,8 @@ class ComicPostPage extends ComicPage {
                 totalView: item.totalView,
                 description: item.description,
                 createdAt: item.createdAt,
-                rootUrl: this.rootUrl
+                rootUrl: this.rootUrl,
+                cardColumnsGap: this._cardColumnsGap
             })
         })
         return details;
@@ -193,6 +194,7 @@ class ComicPostPage extends ComicPage {
     }
 
     _changeViewPageStyle(viewType) {
+        this._cardColumnsGap = viewType === '1' ? 'col-12' : `col-md-auto col-6`
         $('.comic-book-card').each((i, elm) => {
             $(elm).removeClass('col-12 col-md-auto col-6');
             $(elm).addClass(viewType === '1' ? 'col-12' : `col-md-auto col-6`);

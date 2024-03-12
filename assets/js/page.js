@@ -18,7 +18,7 @@ $(window).scroll(function (e) {
 });
 
 function renderGalleryImgHtml(item) {
-    return `<div class="card card-pin border-0 bg-transparent mb-1">
+    return `<div class="card card-pin border-0 bg-transparent mb-1" data-id="${item.id}">
                 <div class="portfolio-wrap bg-transparent rounded-2 shadow-sm  d-flex justify-content-center">
                     <img src="${item.script}" class="img-fluid" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
                     <div class="portfolio-info">
@@ -41,7 +41,7 @@ function renderVideoHtml(item, index, total) {
     if (index == 1 && total && total > 2) {
         col = 'col-md-6 col-6'
     }
-    return `<div class="${col} my-3 video-item">
+    return `<div class="${col} my-3 video-item" data-id="${item.id}">
                 <div class="card border-0">
                     <div class="video-wrapper position-relative">
                         <a href="${item.rootUrl}/pages/video/viewer/?id=${item.id}&pid=${item.postId}">
@@ -64,7 +64,7 @@ function renderVideoHtml(item, index, total) {
 }
 
 function renderComicBookHtml(item) {
-    return `<div class="comic-book-card p-1 col-md-auto col-6">
+    return `<div class="comic-book-card p-1 ${item.cardColumnsGap}" data-id="${item.id}">
                 <div class="card border-0 my-1 shadow">
                     <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
                     <div class="card-body">
@@ -150,7 +150,7 @@ class PostPage extends PageBase {
         this._totalCount = 0;
         this._totalPage = 0;
         this._pageSize = 20;
-        this._sortBy = 'id=desc';
+        this._sortBy = 'createdAt=desc';
         this._cardColumnsGap = 'card-columns-gap-3';
         this._init();
     }
@@ -234,8 +234,6 @@ class PostPage extends PageBase {
                                             ${this._renderSort()}
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-lg-start">
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=asc" href="#">id <i class="bi bi-sort-down"></i></a></li>
-                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="id=desc"  href="#">id <i class="bi bi-sort-up"></i></a></li>
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=asc" href="#">name <i class="bi bi-sort-down"></i></a></li>
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=desc"  href="#">name <i class="bi bi-sort-up"></i></a></li>
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=asc" href="#">created <i class="bi bi-sort-down"></i></a></li>
@@ -398,13 +396,14 @@ class PostPage extends PageBase {
     }
 
     _changeViewPageStyle(type) {
+        this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-3';
         if (type === '1') {
-            $('.card-columns').removeClass(this._cardColumnsGap)
+            $('.card-columns').removeClass('card-columns-gap-3')
             $('.card-columns').addClass('card-columns-gap-1')
             return;
         }
 
-        $('.card-columns').addClass(this._cardColumnsGap)
+        $('.card-columns').addClass('card-columns-gap-3')
         $('.card-columns').removeClass('card-columns-gap-1')
         return;
     }
