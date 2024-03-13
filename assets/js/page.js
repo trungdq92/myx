@@ -64,7 +64,7 @@ function renderVideoHtml(item, index, total) {
 }
 
 function renderComicBookHtml(item) {
-    return `<div class="comic-book-card p-1 ${item.cardColumnsGap}" data-id="${item.id}">
+    return `<div class="comic-book-card ${item.cardColumnsGap}" data-id="${item.id}">
                 <div class="card border-0 my-1 shadow">
                     <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
                     <div class="card-body">
@@ -139,6 +139,7 @@ const PageBase = class PageBase {
 
     async _init() {
         $('#container-area').append(this._renderMenu());
+        this._setThemeSiteStyle();
     }
 
     _renderMenu() {
@@ -147,28 +148,47 @@ const PageBase = class PageBase {
                     </button>
                     <div class="offcanvas offcanvas-start w-100" tabindex="-1" id="offcanvasMenu">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title text-capitalize">${Constants.pjName}</h5>
+                            <h5 class="offcanvas-title text-capitalize">
+                                ${Constants.pjName}
+                            </h5>
+                            <div class="position-absolute" style="right:45px;">
+                                <div class="form-check form-switch">
+                                    <label class="form-check-label" for="switchChangeSiteStyle">Dark</label>
+                                    <input class="form-check-input" type="checkbox" id="switchChangeSiteStyle" checked onchange="changeThemeSiteStyle(this)">
+                                </div>
+                            </div>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item ${this._component == 'gallery' ? "active" : ""}"> 
-                                    <a class="w-100 d-flex" href="${rootUrl}/pages/gallery" style="color:unset;">Gallery</a>
-                                </li>
-                                <li class="list-group-item ${this._component == 'video' ? "active" : ""}">
-                                    <a class="w-100 d-flex" href="${rootUrl}/pages/video" style="color:unset;">Video</a>
-                                </li>
-                                <li class="list-group-item ${this._component == 'comic' ? "active" : ""}">
-                                    <a class="w-100 d-flex" href="${rootUrl}/pages/comic" style="color:unset;">Comic</a>
-                                </li>
-                                <li class="list-group-item ${this._component == 'advance' ? "active" : ""}">
-                                    <a class="w-100 d-flex" href="${rootUrl}/pages/advance" style="color:unset;">Advance</a>
-                                </li>
-                            </ul>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6 col-12">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item ${this._component == 'gallery' ? "active" : ""}"> 
+                                            <a class="w-100 d-flex" href="${rootUrl}/pages/gallery" style="color:unset;">Gallery</a>
+                                        </li>
+                                        <li class="list-group-item ${this._component == 'video' ? "active" : ""}">
+                                            <a class="w-100 d-flex" href="${rootUrl}/pages/video" style="color:unset;">Video</a>
+                                        </li>
+                                        <li class="list-group-item ${this._component == 'comic' ? "active" : ""}">
+                                            <a class="w-100 d-flex" href="${rootUrl}/pages/comic" style="color:unset;">Comic</a>
+                                        </li>
+                                        <li class="list-group-item ${this._component == 'advance' ? "active" : ""}">
+                                            <a class="w-100 d-flex" href="${rootUrl}/pages/advance" style="color:unset;">Advance</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>`;
         return html;
     }
+
+    _setThemeSiteStyle() {
+        var style = localStorage.getItem(Constants.ThemeKey) || Constants.ThemeStyle.dark;
+        $('#switchChangeSiteStyle').prop('checked', style == Constants.ThemeStyle.dark)
+        $('html').attr('data-bs-theme', style);
+    }
+
 }
 
 class PostPage extends PageBase {
@@ -206,8 +226,8 @@ class PostPage extends PageBase {
 
     async _renderContent() {
         var html =
-            `<div class="container">
-                ${this._renderTitlePage()}
+            `${this._renderTitlePage()}
+            <div class="container">
                 ${await this._renderFilter()}
                 ${await this._renderGallery()}
             </div>`

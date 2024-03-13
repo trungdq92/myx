@@ -27,6 +27,11 @@ async function ajaxAsync(url, method, data) {
     }
 }
 
+function changeThemeSiteStyle(elm) {
+    $('html').attr('data-bs-theme', $(elm).is(':checked') ? Constants.ThemeStyle.dark : Constants.ThemeStyle.light);
+    localStorage.setItem(Constants.ThemeKey, $(elm).is(':checked') ? Constants.ThemeStyle.dark : Constants.ThemeStyle.light)
+}
+
 
 function lockScreen() {
     var preload = document.getElementById('preloader');
@@ -239,8 +244,8 @@ const Constants = class Constants {
     static BackGroundColor = ["bg-color-second", "bg-transparent"];
     static ThemeKey = 'ThemeStyle';
     static ThemeStyle = {
-        dark: 'theme-dark',
-        light: 'theme-light'
+        dark: 'dark',
+        light: 'light'
     };
     static videoScpType = {
         video: 'video',

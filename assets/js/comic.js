@@ -207,9 +207,11 @@ class ComicChapterPage extends ComicPage {
     }
 
     async _renderContent() {
-        var html =
-            `<div class="container">
-                ${await this._renderGallery()}
+        var detailContent = await this._renderGallery();
+        var html = `
+            ${this._renderTitlePage()}
+            <div class="container">
+                ${detailContent}
             </div>`
         return html;
     }
@@ -221,8 +223,7 @@ class ComicChapterPage extends ComicPage {
         var searchData = new BaseCriteria(Constants.maxPageSize, this._pageIndex, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
         this._detail = result.data[0];
-        var html =
-            `${this._renderTitlePage()}
+        var html = `
             <section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
                 <div class="row my-3">
                     <div class="col-md-3">
@@ -265,8 +266,8 @@ class ComicChapterPage extends ComicPage {
     }
 
     _renderTitlePage() {
-        return `<div class="title-page sticky-top">
-                    <div class="container_">
+        return `<div class="container-fluid title-page sticky-top">
+                    <div class="container">
                         <div class="row">
                             <h5 class="h1 text-capitalize fw-bold">${this._component}</h5>
                         </div>
@@ -366,9 +367,11 @@ class ComicViewerPage extends ComicPage {
     }
 
     async _renderContent() {
-        var html =
-            `<div class="container">
-                ${await this._renderGallery()}
+        var detailContent = await this._renderGallery()
+        var html = `
+            ${await this._renderTitlePage()}
+            <div class="container">
+                ${detailContent}
             </div>`
         return html;
     }
@@ -380,8 +383,7 @@ class ComicViewerPage extends ComicPage {
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/chapter.csv`, searchData);
         this._detail = result.data[0];
-        var html =
-            `${await this._renderTitlePage()}
+        var html = `
             <section id="portfolio" class="portfolio section-bg py-3" data-aos="fade-up">
                 <h4 class="text-center text-mute text-capitalize">${this._detail.name}</h4>
                 <hr/>
@@ -406,8 +408,8 @@ class ComicViewerPage extends ComicPage {
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
         this._comic = result.data[0];
-        return `<div class="title-page sticky-top">
-                    <div class="container_">
+        return `<div class="container-fluid title-page sticky-top">
+                    <div class="container">
                         <div class="row">
                             <h5 class="h1 text-capitalize fw-bold">${this._comic.name}</h5>
                         </div>

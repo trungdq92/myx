@@ -28,9 +28,9 @@ class AdvancePage extends PageBase {
     }
 
     async _renderContent() {
-        var html =
-            `<div class="container">
-                ${this._renderTitlePage()}
+        var html = `
+            ${this._renderTitlePage()}
+            <div class="container">
                 ${await this._renderFilter()}
                 ${this._renderGridControl()}
                 <div id="contents">
@@ -183,8 +183,10 @@ class AdvancePage extends PageBase {
         var searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
         var components = await readData(`${this.rootUrl}/assets/data/master/component/master.csv`, searchData);
         var componentHtml = '';
-        components.data.forEach(item => {
-            componentHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        components.data.forEach((item, index) => {
+            componentHtml += `
+            <input type="radio" class="btn btn-check" data-prefix="component_" data-code='${item.id}' name="options-component" id="component_${item.id}" autocomplete="off" ${index == 0 ? "checked" : ""}>
+            <label class="btn btn-outline-secondary border-0 text-capitalize shadow-lg my-1 me-2" for="component_${item.id}">${item.name}</label>`
         })
 
         searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
@@ -241,7 +243,7 @@ class AdvancePage extends PageBase {
             {
                 id: "artist-filter-section",
                 name: "Artists",
-                html: categoryHtml
+                html: artistHtml
             },
             {
                 id: "actor-filter-section",
@@ -272,11 +274,10 @@ class AdvancePage extends PageBase {
         var searchFilter = {}
         var components = [];
         var searchData = {};
-        $('#component-filter-section').find('button').each((i, elm) => {
+        $('#component-filter-section').find('input').each((i, elm) => {
+            if (!$(elm).is(':checked')) return;
             var code = $(elm).attr('data-code');
-            if ([...elm.classList].includes('btn-filter-active')) {
-                components.push(code)
-            }
+            components.push(code)
         });
 
         if (components.length == 0) return '';

@@ -85,7 +85,7 @@ class GalleryPostPage extends GalleryPage {
             filter = filter.concat(tagFilter)
         }
 
-        searchFilter = { or: filter }
+        searchFilter = { and: [{ or: filter }] }
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         // var result = await ajaxAsync('PGallery/filter', 'post', searchData);
         var result = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/master.csv`, searchData);

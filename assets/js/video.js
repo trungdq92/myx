@@ -345,7 +345,7 @@ class VideoViewerPage extends PageBase {
         })
 
         var searchFilter = { and: [{ or: filterOR }, { and: filterAnd }] }
-        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+        var searchData = new BaseCriteria(this._pageSize, 0, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/video/${this._postId}/master.csv`, searchData);
         var details = '';
         result.data.forEach(item => {
