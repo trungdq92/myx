@@ -87,9 +87,39 @@ async function readData(path, criteria) {
         header: true
     });
 
-    var data = result.data;
-    if (Object.hasOwn(criteria.filter, 'and')) {
-        criteria.filter.and.forEach(item => {
+    var data = buildFilter(criteria.filter, result.data);
+    var totalCount = data.length;
+    data = orderProcess(data, criteria.sorts);
+    data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
+
+    return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
+}
+
+async function readDataMulti(criteria, multi) {
+    var siteMap = await CommonFunction._loadJsonAsync(`${this.rootUrl}/assets/data/site_map.json`)
+    var csvFiles = siteMap.children.find(x => x.id == multi.componentCode).children;
+    var result = [];
+    for (var i = 0; i < csvFiles.length; i++) {
+        var response = await fetch(`${this.rootUrl}/assets/data/post/${multi.componentCode}/${csvFiles[i].id}/master.csv`);
+        const csvData = await response.text();
+        for (var row in csvData) csvData[row].split(',');
+        var resultSingle = Papa.parse(csvData, {
+            header: true
+        });
+        result = result.concat(resultSingle.data);
+    }
+
+    var data = buildFilter(criteria.filter, result);
+    var totalCount = data.length;
+    data = orderProcess(data, criteria.sorts);
+    data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
+
+    return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
+}
+
+function buildFilter(filter, data) {
+    if (Object.hasOwn(filter, 'and'))
+        filter.and.forEach(item => {
             if (Object.hasOwn(item, 'or')) {
                 if (item.or.length > 0)
                     data = data.filter(x => item.or.some(f => f(x)));
@@ -100,15 +130,9 @@ async function readData(path, criteria) {
                 data = data.filter(x => item(x));
             }
         });
-    } if (Object.hasOwn(criteria.filter, 'or')) {
-        if (criteria.filter.or.length > 0)
-            data = data.filter(x => criteria.filter.or.some(f => f(x)));
-    }
-    var totalCount = data.length;
-    data = orderProcess(data, criteria.sorts);
-    data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
 
-    return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
+    return data;
+
 }
 
 function orderProcess(data, sorts) {

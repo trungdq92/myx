@@ -72,22 +72,20 @@ class GalleryPostPage extends GalleryPage {
 
     async _renderDetails() {
         var filter = [];
-        var filterOr = [];
         var searchFilter = null;
 
-
+        var tagFilter = []
         $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            if ([...elm.classList].includes('active'))
-                filterOr.push(x => x.hashTags.includes(code))
+            if ([...elm.classList].includes('btn-filter-active'))
+                tagFilter.push(x => x.hashTags.includes(code))
         });
 
-        if (filterOr.length > 0) {
-            searchFilter = { and: [{ or: filterOr }, { and: filter }] }
-        } else {
-            searchFilter = { or: filterOr }
+        if (tagFilter.length > 0) {
+            filter = filter.concat(tagFilter)
         }
 
+        searchFilter = { or: filter }
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         // var result = await ajaxAsync('PGallery/filter', 'post', searchData);
         var result = await readData(`${this.rootUrl}/assets/data/post/gallery/${this._postId}/master.csv`, searchData);
@@ -102,7 +100,7 @@ class GalleryPostPage extends GalleryPage {
         })
         return `<div class="card-columns ${this._cardColumnsGap}">
                     ${details}
-                </div>`;;
+                </div>`;
     }
 
     async _renderFilter() {
@@ -130,28 +128,15 @@ class GalleryPostPage extends GalleryPage {
                 tagHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
-        var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
-                        <div class="modal-dialog modal-fullscreen">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <fieldset class="reset" id="tag-filter-section">
-                                        <legend class="fs-3 fw-bold text-muted"> Tags </legend>
-                                        <div class="row my-2 filter-section">
-                                            <div class="col-12">
-                                                ${tagHtml}
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="modal-footer border-0">
-                                    <div class="col-12 text-end">
-                                        <button type="button" class="btn btn-outline-secondary border-0 shadow" data-bs-dismiss="modal">Close <i class="bi bi-x-lg"></i></button>
-                                        <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`
+        var filterContents = [
+            {
+                id: "tag-filter-section",
+                name: "Tags",
+                html: tagHtml
+            }
+        ]
+
+        var html = renderContainerFilterHtml(filterContents);
         return html;
     }
 

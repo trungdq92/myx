@@ -6,7 +6,8 @@ class AdvancePage extends PageBase {
         this._pageIndex = 0;
         this._totalCount = 0;
         this._totalPage = 0;
-        this._pageSize = 9;
+        this._pageSize = 20;
+        this._firstShow = 7;
         this._sortBy = 'createdAt=desc';
         this._cardColumnsGap = ''
         this._init();
@@ -14,14 +15,32 @@ class AdvancePage extends PageBase {
 
     async _init() {
         await super._init()
+        var _page = this
         $('#container-area').append(await this._renderContent());
+        this._galleryGLightBox = _initGLightbox('.portfolio-lightbox');
+        $('#show-more').click(() => { this.loadMore() });
+        $('#btnFilter').click((e) => this._filter());
+        $(".btnSort").click((e) => {
+            var sort = $(e.currentTarget).attr('data-sort');
+            _page._sortBy = sort;
+            _page._filter();
+        });
     }
 
     async _renderContent() {
         var html =
             `<div class="container">
                 ${this._renderTitlePage()}
-                ${await this._renderGallery()}
+                ${await this._renderFilter()}
+                ${this._renderGridControl()}
+                <div id="contents">
+                    ${await this._renderGallery()}
+                </div>
+                <div class="my-5 text-center">
+                    <button id="show-more" class="btn btn-outline-primary border-0 rounded shadow invisible">
+                        More <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
             </div>`
         return html;
     }
@@ -57,7 +76,7 @@ class AdvancePage extends PageBase {
             resultGallery = resultGallery.concat(result.data);
         }
         var galleryHtml = ''
-        resultGallery.splice(0, 7).forEach(item => {
+        resultGallery.splice(0, this._firstShow).forEach(item => {
             galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
 
@@ -69,7 +88,7 @@ class AdvancePage extends PageBase {
             resultVideo = resultVideo.concat(result.data);
         }
         var videoHtml = ''
-        resultVideo.splice(0, 7).forEach((item,index) => {
+        resultVideo.splice(0, this._firstShow).forEach((item, index) => {
             videoHtml += renderVideoHtml({
                 id: item.id,
                 name: item.name,
@@ -92,7 +111,7 @@ class AdvancePage extends PageBase {
         }
 
         var comicHtml = ''
-        resultComic.splice(0, 7).forEach(item => {
+        resultComic.splice(0, this._firstShow).forEach(item => {
             comicHtml += renderComicBookHtml({
                 id: item.id,
                 name: item.name,
@@ -160,74 +179,320 @@ class AdvancePage extends PageBase {
         return html;
     }
 
+    async _renderFilter() {
+        var searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var components = await readData(`${this.rootUrl}/assets/data/master/component/master.csv`, searchData);
+        var componentHtml = '';
+        components.data.forEach(item => {
+            componentHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var categories = await readData(`${this.rootUrl}/assets/data/master/category/master.csv`, searchData);
+        var categoryHtml = '';
+        categories.data.forEach(item => {
+            if (item.parentId === '')
+                categoryHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="category_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
+        var tags = await readData(`${this.rootUrl}/assets/data/master/hash_tag/master.csv`, searchData);
+        var tagHtml = '';
+        tags.data.forEach(item => {
+            tagHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, "name=asc");
+        var artistResult = await readData(`${this.rootUrl}/assets/data/master/artist/master.csv`, searchData);
+        var artistHtml = '';
+        artistResult.data.forEach(item => {
+            artistHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, "name=asc");
+        var actorResult = await readData(`${this.rootUrl}/assets/data/master/actor/master.csv`, searchData);
+        var actorHtml = '';
+        actorResult.data.forEach(item => {
+            actorHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        var directorResult = await readData(`${this.rootUrl}/assets/data/master/director/master.csv`, searchData);
+        var directorHtml = '';
+        directorResult.data.forEach(item => {
+            directorHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
+        })
+
+        var filterContents = [
+            {
+                id: "component-filter-section",
+                name: "Components",
+                html: componentHtml
+            },
+            {
+                id: "category-filter-section",
+                name: "Categories",
+                html: categoryHtml
+            },
+            {
+                id: "tag-filter-section",
+                name: "Tags",
+                html: tagHtml
+            },
+            {
+                id: "artist-filter-section",
+                name: "Artists",
+                html: categoryHtml
+            },
+            {
+                id: "actor-filter-section",
+                name: "Actors",
+                html: actorHtml
+            },
+            {
+                id: "director-filter-section",
+                name: "Directors",
+                html: directorHtml
+            },
+            {
+                id: "other-filter-section",
+                name: "Other",
+                html: `<div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="filter-name">
+                            <label for="filter-name">Name</label>
+                        </div>`
+            },
+        ]
+
+        var html = renderContainerFilterHtml(filterContents);
+        return html;
+    }
+
     async _renderDetails() {
-        var filterAnd = [];
-        var filterOr = [];
+        var filter = [];
         var searchFilter = {}
-        var componentId = getUrlParameter('com') || this._component;
-        if (componentId) {
-            filterAnd.push((x) => x.componentId.includes(componentId))
-        }
+        var components = [];
+        var searchData = {};
+        $('#component-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('btn-filter-active')) {
+                components.push(code)
+            }
+        });
+
+        if (components.length == 0) return '';
 
         var filterName = $('#filter-name').val();
         if (filterName !== '')
-            filterAnd.push((x) => x.name.includes(filterName))
+            filter.push((x) => x.name.includes(filterName))
 
+        var categoryFilter = [];
         $('#category-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            if ([...elm.classList].includes('active'))
-                filterOr.push(x => x.categoryIds.includes(code))
+            if ([...elm.classList].includes('btn-filter-active'))
+                categoryFilter.push(x => x.categoryIds.includes(code))
         });
 
-        if (filterOr.length > 0) {
-            searchFilter = { and: [{ or: filterOr }, { and: filterAnd }] }
-        } else {
-            searchFilter = { and: filterAnd }
+        var tagFilter = [];
+        $('#tag-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('btn-filter-active'))
+                tagFilter.push(x => x.hashTags.includes(code))
+        });
+
+        var actorFilter = [];
+        $('#actor-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('btn-filter-active'))
+                actorFilter.push(x => x.actorId.includes(code))
+        });
+
+        var directorFilter = [];
+        $('#director-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('btn-filter-active'))
+                directorFilter.push(x => x.directorId.includes(code))
+        });
+
+        var artistFilter = [];
+        $('#artist-filter-section').find('button').each((i, elm) => {
+            var code = $(elm).attr('data-code');
+            if ([...elm.classList].includes('btn-filter-active'))
+                artistFilter.push(x => x.artistId.includes(code))
+        });
+
+        var result = new BaseSearchResponse(0, 1, 0, []);
+        var resultGallery = new BaseSearchResponse(0, 1, 0, []);
+        var resultVideo = new BaseSearchResponse(0, 1, 0, []);
+        var resultComic = new BaseSearchResponse(0, 1, 0, []);
+        var galleryHtml = ''
+        var videoHtml = ''
+        var comicHtml = ''
+        var detailHtml = ''
+
+        if (components.includes('gallery')) {
+            if (tagFilter.length > 0) {
+                filter = filter.concat({ or: tagFilter });
+            }
+            if (categoryFilter.length > 0) {
+                filter = filter.concat({ or: categoryFilter });
+            }
+            searchFilter = { and: filter }
+            searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+            resultGallery = await readDataMulti(searchData, { componentCode: 'gallery' });
+            resultGallery.data.forEach(item => {
+                galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
+            })
+            result = resultGallery
+            detailHtml = `<section class="portfolio p-1">
+                            <div class="card-columns ">
+                                ${galleryHtml}
+                            </div>
+                        </section>`;
+        } else if (components.includes('video')) {
+            if (tagFilter.length > 0) {
+                filter = filter.concat({ or: tagFilter });
+            }
+            if (categoryFilter.length > 0) {
+                filter = filter.concat({ or: categoryFilter });
+            }
+            if (actorFilter.length > 0) {
+                filter = filter.concat({ or: actorFilter });
+            }
+            if (directorFilter.length > 0) {
+                filter = filter.concat({ or: directorFilter });
+            }
+            searchFilter = { and: filter }
+            searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+            resultVideo = await readDataMulti(searchData, { componentCode: 'video' });
+            resultVideo.data.forEach((item, index) => {
+                videoHtml += renderVideoHtml({
+                    id: item.id,
+                    name: item.name,
+                    postId: item.postId,
+                    thumbnail: item.thumbnail,
+                    totalDue: item.totalDue,
+                    totalView: item.totalView,
+                    createdAt: item.createdAt,
+                    rootUrl: this.rootUrl,
+                    cardColumnsGap: 'col-md-3 col-6'
+                }, index, resultVideo.totalCount)
+            })
+            result = resultVideo;
+            detailHtml = `<div class="row">
+                            ${videoHtml}
+                        </div>`;
+        } else if (components.includes('comic')) {
+            if (tagFilter.length > 0) {
+                filter = filter.concat({ or: tagFilter });
+            }
+            if (categoryFilter.length > 0) {
+                filter = filter.concat({ or: categoryFilter });
+            }
+            if (artistFilter.length > 0) {
+                filter = filter.concat({ or: artistFilter });
+            }
+            searchFilter = { and: filter }
+            searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
+            resultComic = await readDataMulti(searchData, { componentCode: 'comic' });
+            resultComic.data.forEach(item => {
+                comicHtml += renderComicBookHtml({
+                    id: item.id,
+                    name: item.name,
+                    postId: item.postId,
+                    thumbnail: item.thumbnail,
+                    artistId: item.artistId,
+                    totalChap: item.totalChap,
+                    totalView: item.totalView,
+                    description: item.description,
+                    createdAt: item.createdAt,
+                    rootUrl: this.rootUrl,
+                    cardColumnsGap: 'col-md-auto col-6'
+                })
+            })
+            result = resultComic
+            detailHtml = `<div class="row">
+                            ${comicHtml}
+                        </div>`;
         }
 
-        var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
-        var result = await readData(`${this.rootUrl}/assets/data/post/master.csv`, searchData);
+
         this._totalCount = result.totalCount;
         this._totalPage = result.totalPage;
         this._renderSort();
+        return detailHtml;
+    }
 
-        var details = '';
-        var data = result.data;
-        data.forEach(item => {
-            var category = '';
-            item.categoryIds.split(',').forEach(cat => {
-                var prefix = '';
-                if (category !== '')
-                    prefix = '<span>・</span>'
+    _renderGridControl() {
+        var html = `<div class="grid-view-style d-none" id="grid-control">
+                        <div class="row justify-content-center my-3">
+                            <div class="col-auto fst-italic text-muted" id="filter-result-cal">
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 text-muted">
+                                        <span id="total-count-result">${this._totalCount}</span> <span class="px-1"><i class="bi bi-collection-fill"></i></span>
+                                    </span>
+                                    <input type="hidden" id="sortby" value="${this._sortBy}"/>
+                                    <div class="btn-group">
+                                        <button id="btn-choose-sort" type="button" class="btn btn-outline-secondary dropdown-toggle border-0 text-capitalize " data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                            ${this._renderSort()}
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-lg-start">
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=asc" href="#">name <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="name=desc"  href="#">name <i class="bi bi-sort-up"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=asc" href="#">created <i class="bi bi-sort-down"></i></a></li>
+                                            <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=desc"  href="#">created <i class="bi bi-sort-up"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+        return html;
+    }
 
-                category += ` ${prefix} ${cat.replace('_', ' ')}`
-            });
+    _renderSort() {
+        var sort = this._sortBy.split('=')[1]
+        var order = this._sortBy.split('=')[0]
+        var sortByHtml = ''
+        if (sort === 'asc')
+            sortByHtml = `${order} <i class="bi bi-sort-down"></i>`
+        else
+            sortByHtml = `${order} <i class="bi bi-sort-up"></i>`
 
-            details +=
-                `<div class="card my-2 border-0 shadow">
-                    <a href="${item.thumbnail}" class="portfolio-lightbox" data-type="image">
-                        <img src="${item.thumbnail}" class="img-fluid card-img-top" alt="" loading="lazy" onerror="this.src='${this.rootUrl}/assets/img/default-image.png'" />
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title text-capitalize">
-                            ${item.name}
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted text-capitalize text-truncate" style="font-size: smaller;">
-                            <span class="text-truncate ">
-                            ${category}
-                            </span>
-                            <br />
-                            <span class="text-truncate">
-                                ${item.totalView} Views <span>・</span> ${item.createdAt.slice(0, 10)}
-                            </span>
-                        </h6>
-                        <p class="card-text">
-                            ${item.description.slice(0, 100)}
-                        </p>
-                        <a class="card-link text-capitalize" href="${this.rootUrl}/pages/${item.componentId}/post/?id=${item.id}">Read</a>
-                    </div>
-                </div>`
-        })
-        return details;
+        $('#total-count-result').html(this._totalCount)
+        $('#btn-choose-sort').html(sortByHtml)
+        $('#sortby').val(this._sortBy)
+        return sortByHtml;
+    }
+
+    async loadMore() {
+        this._pageIndex++;
+        var data = await this._renderDetails();
+        $('#contents').append(data);
+        if (this._galleryGLightBox !== null) this._galleryGLightBox.reload();
+        this._hiddenLoadMoreBtn();
+        $('#grid-control').removeClass('d-none');
+        return true;
+    }
+
+    _hiddenLoadMoreBtn() {
+        $('#show-more').removeClass("invisible visible");
+        if ((this._pageIndex + 1) * this._pageSize >= this._totalCount) {
+            $('#show-more').addClass("invisible");
+        } else {
+            $('#show-more').addClass("visible");
+        }
+    }
+
+    async _filter() {
+        this._pageIndex = 0;
+        var data = await this._renderDetails();
+        $('#contents').html(data);
+        if (this._galleryGLightBox !== null) this._galleryGLightBox.reload();
+        this._hiddenLoadMoreBtn();
+        $('#grid-control').removeClass('d-none');
+
+        var modal = $('#filterModal');
+        if (modal && modal !== undefined) modal.modal('hide');
+        return true;
     }
 }

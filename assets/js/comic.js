@@ -58,33 +58,36 @@ class ComicPostPage extends ComicPage {
     }
 
     async _renderDetails() {
-        var filterAnd = [];
-        var filterOr = [];
+        var filter = [];
         var searchFilter = null;
-
 
         var filterName = $('#filter-name').val();
         if (filterName !== '')
-            filterAnd.push((x) => x.name.includes(filterName))
+            filter.push((x) => x.name.includes(filterName))
 
+        var tagFilter = []
         $('#tag-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            if ([...elm.classList].includes('active'))
-                filterOr.push(x => x.hashTags.includes(code))
+            if ([...elm.classList].includes('btn-filter-active'))
+                tagFilter.push(x => x.hashTags.includes(code))
         });
 
+        var artistFilter = []
         $('#artist-filter-section').find('button').each((i, elm) => {
             var code = $(elm).attr('data-code');
-            if ([...elm.classList].includes('active'))
-                filterOr.push(x => x.artistId.includes(code))
+            if ([...elm.classList].includes('btn-filter-active'))
+                artistFilter.push(x => x.artistId.includes(code))
         });
 
-        if (filterOr.length > 0) {
-            searchFilter = { and: [{ or: filterOr }, { and: filterAnd }] }
-        } else {
-            searchFilter = { and: filterAnd }
+
+        if (tagFilter.length > 0) {
+            filter = filter.concat({ or: tagFilter });
+        }
+        if (artistFilter.length > 0) {
+            filter = filter.concat({ or: artistFilter });
         }
 
+        searchFilter = { and: filter }
         var searchData = new BaseCriteria(this._pageSize, this._pageIndex, searchFilter, this._sortBy);
         var result = await readData(`${this.rootUrl}/assets/data/post/comic/${this._postId}/master.csv`, searchData);
         var details = '';
@@ -149,47 +152,28 @@ class ComicPostPage extends ComicPage {
                 artistHtml += `<button class="btn border-0 text-capitalize shadow-lg my-1 me-2" data-prefix="tag_" data-code='${item.id}' type="button" onclick="this.classList.toggle('btn-filter-active')">${item.name}</button>`
         })
 
-        var html = `<div class="modal fade" id="filterModal" tabindex="-1"  aria-hidden="true">
-                        <div class="modal-dialog modal-fullscreen">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <fieldset class="reset" id="tag-filter-section">
-                                        <legend class="fs-3 fw-bold text-muted"> Tags </legend>
-                                        <div class="row my-2 filter-section">
-                                            <div class="col-12">
-                                                ${tagHtml}
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="reset" id="artist-filter-section">
-                                        <legend class="fs-3 fw-bold text-muted"> Artists </legend>
-                                        <div class="row my-2 filter-section">
-                                            <div class="col-12">
-                                                ${artistHtml}
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset class="reset" id="other-filter-section">
-                                        <legend class="fs-3 fw-bold text-muted"> Other </legend>
-                                        <div class="row my-2 filter-section">
-                                            <div class="col-auto">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="filter-name">
-                                                    <label for="filter-name">Name</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="modal-footer border-0">
-                                    <div class="col-12 text-end">
-                                        <button type="button" class="btn btn-outline-secondary border-0 shadow" data-bs-dismiss="modal">Close <i class="bi bi-x-lg"></i></button>
-                                        <button id="btnFilter" class="btn btn-outline-info border-0 shadow">Apply <i class="bi bi-check-circle-fill"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`
+        var filterContents = [
+            {
+                id: "tag-filter-section",
+                name: "Tags",
+                html: tagHtml
+            },
+            {
+                id: "artist-filter-section",
+                name: "Artists",
+                html: artistHtml
+            },
+            {
+                id: "other-filter-section",
+                name: "Other",
+                html: `<div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="filter-name">
+                            <label for="filter-name">Name</label>
+                        </div>`
+            }
+        ]
+
+        var html = renderContainerFilterHtml(filterContents);
         return html;
     }
 
