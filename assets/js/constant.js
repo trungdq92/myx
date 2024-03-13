@@ -85,6 +85,7 @@ function compare(property, comparator, value) {
 }
 
 async function readData(path, criteria) {
+    lockScreen();
     var response = await fetch(path);
     const csvData = await response.text();
     for (var row in csvData) csvData[row].split(',');
@@ -96,11 +97,12 @@ async function readData(path, criteria) {
     var totalCount = data.length;
     data = orderProcess(data, criteria.sorts);
     data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
-
+    unlockScreen() 
     return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
 }
 
 async function readDataMulti(criteria, multi) {
+    lockScreen();
     var siteMap = await CommonFunction._loadJsonAsync(`${this.rootUrl}/assets/data/site_map.json`)
     var csvFiles = siteMap.children.find(x => x.id == multi.componentCode).children;
     var result = [];
@@ -118,7 +120,7 @@ async function readDataMulti(criteria, multi) {
     var totalCount = data.length;
     data = orderProcess(data, criteria.sorts);
     data = data.slice(criteria.pageIndex * criteria.pageSize, criteria.pageSize * (criteria.pageIndex + 1))
-
+    unlockScreen() 
     return new BaseSearchResponse(totalCount, criteria.pageSize, criteria.pageIndex, data);
 }
 

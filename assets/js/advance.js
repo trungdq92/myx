@@ -25,6 +25,10 @@ class AdvancePage extends PageBase {
             _page._sortBy = sort;
             _page._filter();
         });
+
+        $('#data-content-gallery').html(await this._renderFirstGallery())
+        $('#data-content-video').html(await this._renderFirstVideo())
+        $('#data-content-comic').html(await this._renderFirstComic())
     }
 
     async _renderContent() {
@@ -67,28 +71,72 @@ class AdvancePage extends PageBase {
     }
 
     async _renderGallery() {
-        var siteMap = await CommonFunction._loadJsonAsync(`${this.rootUrl}/assets/data/site_map.json`)
-        var resultGallery = [];
-        var galleries = siteMap.children.find(x => x.id == 'gallery').children;
-        for (var i = 0; i < galleries.length; i++) {
-            var searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-            var result = await readData(`${this.rootUrl}/assets/data/post/gallery/${galleries[i].id}/master.csv`, searchData);
-            resultGallery = resultGallery.concat(result.data);
-        }
+        var html =
+            `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
+                <div class="row my-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-12 my-2">
+                        <div class="card w-100 border-0 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">Gallery</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-gallery"></h6>
+                                <div class="card-columns card-columns-gap-auto" id="data-content-gallery">
+                                </div>
+                                <div class="row w-100">
+                                    <a href="${this.rootUrl}/pages/gallery/" class="card-link text-end">More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 my-2">
+                        <div class="card w-100 border-0 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">Videos</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-video"></h6>
+                                <div class="row" id="data-content-video">
+                                </div>
+                                <div class="row w-100">
+                                    <a href="${this.rootUrl}/pages/video/" class="card-link text-end">More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 my-2">
+                        <div class="card w-100 border-0 shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">Comics</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-comic"></h6>
+                                <div class="row" id="data-content-comic">
+                                </div>
+                                <div class="row w-100">
+                                    <a href="${this.rootUrl}/pages/comic/" class="card-link text-end">More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>`
+        return html;
+    }
+
+    async _renderFirstGallery() {
+        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
+        var resultGallery = await readDataMulti(searchData, { componentCode: 'gallery' });
+
         var galleryHtml = ''
-        resultGallery.splice(0, this._firstShow).forEach(item => {
+        resultGallery.data.splice(0, this._firstShow).forEach(item => {
             galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
 
-        var resultVideo = []
-        var videos = siteMap.children.find(x => x.id == 'video').children;
-        for (var i = 0; i < videos.length; i++) {
-            var searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-            var result = await readData(`${this.rootUrl}/assets/data/post/video/${videos[i].id}/master.csv`, searchData);
-            resultVideo = resultVideo.concat(result.data);
-        }
+        return galleryHtml;
+    }
+
+    async _renderFirstVideo() {
+        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
+        var resultVideo = await readDataMulti(searchData, { componentCode: 'video' });
         var videoHtml = ''
-        resultVideo.splice(0, this._firstShow).forEach((item, index) => {
+        resultVideo.data.splice(0, this._firstShow).forEach((item, index) => {
             videoHtml += renderVideoHtml({
                 id: item.id,
                 name: item.name,
@@ -99,19 +147,17 @@ class AdvancePage extends PageBase {
                 createdAt: item.createdAt,
                 rootUrl: this.rootUrl,
                 cardColumnsGap: 'col-md-3 col-6'
-            }, index, resultVideo.length)
+            }, index, resultVideo.totalCount)
         })
 
-        var resultComic = [];
-        var comics = siteMap.children.find(x => x.id == 'comic').children;
-        for (var i = 0; i < comics.length; i++) {
-            var searchData = new BaseCriteria(Constants.maxPageSize, 0, {}, this._sortBy);
-            var result = await readData(`${this.rootUrl}/assets/data/post/comic/${comics[i].id}/master.csv`, searchData);
-            resultComic = resultComic.concat(result.data);
-        }
+        return videoHtml;
+    }
 
+    async _renderFirstComic() {
+        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
+        var resultComic = await readDataMulti(searchData, { componentCode: 'comic' });
         var comicHtml = ''
-        resultComic.splice(0, this._firstShow).forEach(item => {
+        resultComic.data.splice(0, this._firstShow).forEach(item => {
             comicHtml += renderComicBookHtml({
                 id: item.id,
                 name: item.name,
@@ -127,56 +173,7 @@ class AdvancePage extends PageBase {
             })
         })
 
-        var html =
-            `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
-                <div class="row my-3" data-aos="fade-up" data-aos-delay="100">
-                    <div class="col-12 my-2">
-                        <div class="card w-100 border-0 shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Gallery</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${resultGallery.length} imgs</h6>
-                                <div class="card-columns card-columns-gap-auto">
-                                    ${galleryHtml}
-                                </div>
-                                <div class="row w-100">
-                                    <a href="${this.rootUrl}/pages/gallery/" class="card-link text-end">More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 my-2">
-                        <div class="card w-100 border-0 shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Videos</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${resultVideo.length} videos</h6>
-                                <div class="row" data-aos="fade-up" data-aos-delay="100">
-                                    ${videoHtml}
-                                </div>
-                                <div class="row w-100">
-                                    <a href="${this.rootUrl}/pages/video/" class="card-link text-end">More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-12 my-2">
-                        <div class="card w-100 border-0 shadow">
-                            <div class="card-body">
-                                <h5 class="card-title">Comics</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">${resultComic.length} comics</h6>
-                                <div class="row">
-                                    ${comicHtml}
-                                </div>
-                                <div class="row w-100">
-                                    <a href="${this.rootUrl}/pages/comic/" class="card-link text-end">More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>`
-        return html;
+        return comicHtml;
     }
 
     async _renderFilter() {
@@ -345,7 +342,7 @@ class AdvancePage extends PageBase {
             })
             result = resultGallery
             detailHtml = `<section class="portfolio p-1">
-                            <div class="card-columns ">
+                            <div class="card-columns card-columns-gap-auto">
                                 ${galleryHtml}
                             </div>
                         </section>`;
