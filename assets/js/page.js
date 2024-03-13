@@ -178,7 +178,7 @@ class PostPage extends PageBase {
         this._pageIndex = 0;
         this._totalCount = 0;
         this._totalPage = 0;
-        this._pageSize = 5;
+        this._pageSize = 20;
         this._sortBy = 'createdAt=desc';
         this._cardColumnsGap = 'card-columns-gap-3';
         this._init();
