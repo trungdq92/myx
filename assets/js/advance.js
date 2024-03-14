@@ -17,7 +17,6 @@ class AdvancePage extends PageBase {
         await super._init()
         var _page = this
         $('#container-area').append(await this._renderContent());
-        this._galleryGLightBox = _initGLightbox('.portfolio-lightbox');
         $('#show-more').click(() => { this.loadMore() });
         $('#btnFilter').click((e) => this._filter());
         $(".btnSort").click((e) => {
@@ -29,6 +28,8 @@ class AdvancePage extends PageBase {
         $('#data-content-gallery').html(await this._renderFirstGallery())
         $('#data-content-video').html(await this._renderFirstVideo())
         $('#data-content-comic').html(await this._renderFirstComic())
+        
+        this._galleryGLightBox = _initGLightbox('.portfolio-lightbox');
     }
 
     async _renderContent() {
@@ -129,6 +130,8 @@ class AdvancePage extends PageBase {
             galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
 
+        $('#total-data-content-gallery').text(`${resultGallery.totalCount} imgs`)
+
         return galleryHtml;
     }
 
@@ -149,6 +152,8 @@ class AdvancePage extends PageBase {
                 cardColumnsGap: 'col-md-3 col-6'
             }, index, resultVideo.totalCount)
         })
+
+        $('#total-data-content-video').text(`${resultVideo.totalCount} videos`)
 
         return videoHtml;
     }
@@ -173,6 +178,7 @@ class AdvancePage extends PageBase {
             })
         })
 
+        $('#total-data-content-comic').text(`${resultComic.totalCount} books`)
         return comicHtml;
     }
 
