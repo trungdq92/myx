@@ -9,7 +9,8 @@ class AdvancePage extends PageBase {
         this._pageSize = 20;
         this._firstShow = 7;
         this._sortBy = 'createdAt=desc';
-        this._cardColumnsGap = ''
+        this._cardColumnsGap = 'card-columns-gap-auto'
+        this._currentComponent = ''
         this._init();
     }
 
@@ -25,10 +26,17 @@ class AdvancePage extends PageBase {
             _page._filter();
         });
 
+        document.querySelectorAll('.btn-change-grid').forEach(elm=>{
+            elm.addEventListener('click', (e)=>{
+                var type = $(e.currentTarget).attr('data-type');
+                this._changeViewPageStyle(type)
+            }, false);
+        })
+
         $('#data-content-gallery').html(await this._renderFirstGallery())
         $('#data-content-video').html(await this._renderFirstVideo())
         $('#data-content-comic').html(await this._renderFirstComic())
-        
+
         this._galleryGLightBox = _initGLightbox('.portfolio-lightbox');
     }
 
@@ -277,10 +285,12 @@ class AdvancePage extends PageBase {
         var searchFilter = {}
         var components = [];
         var searchData = {};
+        var _page = this;
         $('#component-filter-section').find('input').each((i, elm) => {
             if (!$(elm).is(':checked')) return;
             var code = $(elm).attr('data-code');
             components.push(code)
+            _page._currentComponent = code;
         });
 
         if (components.length == 0) return '';
@@ -348,7 +358,7 @@ class AdvancePage extends PageBase {
             })
             result = resultGallery
             detailHtml = `<section class="portfolio p-1">
-                            <div class="card-columns card-columns-gap-auto">
+                            <div class="card-columns ${this._cardColumnsGap}">
                                 ${galleryHtml}
                             </div>
                         </section>`;
@@ -446,7 +456,11 @@ class AdvancePage extends PageBase {
                                             <li><a class="dropdown-item text-capitalize btnSort" data-sort="createdAt=desc"  href="#">created <i class="bi bi-sort-up"></i></a></li>
                                         </ul>
                                     </div>
+                                    
+                                    <a class="btn btn-change-grid" data-type="1"><i class="bi bi-view-list"></i></a>
+                                    <a class="btn btn-change-grid" data-type="5"><i class="bi bi-grid-1x2-fill"></i></a>
                                 </div>
+                            
                             </div>
                         </div>
                     </div>`;
@@ -466,6 +480,20 @@ class AdvancePage extends PageBase {
         $('#btn-choose-sort').html(sortByHtml)
         $('#sortby').val(this._sortBy)
         return sortByHtml;
+    }
+
+    _changeViewPageStyle(type) {
+        if (this._currentComponent === 'gallery') return;
+        this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-auto';
+        if (type === '1') {
+            $('.card-columns').removeClass('card-columns-gap-auto')
+            $('.card-columns').addClass('card-columns-gap-1')
+            return;
+        }
+
+        $('.card-columns').addClass('card-columns-gap-auto')
+        $('.card-columns').removeClass('card-columns-gap-1')
+        return;
     }
 
     async loadMore() {
