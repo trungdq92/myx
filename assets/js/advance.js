@@ -116,7 +116,7 @@ class AdvancePage extends PageBase {
                             <div class="card-body">
                                 <h5 class="card-title">Comics</h5>
                                 <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-comic"></h6>
-                                <div class="row" id="data-content-comic">
+                                <div class="comic-book" id="data-content-comic">
                                 </div>
                                 <div class="row w-100 mt-3">
                                     <a href="${this.rootUrl}/pages/comic/" class="card-link text-end">More</a>
