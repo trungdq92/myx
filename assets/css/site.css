@@ -440,6 +440,12 @@ legend {
     grid-template-rows: masonry;
 }
 
+.comic-book {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
 .comic-book-card {
     flex: 1 1 auto !important;
 }

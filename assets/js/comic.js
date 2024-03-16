@@ -22,7 +22,7 @@ class ComicPostPage extends ComicPage {
             `<section id="portfolio" class="portfolio section-bg p-1" data-aos="fade-up">
                 ${this._renderGridControl()}
                 <div class="my-3">
-                    <div id="details-items-area" class="row"  data-aos="fade-up" data-aos-delay="100">
+                    <div id="details-items-area" class="comic-book"  data-aos="fade-up" data-aos-delay="100">
                     </div>
                     <div class="my-5 text-center">
                         <button id="show-more" class="btn btn-outline-primary border-0 rounded shadow">

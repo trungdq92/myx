@@ -26,8 +26,8 @@ class AdvancePage extends PageBase {
             _page._filter();
         });
 
-        document.querySelectorAll('.btn-change-grid').forEach(elm=>{
-            elm.addEventListener('click', (e)=>{
+        document.querySelectorAll('.btn-change-grid').forEach(elm => {
+            elm.addEventListener('click', (e) => {
                 var type = $(e.currentTarget).attr('data-type');
                 this._changeViewPageStyle(type)
             }, false);
@@ -90,7 +90,7 @@ class AdvancePage extends PageBase {
                                 <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-gallery"></h6>
                                 <div class="card-columns card-columns-gap-auto" id="data-content-gallery">
                                 </div>
-                                <div class="row w-100">
+                                <div class="row w-100 mt-3">
                                     <a href="${this.rootUrl}/pages/gallery/" class="card-link text-end">More</a>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ class AdvancePage extends PageBase {
                                 <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-video"></h6>
                                 <div class="row" id="data-content-video">
                                 </div>
-                                <div class="row w-100">
+                                <div class="row w-100 mt-3">
                                     <a href="${this.rootUrl}/pages/video/" class="card-link text-end">More</a>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@ class AdvancePage extends PageBase {
                                 <h6 class="card-subtitle mb-2 text-muted" id="total-data-content-comic"></h6>
                                 <div class="row" id="data-content-comic">
                                 </div>
-                                <div class="row w-100">
+                                <div class="row w-100 mt-3">
                                     <a href="${this.rootUrl}/pages/comic/" class="card-link text-end">More</a>
                                 </div>
                             </div>
@@ -130,11 +130,18 @@ class AdvancePage extends PageBase {
     }
 
     async _renderFirstGallery() {
-        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
-        var resultGallery = await readDataMulti(searchData, { componentCode: 'gallery' });
+        var filter = [];
+        filter.push((x) => x.componentId.includes('gallery'))
+        var searchData = new BaseCriteria(1, 0, { and: filter }, 'createdAt=desc');
+        var resultPost = await readData(`${this.rootUrl}/assets/data/post/master.csv`, searchData);
+        if (!resultPost.data[0]) return '';
+
+        var newestPost = resultPost.data[0];
+        searchData = new BaseCriteria(this._firstShow, 0, {}, 'createdAt=desc');
+        var resultGallery = await readData(`${this.rootUrl}/assets/data/post/gallery/${newestPost.id}/master.csv`, searchData);
 
         var galleryHtml = ''
-        resultGallery.data.splice(0, this._firstShow).forEach(item => {
+        resultGallery.data.forEach(item => {
             galleryHtml += renderGalleryImgHtml({ script: item.script, rootUrl: this.rootUrl })
         })
 
@@ -144,10 +151,17 @@ class AdvancePage extends PageBase {
     }
 
     async _renderFirstVideo() {
-        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
-        var resultVideo = await readDataMulti(searchData, { componentCode: 'video' });
+        var filter = [];
+        filter.push((x) => x.componentId.includes('video'))
+        var searchData = new BaseCriteria(1, 0, { and: filter }, 'createdAt=desc');
+        var resultPost = await readData(`${this.rootUrl}/assets/data/post/master.csv`, searchData);
+        if (!resultPost.data[0]) return '';
+
+        var newestPost = resultPost.data[0];
+        searchData = new BaseCriteria(this._firstShow, 0, {}, 'createdAt=desc');
+        var resultVideo = await readData(`${this.rootUrl}/assets/data/post/video/${newestPost.id}/master.csv`, searchData);
         var videoHtml = ''
-        resultVideo.data.splice(0, this._firstShow).forEach((item, index) => {
+        resultVideo.data.forEach((item, index) => {
             videoHtml += renderVideoHtml({
                 id: item.id,
                 name: item.name,
@@ -167,10 +181,17 @@ class AdvancePage extends PageBase {
     }
 
     async _renderFirstComic() {
-        var searchData = new BaseCriteria(this._pageSize, 0, {}, this._sortBy);
-        var resultComic = await readDataMulti(searchData, { componentCode: 'comic' });
+        var filter = [];
+        filter.push((x) => x.componentId.includes('comic'))
+        var searchData = new BaseCriteria(1, 0, { and: filter }, 'createdAt=desc');
+        var resultPost = await readData(`${this.rootUrl}/assets/data/post/master.csv`, searchData);
+        if (!resultPost.data[0]) return '';
+
+        var newestPost = resultPost.data[0];
+        searchData = new BaseCriteria(this._firstShow, 0, {}, 'createdAt=desc');
+        var resultComic = await readData(`${this.rootUrl}/assets/data/post/comic/${newestPost.id}/master.csv`, searchData);
         var comicHtml = ''
-        resultComic.data.splice(0, this._firstShow).forEach(item => {
+        resultComic.data.forEach(item => {
             comicHtml += renderComicBookHtml({
                 id: item.id,
                 name: item.name,
@@ -424,7 +445,7 @@ class AdvancePage extends PageBase {
                 })
             })
             result = resultComic
-            detailHtml = `<div class="row">
+            detailHtml = `<div class="comic-book">
                             ${comicHtml}
                         </div>`;
         }
@@ -483,7 +504,7 @@ class AdvancePage extends PageBase {
     }
 
     _changeViewPageStyle(type) {
-        if (this._currentComponent === 'gallery') return;
+        if (this._currentComponent !== 'gallery') return;
         this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-auto';
         if (type === '1') {
             $('.card-columns').removeClass('card-columns-gap-auto')

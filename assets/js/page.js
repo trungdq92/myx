@@ -65,7 +65,7 @@ function renderVideoHtml(item, index, total) {
 
 function renderComicBookHtml(item) {
     return `<div class="comic-book-card ${item.cardColumnsGap}" data-id="${item.id}">
-                <div class="card border-0 my-1 shadow">
+                <div class="card border-0 shadow">
                     <img src="${item.thumbnail}" class="img-fluid w-100 rounded-0 rounded-top" alt="" loading="lazy" onerror="this.src='${item.rootUrl}/assets/img/default-image.png'" />
                     <div class="card-body">
                         <h5 class="card-title text-truncate" style="max-width:150px">${item.name}</h5>
