@@ -440,17 +440,12 @@ legend {
     grid-template-rows: masonry;
 }
 
-.comic-book {
+/* .comic-book {
     display: flex;
     flex-wrap: wrap;
     gap: .75rem;
-}
+} */
 
-.comic-book::before {
-    display: none;
-}
-
-.comic-book::before,
 .comic-book::after {
     content: "";
     flex-grow: 999;
@@ -458,6 +453,7 @@ legend {
 
 .comic-book-card {
     flex: 1 1 auto !important;
+    padding: 10px;
 }
 
 .comic-book-card img {
