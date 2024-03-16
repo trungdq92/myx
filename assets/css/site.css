@@ -446,6 +446,16 @@ legend {
     gap: .75rem;
 }
 
+.comic-book::before {
+    display: none;
+}
+
+.comic-book::before,
+.comic-book::after {
+    content: "";
+    flex-grow: 999;
+}
+
 .comic-book-card {
     flex: 1 1 auto !important;
 }
