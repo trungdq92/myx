@@ -197,7 +197,7 @@ class ComicChapterPage extends ComicPage {
     }
 
     async _init() {
-
+        this._setThemeSiteStyle();
         this._id = getUrlParameter('id');
         this._postId = getUrlParameter('pid');
         $('#container-area').append(this._renderMenu());
@@ -357,6 +357,7 @@ class ComicViewerPage extends ComicPage {
     }
 
     async _init() {
+        this._setThemeSiteStyle()
         this._id = getUrlParameter('id');
         this._postId = getUrlParameter('pid');
         this._pComicId = getUrlParameter('cid');

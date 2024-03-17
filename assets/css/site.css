@@ -305,6 +305,8 @@ textarea:not(.disabled) {
     top: 10px;
     bottom: auto;
     text-transform: capitalize;
+    color: white;
+    align-items: center;
 }
 
 .data-block-indicator-bottom {
