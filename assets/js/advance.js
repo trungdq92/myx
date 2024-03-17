@@ -445,7 +445,7 @@ class AdvancePage extends PageBase {
                 })
             })
             result = resultComic
-            detailHtml = `<div class="comic-book">
+            detailHtml = `<div class="row comic-book">
                             ${comicHtml}
                         </div>`;
         }
@@ -458,6 +458,8 @@ class AdvancePage extends PageBase {
     }
 
     _renderGridControl() {
+        var changeGridHtml = `<a class="btn btn-change-grid" data-type="1"><i class="bi bi-view-list"></i></a>
+                                <a class="btn btn-change-grid" data-type="5"><i class="bi bi-grid-1x2-fill"></i></a>`
         var html = `<div class="grid-view-style d-none" id="grid-control">
                         <div class="row justify-content-center my-3">
                             <div class="col-auto fst-italic text-muted" id="filter-result-cal">
@@ -478,8 +480,8 @@ class AdvancePage extends PageBase {
                                         </ul>
                                     </div>
                                     
-                                    <a class="btn btn-change-grid" data-type="1"><i class="bi bi-view-list"></i></a>
-                                    <a class="btn btn-change-grid" data-type="5"><i class="bi bi-grid-1x2-fill"></i></a>
+                                    ${changeGridHtml}
+                                    
                                 </div>
                             
                             </div>
@@ -504,16 +506,31 @@ class AdvancePage extends PageBase {
     }
 
     _changeViewPageStyle(type) {
-        if (this._currentComponent !== 'gallery') return;
-        this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-auto';
-        if (type === '1') {
-            $('.card-columns').removeClass('card-columns-gap-auto')
-            $('.card-columns').addClass('card-columns-gap-1')
-            return;
+        if (this._currentComponent === 'gallery') {
+            this._cardColumnsGap = type === '1' ? 'card-columns-gap-1' : 'card-columns-gap-auto';
+            if (type === '1') {
+                $('.card-columns').removeClass('card-columns-gap-auto')
+                $('.card-columns').addClass('card-columns-gap-1')
+                return;
+            }
+
+            $('.card-columns').addClass('card-columns-gap-auto')
+            $('.card-columns').removeClass('card-columns-gap-1')
+        } else if (this._currentComponent === 'video') {
+            this._cardColumnsGap = type === '1' ? 'col-12' : `col-md-3 col-6`;
+            $('.video-item').each((i, elm) => {
+                $(elm).removeClass('col-12 col-md-3 col-6');
+                $(elm).addClass(type === '1' ? 'col-12' : `col-md-3 col-6`);
+            });
+        }
+        else if (this._currentComponent === 'comic') {
+            this._cardColumnsGap = type === '1' ? 'col-12' : `col-md-auto col-6`
+            $('.comic-book-card').each((i, elm) => {
+                $(elm).removeClass('col-12 col-md-auto col-6');
+                $(elm).addClass(type === '1' ? 'col-12' : `col-md-auto col-6`);
+            });
         }
 
-        $('.card-columns').addClass('card-columns-gap-auto')
-        $('.card-columns').removeClass('card-columns-gap-1')
         return;
     }
 
